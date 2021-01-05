@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource("album", "AlbumController");
+Route::resource("image", "ImageController");
+Route::resource("comment", "CommentController");
+Route::resource("imagec", "ImagecController");
