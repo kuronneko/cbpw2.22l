@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    use HasFactory;
+    public function album(){ //$libro->categoria->nombre
+        return $this->belongsTo(Album::class, 'album_id'); //Pertenece a una categoría.
+    }
 }

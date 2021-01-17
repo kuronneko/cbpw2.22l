@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Album;
+use App\Models\Image;
 
 class AlbumController extends Controller
 {
+
+    public function __construct(){
+    $this->middleware('auth');
+}
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +20,9 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        //
+        $userId = auth()->user()->id;
+        $albumes = Album::where('user_id', $userId)->paginate(5);
+        return view('album.index',compact('albumes'));
     }
 
     /**
@@ -23,8 +32,19 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        //
+        return view('album.create');
     }
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createImage($id){
+        return view('image.create')->with('album_id',$id);
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -34,7 +54,12 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $album = new Album();
+        $album->user_id = auth()->user()->id;
+        $album->name = $request->name;
+        $album->save();
+
+        return back()->with('message', 'Album create successfully');
     }
 
     /**
@@ -44,8 +69,10 @@ class AlbumController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+
     {
-        //
+        $images = Image::where('album_id', $id)->paginate(5);
+        return view('album.show',['images'=> $images]);
     }
 
     /**

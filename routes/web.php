@@ -22,7 +22,13 @@ Route::resource("image", "ImageController");
 Route::resource("comment", "CommentController");
 Route::resource("imagec", "ImagecController");
 
+Route::get('album/{id}/createImage', 'AlbumController@createImage')->name('album.createImage');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('image/upload', 'ImageController@upload')->name('image.upload');
+Route::get('image/fetch', 'ImageController@fetch')->name('image.fetch');
+Route::get('image/delete', 'ImageController@delete')->name('image.delete');
 

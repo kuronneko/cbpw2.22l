@@ -20,7 +20,7 @@ class CreateImagesTable extends Migration
             $table->foreign('album_id')->references('id')->on('albums'); // clave foranea
 
             $table->string('url');
-            $table->string('ext_image');
+            $table->string('ext');
             $table->string('size');
             $table->string('basename');
             $table->string('ip');

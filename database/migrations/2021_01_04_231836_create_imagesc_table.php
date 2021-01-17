@@ -20,7 +20,7 @@ class CreateImagescTable extends Migration
             $table->foreign('comment_id')->references('id')->on('comments'); // clave foranea
 
             $table->string('url');
-            $table->string('ext_image');
+            $table->string('ext');
             $table->string('size');
             $table->string('basename');
             $table->timestamps();
