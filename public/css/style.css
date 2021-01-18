@@ -1,0 +1,9 @@
+.avatar{
+    border: 1px solid #0000009f;
+    border-radius: 0%;
+    object-fit: cover;
+    background-position: -100px -100px !important;
+    width: 60px;
+    height: 60px;
+    /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
+}

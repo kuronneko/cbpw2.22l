@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManagerStatic;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

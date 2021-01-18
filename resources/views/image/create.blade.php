@@ -40,11 +40,6 @@
         },
         dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
         acceptedFiles: "image/*",
-        createImageThumbnails:true,
-        maxThumbnailFilesize:10,
-        thumbnailWidth:120,
-        thumbnailHeight:120,
-        thumbnailMethod:'crop',
         maxFilesize: 100,
         maxFiles: 100,
     };

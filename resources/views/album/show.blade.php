@@ -31,9 +31,9 @@
                             @foreach ($images as $image)
                             <tr>
                                 <th scope="row">{{ $image->id }}</th>
-                                <td>{{ $image->url }}</td>
+                                <td><img src="/cbpw2.22l/public/{{ $image->url }}thumb.{{$image->ext}}" class="avatar"></td>
                                 <td>{{ $image->ext }}</td>
-                                <td>{{ $image->size }}</td>
+                                <td>{{ $image->size }} KB</td>
                                 <td>{{ $image->basename }}</td>
                                 <td>{{ $image->ip }}</td>
                                 <td>{{ $image->tag }}</td>

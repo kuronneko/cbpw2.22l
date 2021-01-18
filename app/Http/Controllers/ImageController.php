@@ -7,7 +7,8 @@ use App\Models\Album;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
-
+use Intervention\Image\ImageManagerStatic;
+use SebastianBergmann\Environment\Console;
 
 class ImageController extends Controller
 {
@@ -78,12 +79,24 @@ class ImageController extends Controller
             'file' => 'required|image|max:100000'
         ]);
 
-        $imageFiles = $request->file('file')->store('public/images');
-        $url = Storage::url($imageFiles);
         $document = $request->file('file');
+        $albumId = $request->input('albumId');
+        $newFilename = md5( $document->getClientOriginalName() ).".".$document->getClientOriginalExtension();
+        $imageFiles = $request->file('file')->storeAs('public/images', $albumId."_".$newFilename);
+        $url = Storage::url($imageFiles);
+
+        $canvas = ImageManagerStatic::canvas(245, 245);
+        $thumbTarget = public_path('/storage/images/' . $albumId ."_". $newFilename . 'thumb.'.$document->getClientOriginalExtension());
+        $img = ImageManagerStatic::make($request->file('file')->getRealPath())->resize(245,245, function($constraint)
+        {
+            $constraint->aspectRatio();
+        });
+        $canvas->insert($img, 'center');
+        $canvas->save($thumbTarget);
+
 
         $image = new Image();
-        $image->album_id = $request->input('albumId');
+        $image->album_id = $albumId;
         $image->url = $url;
         $image->ext = $document->getClientOriginalExtension();
         $image->size = $document->getSize();
@@ -91,6 +104,10 @@ class ImageController extends Controller
         $image->ip = $request->ip();
         $image->tag = "";
         $image->save();
+
+dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
+dump($imageFiles); //"public/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
+
 
 
 
