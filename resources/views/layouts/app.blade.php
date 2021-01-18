@@ -14,6 +14,7 @@
     <script type="text/javascript" src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script>
+    <script type="text/javascript" src="{{asset('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -24,6 +25,7 @@
     <link href="{{ asset('css/style.css')}}" rel="stylesheet" >
     <link href="{{ asset('css/dropzone.min.css')}}" rel="stylesheet" >
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')}}" rel="stylesheet" />
 
 </head>
 <body>

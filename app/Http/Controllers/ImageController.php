@@ -85,14 +85,11 @@ class ImageController extends Controller
         $imageFiles = $request->file('file')->storeAs('public/images', $albumId."_".$newFilename);
         $url = Storage::url($imageFiles);
 
-        $canvas = ImageManagerStatic::canvas(245, 245);
         $thumbTarget = public_path('/storage/images/' . $albumId ."_". $newFilename . 'thumb.'.$document->getClientOriginalExtension());
-        $img = ImageManagerStatic::make($request->file('file')->getRealPath())->resize(245,245, function($constraint)
+        ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200,null, function($constraint)
         {
             $constraint->aspectRatio();
-        });
-        $canvas->insert($img, 'center');
-        $canvas->save($thumbTarget);
+        })->resizeCanvas(200,null)->save($thumbTarget, 80);
 
 
         $image = new Image();

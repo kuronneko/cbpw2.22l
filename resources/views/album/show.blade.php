@@ -21,23 +21,23 @@
                             <th scope="col">URL</th>
                             <th scope="col">Ext</th>
                             <th scope="col">Size</th>
-                            <th scope="col">Basename</th>
                             <th scope="col">IP</th>
                             <th scope="col">Tags</th>
                             <th scope="col">Timestamp</th>
+                            <th scope="col">Basename</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($images as $image)
                             <tr>
                                 <th scope="row">{{ $image->id }}</th>
-                                <td><img src="/cbpw2.22l/public/{{ $image->url }}thumb.{{$image->ext}}" class="avatar"></td>
+                                <td><a data-fancybox="images" class="" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}"><img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" class="avatar img-fluid data-was-processed='true'"></a></td>
                                 <td>{{ $image->ext }}</td>
                                 <td>{{ $image->size }} KB</td>
-                                <td>{{ $image->basename }}</td>
                                 <td>{{ $image->ip }}</td>
                                 <td>{{ $image->tag }}</td>
                                 <td>{{ $image->created_at }}</td>
+                                <td>{{ $image->basename }}</td>
                             </tr>
                             @endforeach
                         </tbody>
