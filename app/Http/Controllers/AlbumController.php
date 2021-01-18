@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AlbumController extends Controller
 {
@@ -21,8 +23,8 @@ class AlbumController extends Controller
     public function index()
     {
         $userId = auth()->user()->id;
-        $albumes = Album::where('user_id', $userId)->paginate(5);
-        return view('album.index',compact('albumes'));
+        $albums = Album::where('user_id', $userId)->paginate(10);
+        return view('album.index',compact('albums'));
     }
 
     /**
@@ -42,7 +44,14 @@ class AlbumController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function createImage($id){
-        return view('image.create')->with('album_id',$id);
+        $userId = auth()->user()->id;
+        $album = $this->searchAlbum($id);
+        if(($album->user->id) == $userId){
+            return view('image.create')->with('album',$album); //podria mandar el objeto album completo?????
+        }else{
+            return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+        }
+
     }
 
 
@@ -62,6 +71,41 @@ class AlbumController extends Controller
         return back()->with('message', 'Album create successfully');
     }
 
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showImage($id)
+
+    {
+        $userId = auth()->user()->id;
+        $album = $this->searchAlbum($id);
+
+    if(($album->user->id) == $userId){
+        $images = Image::where('album_id', $id)->paginate(10);
+        return view('album.show',['images'=> $images, 'album'=> $album]);
+    }else{
+        return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+    }
+
+    }
+
+
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function searchAlbum($id)
+
+    {
+        $album = Album::findOrFail($id);
+        return $album;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -71,8 +115,7 @@ class AlbumController extends Controller
     public function show($id)
 
     {
-        $images = Image::where('album_id', $id)->paginate(5);
-        return view('album.show',['images'=> $images]);
+
     }
 
     /**

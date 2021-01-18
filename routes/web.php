@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
+
 });
 
 Route::resource("album", "AlbumController");
@@ -23,6 +24,7 @@ Route::resource("comment", "CommentController");
 Route::resource("imagec", "ImagecController");
 
 Route::get('album/{id}/createImage', 'AlbumController@createImage')->name('album.createImage');
+Route::get('album/{id}/showImage', 'AlbumController@showImage')->name('album.showImage');
 
 Auth::routes();
 

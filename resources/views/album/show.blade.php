@@ -6,11 +6,13 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Image List</span>
+                    <span>[Album:{{$album->name}}] Image List </span>
                     <a href="{{route('album.index')}}" class="btn btn-primary btn-sm">Back to Albums</a>
                 </div>
                 <div class="card-body">
-
+                    @if ( session('message') )
+                    <div class="alert alert-success">{{ session('message') }}</div>
+                  @endif
                     <div class="table-responsive">
                     <table class="table">
                         <thead>

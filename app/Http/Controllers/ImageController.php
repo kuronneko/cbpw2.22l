@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
+
 
 class ImageController extends Controller
 {
@@ -71,7 +74,26 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'file' => 'required|image|max:100000'
+        ]);
+
+        $imageFiles = $request->file('file')->store('public/images');
+        $url = Storage::url($imageFiles);
+        $document = $request->file('file');
+
+        $image = new Image();
+        $image->album_id = $request->input('albumId');
+        $image->url = $url;
+        $image->ext = $document->getClientOriginalExtension();
+        $image->size = $document->getSize();
+        $image->basename = $document->getClientOriginalName();
+        $image->ip = $request->ip();
+        $image->tag = "";
+        $image->save();
+
+
+
     }
 
     /**

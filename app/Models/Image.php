@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    public function album(){ //$libro->categoria->nombre
-        return $this->belongsTo(Album::class, 'album_id'); //Pertenece a una categoría.
+    public function album(){ //$album->image->id
+        return $this->belongsTo(Album::class, 'album_id'); //Pertenece a un album.
     }
 }
