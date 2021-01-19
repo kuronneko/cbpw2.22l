@@ -24,6 +24,7 @@
                             <th scope="col">IP</th>
                             <th scope="col">Tags</th>
                             <th scope="col">Timestamp</th>
+                            <th scope="col">Options</th>
                             <th scope="col">Basename</th>
                             </tr>
                         </thead>
@@ -37,6 +38,14 @@
                                 <td>{{ $image->ip }}</td>
                                 <td>{{ $image->tag }}</td>
                                 <td>{{ $image->created_at }}</td>
+                                <td>
+                                    <form action="{{route('image.destroy', $image->id)}}" method="POST">
+                                        {!! method_field('DELETE') !!}
+                                        {!! csrf_field() !!}
+                                        <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
+                                        <button class="btn btn-info" type="submit">Delete</button>
+                                    </form>
+                                </td>
                                 <td>{{ $image->basename }}</td>
                             </tr>
                             @endforeach

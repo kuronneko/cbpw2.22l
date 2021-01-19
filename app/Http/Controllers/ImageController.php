@@ -85,21 +85,26 @@ class ImageController extends Controller
         $newFilename = md5( $document->getClientOriginalName() ).".".$document->getClientOriginalExtension();
 
         $albumFolderPath = public_path('/storage/images/'.$albumId);
-        if (!file_exists($albumFolderPath)) {
+        if (!file_exists($albumFolderPath)) {       //check if folder exist
 
             mkdir($albumFolderPath, 0755, true);
         }
 
-        $imageFiles = $request->file('file')->storeAs('public/images/'. $albumId, $newFilename);
-        $url = Storage::url($imageFiles);
+        $filePath = public_path('/storage/images/'.$albumId.'/'.$newFilename);
+        if (!file_exists($filePath)) {             //check if physical file exist
 
-        $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . 'thumb.'.$document->getClientOriginalExtension());
-        ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200,null, function($constraint)
-        {
-            $constraint->aspectRatio();
-        })->resizeCanvas(200,null)->save($thumbTarget, 80);
+            $imageFiles = $request->file('file')->storeAs('public/images/'. $albumId, $newFilename);
+            $url = Storage::url($imageFiles);
 
-           if($this->searchImage($url)){ //check if image exist in DB based in URL parameters
+            $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . 'thumb.'.$document->getClientOriginalExtension());
+            ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200,null, function($constraint)
+            {
+                $constraint->aspectRatio();
+            })->resizeCanvas(200,null)->save($thumbTarget, 80);
+        }
+
+
+           if($this->searchImageByUrl($url)){ //check if image exist in DB based in URL parameters
 
            }else{
             $image = new Image();
@@ -124,10 +129,26 @@ class ImageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function searchImage($url)
+    public function searchImageByUrl($url)
 
     {
         $image = Image::where('url',$url)->first();
+        if($image){
+            return $image;
+        }
+
+    }
+
+                /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function searchImageById($id)
+
+    {
+        $image = Image::where('id',$id)->first();
         if($image){
             return $image;
         }
@@ -174,8 +195,21 @@ class ImageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $imageId)
     {
-        //
+
+        $albumId = $request->input('albumId');
+
+        $foundImage = $this->searchImageById($imageId);
+        $productImage = str_replace('/storage', '', $foundImage->url);
+        Storage::delete('/public' . $productImage);
+        Storage::delete('/public' . $productImage.'thumb.'.$foundImage->ext);
+
+        $image = Image::findOrFail($imageId);
+        $image->delete();
+
+        return redirect()->route('album.showImage', $albumId);
+
+
     }
 }
