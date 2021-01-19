@@ -99,18 +99,38 @@ class ImageController extends Controller
             $constraint->aspectRatio();
         })->resizeCanvas(200,null)->save($thumbTarget, 80);
 
-        $image = new Image();
-        $image->album_id = $albumId;
-        $image->url = $url;
-        $image->ext = $document->getClientOriginalExtension();
-        $image->size = $document->getSize();
-        $image->basename = $document->getClientOriginalName();
-        $image->ip = $request->ip();
-        $image->tag = "";
-        $image->save();
+           if($this->searchImage($url)){ //check if image exist in DB based in URL parameters
+
+           }else{
+            $image = new Image();
+            $image->album_id = $albumId;
+            $image->url = $url;
+            $image->ext = $document->getClientOriginalExtension();
+            $image->size = $document->getSize();
+            $image->basename = $document->getClientOriginalName();
+            $image->ip = $request->ip();
+            $image->tag = "";
+            $image->save();
+           }
 
 //dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
 //dump($imageFiles); //"public/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
+
+    }
+
+            /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function searchImage($url)
+
+    {
+        $image = Image::where('url',$url)->first();
+        if($image){
+            return $image;
+        }
 
     }
 
