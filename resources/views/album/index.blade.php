@@ -10,6 +10,9 @@
                     <a href="{{route('album.create')}}" class="btn btn-secondary btn-sm">New Album</a>
                 </div>
                 <div class="card-body">
+                    @if ( session('message') )
+                    <div class="alert alert-success">{{ session('message') }}</div>
+                  @endif
                     <div class="table-responsive">
                     <table class="table table-dark table-hover">
                         <thead>
@@ -18,6 +21,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Description</th>
                             <th scope="col">Created by</th>
+                            <th scope="col">Created at</th>
                             <th scope="col">Options</th>
                             </tr>
                         </thead>
@@ -28,10 +32,15 @@
                                 <td>{{ $album->name }}</td>
                                 <td>{{ $album->description }}</td>
                                 <td>{{ $album->user->name}}</td>
+                                <td>{{ $album->created_at}}</td>
                                 <td>
                                     <div class="btn-group">
                                     <a href="{{route('album.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
                                     <a href="{{route('album.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a class="btn btn-info" href="{{route("album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fas fa-trash-alt"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -45,5 +54,35 @@
             </div>
         </div>
     </div>
+
+      <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-white">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Are you sure you want delete this [Album:{{$album->name}}]?</h4>
+          <button type="button" class="close bg-dark text-white" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form action="{{route('album.destroy', $album->id)}}" method="POST">
+                @method('DELETE')
+                @csrf
+                <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i> Permanently delete album with all its content</button>
+            </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>
 @endsection

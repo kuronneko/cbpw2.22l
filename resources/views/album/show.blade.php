@@ -23,7 +23,7 @@
                             <th scope="col">Size</th>
                             <th scope="col">IP</th>
                             <th scope="col">Tags</th>
-                            <th scope="col">Timestamp</th>
+                            <th scope="col">Created at</th>
                             <th scope="col">Options</th>
                             <th scope="col">Basename</th>
                             </tr>
@@ -40,8 +40,8 @@
                                 <td>{{ $image->created_at }}</td>
                                 <td>
                                     <form action="{{route('image.destroy', $image->id)}}" method="POST">
-                                        {!! method_field('DELETE') !!}
-                                        {!! csrf_field() !!}
+                                        @method('DELETE')
+                                        @csrf
                                         <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
                                         <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
                                     </form>
@@ -52,7 +52,7 @@
                         </tbody>
                     </table>
                 </div>
-                    {{$images->links()}}
+                   {{$images->links("pagination::bootstrap-4")}}
                 {{-- fin card body --}}
                 </div>
             </div>

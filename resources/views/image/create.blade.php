@@ -10,9 +10,6 @@
                     <a href="{{route('album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
                 </div>
                 <div class="card-body">
-                    @if ( session('message') )
-                    <div class="alert alert-success">{{ session('message') }}</div>
-                  @endif
                     <div class="container" style="padding: 0px;">
                         <div class="form-container">
                             <form action="{{route('image.store')}}" method="POST" class="dropzone" id="mydropzone">
@@ -38,7 +35,7 @@
         headers:{
             'X-CSRF-TOKEN' : "{{csrf_token()}}"
         },
-        dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
+        //dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
         acceptedFiles: "image/*",
         maxFilesize: 100,
         maxFiles: 100,

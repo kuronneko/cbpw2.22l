@@ -18,6 +18,7 @@ class ImageController extends Controller
         $this->middleware('auth');
     }
 
+     /*
     function upload(Request $request){
      $image = $request->file('file');
      $imageName = time() . '.' . $image->extension();
@@ -41,11 +42,13 @@ class ImageController extends Controller
     }
 
     function delete(Request $request){
-     if($request->get('name')){
-        \Image::delete(public_path('images/' . $request->get('name')));
-     }
-    }
 
+        if ($request->get('name')) {
+            \Image::delete(public_path('images/' . $request->get('name')));
+        }
+
+    }
+*/
     /**
      * Display a listing of the resource.
      *
@@ -201,6 +204,7 @@ class ImageController extends Controller
 
         $foundImage = $this->searchImageById($imageId);
         $productImage = str_replace('/storage', '', $foundImage->url);
+
         Storage::delete('/public' . $productImage);
         Storage::delete('/public' . $productImage.'thumb.'.$foundImage->ext);
 

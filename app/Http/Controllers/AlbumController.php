@@ -7,6 +7,8 @@ use App\Models\Album;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class AlbumController extends Controller
 {
@@ -23,7 +25,7 @@ class AlbumController extends Controller
     public function index()
     {
         $userId = auth()->user()->id;
-        $albums = Album::where('user_id', $userId)->paginate(10);
+        $albums = Album::where('user_id', $userId)->paginate(100);
         return view('album.index',compact('albums'));
     }
 
@@ -63,6 +65,12 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
         $album = new Album();
         $album->user_id = auth()->user()->id;
         $album->name = $request->name;
@@ -85,7 +93,7 @@ class AlbumController extends Controller
         $album = $this->searchAlbum($id);
 
     if(($album->user->id) == $userId){
-        $images = Image::where('album_id', $id)->paginate(10);
+        $images = Image::where('album_id', $id)->paginate(100);
         return view('album.show',['images'=> $images, 'album'=> $album]);
     }else{
         return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
@@ -127,7 +135,8 @@ class AlbumController extends Controller
      */
     public function edit($id)
     {
-        //
+        $album = Album::findOrFail($id);
+        return view("album.edit", compact("album"));
     }
 
     /**
@@ -139,7 +148,16 @@ class AlbumController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required'
+        ]);
+
+        $album = Album::findOrFail($id);
+        $album->name=$request->input("name");
+        $album->description=$request->input("description");
+        $album->update();
+        return back()->with('message', 'Album edited successfully');
     }
 
     /**
@@ -150,6 +168,28 @@ class AlbumController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $userId = auth()->user()->id;
+        $foundAlbum = $this->searchAlbum($id);
+
+    if(($foundAlbum->user->id) == $userId){
+        $images = Image::where('album_id', $foundAlbum->id);
+        $images->delete();
+
+        $folderPath = 'public/images/' . $foundAlbum->id;
+        if (Storage::exists($folderPath)) {  //check if folder exist
+            Storage::deleteDirectory($folderPath);
+        }
+
+        $album = Album::findOrFail($foundAlbum->id);
+        $album->delete();
+
+        //return back()->with('message', 'Album deleted successfully');
+    }else{
+        return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+    }
+
+
+
     }
 }
