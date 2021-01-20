@@ -4,10 +4,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>New Album</span>
-                    <a href="{{route('album.index')}}" class="btn btn-primary btn-sm">Back to Albums</a>
+                    <a href="{{route('album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
                 </div>
                 <div class="card-body">
                   @if ( session('message') )
@@ -21,7 +21,13 @@
                       placeholder="Name"
                       class="form-control mb-2"
                     />
-                    <button class="btn btn-primary btn-block" type="submit">Add</button>
+                    <input
+                    type="text"
+                    name="description"
+                    placeholder="Description"
+                    class="form-control mb-2"
+                  />
+                    <button class="btn btn-secondary btn-block" type="submit">Create</button>
                   </form>
                 </div>
             </div>

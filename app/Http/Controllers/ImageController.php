@@ -66,8 +66,6 @@ class ImageController extends Controller
 
     }
 
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -82,7 +80,7 @@ class ImageController extends Controller
 
         $document = $request->file('file');
         $albumId = $request->input('albumId');
-        $newFilename = md5( $document->getClientOriginalName() ).".".$document->getClientOriginalExtension();
+        $newFilename = md5( $document->getClientOriginalName() ).".".$document->getClientOriginalExtension();  //rename filename
 
         $albumFolderPath = public_path('/storage/images/'.$albumId);
         if (!file_exists($albumFolderPath)) {       //check if folder exist
@@ -96,7 +94,7 @@ class ImageController extends Controller
             $imageFiles = $request->file('file')->storeAs('public/images/'. $albumId, $newFilename);
             $url = Storage::url($imageFiles);
 
-            $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . 'thumb.'.$document->getClientOriginalExtension());
+            $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . 'thumb.'.$document->getClientOriginalExtension()); //generate thumbnail with intervention image library
             ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200,null, function($constraint)
             {
                 $constraint->aspectRatio();
@@ -104,7 +102,7 @@ class ImageController extends Controller
         }
 
 
-           if($this->searchImageByUrl($url)){ //check if image exist in DB based in URL parameters
+           if($this->searchImageByUrl($url)){ //check if image exist in DB based by URL parameters
 
            }else{
             $image = new Image();
@@ -123,10 +121,10 @@ class ImageController extends Controller
 
     }
 
-            /**
+     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $url
      * @return \Illuminate\Http\Response
      */
     public function searchImageByUrl($url)
@@ -139,7 +137,7 @@ class ImageController extends Controller
 
     }
 
-                /**
+     /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -192,6 +190,7 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -209,7 +208,6 @@ class ImageController extends Controller
         $image->delete();
 
         return redirect()->route('album.showImage', $albumId);
-
 
     }
 }

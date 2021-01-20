@@ -1,8 +1,12 @@
-.avatar{
+.imgThumb{
     border: 1px solid #0000009f;
     border-radius: 0%;
     object-fit: cover !important;
     width: 50px;
     height: 50px;
     /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
+}
+
+.uploadIcon{
+    font-size: 70px !important;
 }

@@ -16,10 +16,11 @@ class CreateAlbumsTable extends Migration
         Schema::create('albums', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('user_id'); // Relación con categorias
+            $table->unsignedBigInteger('user_id'); // Relación con usuarios
             $table->foreign('user_id')->references('id')->on('users'); // clave foranea
 
             $table->string('name');
+            $table->string('description');
             $table->timestamps();
         });
     }

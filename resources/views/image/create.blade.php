@@ -3,11 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="col-md-10">
+            <div class="card bg-dark">
+                <div class="text-white card-header d-flex justify-content-between align-items-center">
                     <span>[Album:{{$album->name}}] Image Uploader</span>
-                    <a href="{{route('album.index')}}" class="btn btn-primary btn-sm">Back to Albums</a>
+                    <a href="{{route('album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
                 </div>
                 <div class="card-body">
                     @if ( session('message') )
@@ -19,7 +19,7 @@
                                 <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
                                 <div class="dz-message">
                                     <div class="icon">
-                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <i class="fas fa-cloud-upload-alt uploadIcon"></i>
                                     </div>
                                     <h2>Drag your images here</h2>
                                     <span class="note">Allow files: JPG, PNG, JPEG, MP4, WEBM</span>

@@ -16,7 +16,7 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('album_id'); // Relación con categorias
+            $table->unsignedBigInteger('album_id'); // Relación con albums
             $table->foreign('album_id')->references('id')->on('albums'); // clave foranea
 
             $table->string('text');

@@ -3,18 +3,18 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-10">
+            <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>[Album:{{$album->name}}] Image List </span>
-                    <a href="{{route('album.index')}}" class="btn btn-primary btn-sm">Back to Albums</a>
+                    <a href="{{route('album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
                 </div>
                 <div class="card-body">
                     @if ( session('message') )
                     <div class="alert alert-success">{{ session('message') }}</div>
                   @endif
                     <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-dark table-hover">
                         <thead>
                             <tr>
                             <th scope="col">ID</th>
@@ -32,7 +32,7 @@
                             @foreach ($images as $image)
                             <tr>
                                 <th scope="row">{{ $image->id }}</th>
-                                <td><a data-fancybox="images" class="" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}"><img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" class="avatar img-fluid data-was-processed='true'"></a></td>
+                                <td><a data-fancybox="images" class="" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}"><img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" class="imgThumb" data-was-processed='true'></a></td>
                                 <td>{{ $image->ext }}</td>
                                 <td>{{ $image->size }} Byte</td>
                                 <td>{{ $image->ip }}</td>
@@ -43,7 +43,7 @@
                                         {!! method_field('DELETE') !!}
                                         {!! csrf_field() !!}
                                         <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
-                                        <button class="btn btn-info" type="submit">Delete</button>
+                                        <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
                                 <td>{{ $image->basename }}</td>

@@ -16,7 +16,7 @@ class CreateImagescTable extends Migration
         Schema::create('imagesc', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('comment_id'); // Relación con categorias
+            $table->unsignedBigInteger('comment_id'); // Relación con comments
             $table->foreign('comment_id')->references('id')->on('comments'); // clave foranea
 
             $table->string('url');

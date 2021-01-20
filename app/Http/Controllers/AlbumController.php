@@ -66,6 +66,7 @@ class AlbumController extends Controller
         $album = new Album();
         $album->user_id = auth()->user()->id;
         $album->name = $request->name;
+        $album->description = $request->description;
         $album->save();
 
         return back()->with('message', 'Album create successfully');
