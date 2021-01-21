@@ -89,5 +89,38 @@
             @yield('content')
         </main>
     </div>
+    <script>
+        Dropzone.options.mydropzone = {
+            headers:{
+                'X-CSRF-TOKEN' : "{{csrf_token()}}"
+            },
+            //dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
+            acceptedFiles: "image/*",
+            maxFilesize: 100,
+            maxFiles: 100,
+        };
+    </script>
+    <script>
+        $(document).ready(function(){
+    $(document).on('click', '.getAlbumData', function(){
+    var albumId = $(this).attr("id");
+    $.ajax({
+        headers:{
+        'X-CSRF-TOKEN' : "{{csrf_token()}}"
+    },
+    url:"{{ route('album.fetchAlbum') }}",
+    method:"POST",
+    data:{albumId:albumId},
+    dataType:"json",
+    success:function(data){
+    $('#albumId').val(data.id);
+    //$('#deleteAlbum').attr('action', controllerPath);
+    $('#albumName').text('[Album:'+data.name+']');
+    $('#myModal').modal('show');
+    }
+    });
+    });
+});
+</script>
 </body>
 </html>

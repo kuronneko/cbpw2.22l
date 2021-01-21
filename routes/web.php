@@ -27,6 +27,7 @@ Route::resource("imagec", "ImagecController");
 
 Route::get('album/{id}/createImage', 'AlbumController@createImage')->name('album.createImage');
 Route::get('album/{id}/showImage', 'AlbumController@showImage')->name('album.showImage');
+Route::post('album/fetchAlbum', 'AlbumController@fetchAlbum')->name('album.fetchAlbum');
 
 Auth::routes();
 

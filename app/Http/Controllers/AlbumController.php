@@ -135,8 +135,15 @@ class AlbumController extends Controller
      */
     public function edit($id)
     {
-        $album = Album::findOrFail($id);
-        return view("album.edit", compact("album"));
+
+        $userId = auth()->user()->id;
+        $foundAlbum = $this->searchAlbum($id);
+        if(($foundAlbum->user->id) == $userId){
+            $album = Album::findOrFail($id);
+            return view("album.edit", compact("album"));
+        }else{
+            return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+        }
     }
 
     /**
@@ -153,24 +160,49 @@ class AlbumController extends Controller
             'description' => 'required'
         ]);
 
-        $album = Album::findOrFail($id);
-        $album->name=$request->input("name");
-        $album->description=$request->input("description");
-        $album->update();
-        return back()->with('message', 'Album edited successfully');
+        $userId = auth()->user()->id;
+        $foundAlbum = $this->searchAlbum($id);
+        if(($foundAlbum->user->id) == $userId){
+            $album = Album::findOrFail($id);
+            $album->name=$request->input("name");
+            $album->description=$request->input("description");
+            $album->update();
+            return back()->with('message', 'Album edited successfully');
+        }else{
+            return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+        }
+
     }
 
-    /**
-     * Remove the specified resource from storage.
+     /**
+     * Fetch the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function fetchAlbum(Request $request)
+
+    {
+       $id = $request->input("albumId");
+       if($request->ajax()){
+        $album = $this->searchAlbum($id);
+        return response()->json(['id' => $album->id, 'name' => $album->name]);
+       }
+
+    }
+
+
+    /**
+     * Destroy the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function destroy(Request $request)
     {
 
         $userId = auth()->user()->id;
-        $foundAlbum = $this->searchAlbum($id);
+        $albumId = $request->input("albumId");
+        $foundAlbum = $this->searchAlbum($albumId);
 
     if(($foundAlbum->user->id) == $userId){
         $images = Image::where('album_id', $foundAlbum->id);
@@ -184,9 +216,9 @@ class AlbumController extends Controller
         $album = Album::findOrFail($foundAlbum->id);
         $album->delete();
 
-        //return back()->with('message', 'Album deleted successfully');
+        return back()->with('message', 'Album deleted successfully');
     }else{
-        return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+        return back()->with('message', 'Album '.$albumId.' not found or cannot be accessed');
     }
 
 

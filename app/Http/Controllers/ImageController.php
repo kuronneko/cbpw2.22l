@@ -83,44 +83,52 @@ class ImageController extends Controller
 
         $document = $request->file('file');
         $albumId = $request->input('albumId');
-        $newFilename = md5( $document->getClientOriginalName() ).".".$document->getClientOriginalExtension();  //rename filename
+        $userId = auth()->user()->id;
+        $albumFound = app('App\Http\Controllers\AlbumController')->searchAlbum($albumId);
 
-        $albumFolderPath = public_path('/storage/images/'.$albumId);
-        if (!file_exists($albumFolderPath)) {       //check if folder exist
+        if(($albumFound->user->id == $userId)){
+            $newFilename = md5( $document->getClientOriginalName() ).".".$document->getClientOriginalExtension();  //rename filename
 
-            mkdir($albumFolderPath, 0755, true);
+            $albumFolderPath = public_path('/storage/images/'.$albumId);
+            if (!file_exists($albumFolderPath)) {       //check if folder exist
+
+                mkdir($albumFolderPath, 0755, true);
+            }
+
+            $filePath = public_path('/storage/images/'.$albumId.'/'.$newFilename);
+            if (!file_exists($filePath)) {             //check if physical file exist
+
+                $imageFiles = $request->file('file')->storeAs('public/images/'. $albumId, $newFilename);
+                $url = Storage::url($imageFiles);
+
+                $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . 'thumb.'.$document->getClientOriginalExtension()); //generate thumbnail with intervention image library
+                ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200,null, function($constraint)
+                {
+                    $constraint->aspectRatio();
+                })->resizeCanvas(200,null)->save($thumbTarget, 80);
+            }
+
+
+               if($this->searchImageByUrl($url)){ //check if image exist in DB based by URL parameters
+
+               }else{
+                $image = new Image();
+                $image->album_id = $albumId;
+                $image->url = $url;
+                $image->ext = $document->getClientOriginalExtension();
+                $image->size = $document->getSize();
+                $image->basename = $document->getClientOriginalName();
+                $image->ip = $request->ip();
+                $image->tag = "";
+                $image->save();
+               }
+
+    //dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
+    //dump($imageFiles); //"public/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
+        }else{
+            return back()->with('message', 'Album '.$albumId.' not found or cannot be accessed');
         }
 
-        $filePath = public_path('/storage/images/'.$albumId.'/'.$newFilename);
-        if (!file_exists($filePath)) {             //check if physical file exist
-
-            $imageFiles = $request->file('file')->storeAs('public/images/'. $albumId, $newFilename);
-            $url = Storage::url($imageFiles);
-
-            $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . 'thumb.'.$document->getClientOriginalExtension()); //generate thumbnail with intervention image library
-            ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200,null, function($constraint)
-            {
-                $constraint->aspectRatio();
-            })->resizeCanvas(200,null)->save($thumbTarget, 80);
-        }
-
-
-           if($this->searchImageByUrl($url)){ //check if image exist in DB based by URL parameters
-
-           }else{
-            $image = new Image();
-            $image->album_id = $albumId;
-            $image->url = $url;
-            $image->ext = $document->getClientOriginalExtension();
-            $image->size = $document->getSize();
-            $image->basename = $document->getClientOriginalName();
-            $image->ip = $request->ip();
-            $image->tag = "";
-            $image->save();
-           }
-
-//dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
-//dump($imageFiles); //"public/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
 
     }
 
@@ -201,17 +209,26 @@ class ImageController extends Controller
     {
 
         $albumId = $request->input('albumId');
+        $userId = auth()->user()->id;
+        $albumFound = app('App\Http\Controllers\AlbumController')->searchAlbum($albumId);
+        $imageFound = $this->searchImageById($imageId);
 
-        $foundImage = $this->searchImageById($imageId);
-        $productImage = str_replace('/storage', '', $foundImage->url);
+        if(($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId)){
 
-        Storage::delete('/public' . $productImage);
-        Storage::delete('/public' . $productImage.'thumb.'.$foundImage->ext);
+            $productImage = str_replace('/storage', '', $imageFound->url);
 
-        $image = Image::findOrFail($imageId);
-        $image->delete();
+            Storage::delete('/public' . $productImage);
+            Storage::delete('/public' . $productImage.'thumb.'.$imageFound->ext);
 
-        return redirect()->route('album.showImage', $albumId);
+            $image = Image::findOrFail($imageFound->id);
+            $image->delete();
+
+            return redirect()->route('album.showImage', $albumId);
+        }else{
+            return back()->with('message', 'Image '.$imageFound->id.' not found or cannot be accessed');
+        }
+
+
 
     }
 }

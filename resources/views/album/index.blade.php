@@ -39,8 +39,10 @@
                                     <a href="{{route('album.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
                                     </div>
                                     <div class="btn-group">
+                                        <a href="#" name="getAlbumData" value="{{ $album->id }}" class="btn btn-danger getAlbumData" id="{{ $album->id }}"><i class="fas fa-trash-alt"></i></a>
+
                                         <a class="btn btn-info" href="{{route("album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
-                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"><i class="fas fa-trash-alt"></i></button>
+
                                     </div>
                                 </td>
                             </tr>
@@ -62,15 +64,16 @@
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Are you sure you want delete this [Album:{{$album->name}}]?</h4>
+          <h4 class="modal-title">Are you sure you want delete this<p id="albumName">AlbumName</p></h4>
           <button type="button" class="close bg-dark text-white" data-dismiss="modal">&times;</button>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
-            <form action="{{route('album.destroy', $album->id)}}" method="POST">
+            <form action="{{route('album.destroy', "deleteAlbum")}}" method="POST" id="deleteAlbum">
                 @method('DELETE')
                 @csrf
+                <input type="hidden" name="albumId" id="albumId" value=""/>
                 <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i> Permanently delete album with all its content</button>
             </form>
         </div>
@@ -83,6 +86,5 @@
       </div>
     </div>
   </div>
-
 </div>
 @endsection
