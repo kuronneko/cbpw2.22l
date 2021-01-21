@@ -6,8 +6,8 @@
         <div class="col-md-6">
             <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Edit Album</span>
-                    <a href="{{route('album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
+                    <span>New Album</span>
+                    <a href="{{route('admin.album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
                 </div>
                 <div class="card-body">
                     @error('name')
@@ -28,24 +28,23 @@
                   @if ( session('message') )
                     <div class="alert alert-success">{{ session('message') }}</div>
                   @endif
-                  <form action="{{route('album.update', $album->id)}}" method="POST">
-                    @method('PUT')
+                  <form method="POST" action="{{route('admin.album.store')}}">
                     @csrf
                     <input
                       type="text"
                       name="name"
                       placeholder="Name"
-                      value="{{($album->name)}}"
+                      value="{{ old('name') }}"
                       class="form-control mb-3"
                     />
                     <input
                     type="text"
                     name="description"
                     placeholder="Description"
-                    value="{{($album->description)}}"
+                    value="{{ old('description') }}"
                     class="form-control mb-3"
                   />
-                    <button class="btn btn-secondary" type="submit">Edit</button>
+                    <button class="btn btn-secondary" type="submit">Create</button>
                   </form>
                 </div>
             </div>

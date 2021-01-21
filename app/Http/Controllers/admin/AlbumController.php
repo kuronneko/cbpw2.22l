@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Album;
@@ -26,7 +27,7 @@ class AlbumController extends Controller
     {
         $userId = auth()->user()->id;
         $albums = Album::where('user_id', $userId)->paginate(100);
-        return view('album.index',compact('albums'));
+        return view('admin.album.index',compact('albums'));
     }
 
     /**
@@ -36,7 +37,7 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        return view('album.create');
+        return view('admin.album.create');
     }
 
 
@@ -49,7 +50,7 @@ class AlbumController extends Controller
         $userId = auth()->user()->id;
         $album = $this->searchAlbum($id);
         if(($album->user->id) == $userId){
-            return view('image.create')->with('album',$album); //podria mandar el objeto album completo?????
+            return view('admin.image.create')->with('album',$album); //podria mandar el objeto album completo?????
         }else{
             return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
         }
@@ -94,7 +95,7 @@ class AlbumController extends Controller
 
     if(($album->user->id) == $userId){
         $images = Image::where('album_id', $id)->paginate(100);
-        return view('album.show',['images'=> $images, 'album'=> $album]);
+        return view('admin.album.show',['images'=> $images, 'album'=> $album]);
     }else{
         return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
     }
@@ -140,7 +141,7 @@ class AlbumController extends Controller
         $foundAlbum = $this->searchAlbum($id);
         if(($foundAlbum->user->id) == $userId){
             $album = Album::findOrFail($id);
-            return view("album.edit", compact("album"));
+            return view("admin.album.edit", compact("album"));
         }else{
             return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
         }

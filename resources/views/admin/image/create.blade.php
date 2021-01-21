@@ -7,7 +7,7 @@
             <div class="card bg-dark">
                 <div class="text-white card-header d-flex justify-content-between align-items-center">
                     <span>[Album:{{$album->name}}] Image Uploader</span>
-                    <a href="{{route('album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
+                    <a href="{{route('admin.album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
                 </div>
                 <div class="card-body">
                     @if ( session('message') )
@@ -15,7 +15,7 @@
                   @endif
                     <div class="container" style="padding: 0px;">
                         <div class="form-container">
-                            <form action="{{route('image.store')}}" method="POST" class="dropzone" id="mydropzone">
+                            <form action="{{route('admin.image.store')}}" method="POST" class="dropzone" id="mydropzone">
                                 <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
                                 <div class="dz-message">
                                     <div class="icon">

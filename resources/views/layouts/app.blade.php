@@ -108,7 +108,7 @@
         headers:{
         'X-CSRF-TOKEN' : "{{csrf_token()}}"
     },
-    url:"{{ route('album.fetchAlbum') }}",
+    url:"{{ route('admin.album.fetchAlbum') }}",
     method:"POST",
     data:{albumId:albumId},
     dataType:"json",

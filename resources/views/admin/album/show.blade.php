@@ -7,7 +7,7 @@
             <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>[Album:{{$album->name}}] Image List </span>
-                    <a href="{{route('album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
+                    <a href="{{route('admin.album.index')}}" class="btn btn-secondary btn-sm">Back to Albums</a>
                 </div>
                 <div class="card-body">
                     @if ( session('message') )
@@ -39,7 +39,7 @@
                                 <td>{{ $image->tag }}</td>
                                 <td>{{ $image->created_at }}</td>
                                 <td>
-                                    <form action="{{route('image.destroy', $image->id)}}" method="POST">
+                                    <form action="{{route('admin.image.destroy', $image->id)}}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>

@@ -20,20 +20,18 @@ Route::get('/', function () {
 
 });
 
-Route::resource("album", "AlbumController");
-Route::resource("image", "ImageController");
-Route::resource("comment", "CommentController");
-Route::resource("imagec", "ImagecController");
+Route::resource("admin/album", "admin\AlbumController", ['as' => 'admin']);
+Route::resource("admin/image", "admin\ImageController", ['as' => 'admin']);
+Route::resource("admin/comment", "admin\CommentController", ['as' => 'admin']);
+Route::resource("admin/imagec", "admin\ImagecController", ['as' => 'admin']);
 
-Route::get('album/{id}/createImage', 'AlbumController@createImage')->name('album.createImage');
-Route::get('album/{id}/showImage', 'AlbumController@showImage')->name('album.showImage');
-Route::post('album/fetchAlbum', 'AlbumController@fetchAlbum')->name('album.fetchAlbum');
+Route::get('admin/album/{id}/createImage', 'admin\AlbumController@createImage')->name('admin.album.createImage');
+Route::get('admin/album/{id}/showImage', 'admin\AlbumController@showImage')->name('admin.album.showImage');
+Route::post('admin/album/fetchAlbum', 'admin\AlbumController@fetchAlbum')->name('admin.album.fetchAlbum');
+
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('image/upload', 'ImageController@upload')->name('image.upload');
-Route::get('image/fetch', 'ImageController@fetch')->name('image.fetch');
-Route::get('image/delete', 'ImageController@delete')->name('image.delete');
 

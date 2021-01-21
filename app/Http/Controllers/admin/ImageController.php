@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Album;
@@ -84,7 +85,7 @@ class ImageController extends Controller
         $document = $request->file('file');
         $albumId = $request->input('albumId');
         $userId = auth()->user()->id;
-        $albumFound = app('App\Http\Controllers\AlbumController')->searchAlbum($albumId);
+        $albumFound = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($albumId);
 
         if(($albumFound->user->id == $userId)){
             $newFilename = md5( $document->getClientOriginalName() ).".".$document->getClientOriginalExtension();  //rename filename
@@ -210,7 +211,7 @@ class ImageController extends Controller
 
         $albumId = $request->input('albumId');
         $userId = auth()->user()->id;
-        $albumFound = app('App\Http\Controllers\AlbumController')->searchAlbum($albumId);
+        $albumFound = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($albumId);
         $imageFound = $this->searchImageById($imageId);
 
         if(($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId)){
@@ -223,7 +224,7 @@ class ImageController extends Controller
             $image = Image::findOrFail($imageFound->id);
             $image->delete();
 
-            return redirect()->route('album.showImage', $albumId);
+            return redirect()->route('admin.album.showImage', $albumId);
         }else{
             return back()->with('message', 'Image '.$imageFound->id.' not found or cannot be accessed');
         }

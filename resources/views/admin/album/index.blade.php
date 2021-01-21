@@ -7,7 +7,7 @@
             <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>[User:{{auth()->user()->name}}] Album List</span>
-                    <a href="{{route('album.create')}}" class="btn btn-secondary btn-sm">New Album</a>
+                    <a href="{{route('admin.album.create')}}" class="btn btn-secondary btn-sm">New Album</a>
                 </div>
                 <div class="card-body">
                     @if ( session('message') )
@@ -35,13 +35,13 @@
                                 <td>{{ $album->created_at}}</td>
                                 <td>
                                     <div class="btn-group">
-                                    <a href="{{route('album.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
-                                    <a href="{{route('album.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
+                                    <a href="{{route('admin.album.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
+                                    <a href="{{route('admin.album.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
                                     </div>
                                     <div class="btn-group">
                                         <a href="#" name="getAlbumData" value="{{ $album->id }}" class="btn btn-danger getAlbumData" id="{{ $album->id }}"><i class="fas fa-trash-alt"></i></a>
 
-                                        <a class="btn btn-info" href="{{route("album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
+                                        <a class="btn btn-info" href="{{route("admin.album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
 
                                     </div>
                                 </td>
@@ -70,7 +70,7 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-            <form action="{{route('album.destroy', "deleteAlbum")}}" method="POST" id="deleteAlbum">
+            <form action="{{route('admin.album.destroy', "deleteAlbum")}}" method="POST" id="deleteAlbum">
                 @method('DELETE')
                 @csrf
                 <input type="hidden" name="albumId" id="albumId" value=""/>
