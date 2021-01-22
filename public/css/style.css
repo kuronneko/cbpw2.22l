@@ -7,6 +7,43 @@
     /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
 }
 
+.imgThumbPublicIndex{
+    border: 1px solid #0000009f;
+    border-radius: 0%;
+    object-fit: cover !important;
+    width: 75px;
+    height: 75px;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+    /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
+}
+
+.imgThumbPublicIndex{
+    border: 1px solid #0000009f;
+    border-radius: 0%;
+    object-fit: cover !important;
+    width: 75px;
+    height: 75px;
+    /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
+}
+
+.imgThumbPublicContent{
+    border: 1px solid #0000009f;
+    /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
+}
+
+.indexCard:hover{
+    border: 1px solid #0000009f;
+}
+
+.photos .masonry {
+    width: 25%;
+}
+    .photos>a img {
+        width: 100%;
+    }
+
+
 .uploadIcon{
     font-size: 70px !important;
 }

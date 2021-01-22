@@ -41,22 +41,6 @@ class AlbumController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createImage($id){
-        $userId = auth()->user()->id;
-        $album = $this->searchAlbum($id);
-        if(($album->user->id) == $userId){
-            return view('admin.image.create')->with('album',$album); //podria mandar el objeto album completo?????
-        }else{
-            return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
-        }
-
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -79,27 +63,6 @@ class AlbumController extends Controller
         $album->save();
 
         return back()->with('message', 'Album create successfully');
-    }
-
-        /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showImage($id)
-
-    {
-        $userId = auth()->user()->id;
-        $album = $this->searchAlbum($id);
-
-    if(($album->user->id) == $userId){
-        $images = Image::where('album_id', $id)->paginate(100);
-        return view('admin.album.show',['images'=> $images, 'album'=> $album]);
-    }else{
-        return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
-    }
-
     }
 
 

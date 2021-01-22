@@ -70,6 +70,42 @@ class ImageController extends Controller
 
     }
 
+        /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createImage($id)
+    {
+        $userId = auth()->user()->id;
+        $album = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($id);
+        if(($album->user->id) == $userId){
+            return view('admin.image.create')->with('album',$album); //podria mandar el objeto album completo?????
+        }else{
+            return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+        }
+    }
+
+            /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showImage($id)
+
+    {
+        $userId = auth()->user()->id;
+        $album = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($id);
+
+    if(($album->user->id) == $userId){
+        $images = Image::where('album_id', $id)->paginate(100);
+        return view('admin.image.show',['images'=> $images, 'album'=> $album]);
+    }else{
+        return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+    }
+
+    }
     /**
      * Store a newly created resource in storage.
      *

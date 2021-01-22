@@ -15,6 +15,8 @@
     <script type="text/javascript" src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script>
     <script type="text/javascript" src="{{asset('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -68,6 +70,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a href="{{ url('admin/album') }}" class="dropdown-item">Manage</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -122,5 +125,20 @@
     });
 });
 </script>
+<script>
+    $(document).ready(function(){
+    var $grid = $('.photos').masonry({
+    itemSelector: '.masonry',
+    // use element for option
+    //  columnWidth: '.masonry',
+    FitWidth: true,
+    percentPosition: true
+    });
+    // layout Masonry after each image loads
+    $grid.imagesLoaded().progress( function() {
+    $grid.masonry('layout');
+    });
+    });
+    </script>
 </body>
 </html>

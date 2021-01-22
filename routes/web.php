@@ -25,10 +25,13 @@ Route::resource("admin/image", "admin\ImageController", ['as' => 'admin']);
 Route::resource("admin/comment", "admin\CommentController", ['as' => 'admin']);
 Route::resource("admin/imagec", "admin\ImagecController", ['as' => 'admin']);
 
-Route::get('admin/album/{id}/createImage', 'admin\AlbumController@createImage')->name('admin.album.createImage');
-Route::get('admin/album/{id}/showImage', 'admin\AlbumController@showImage')->name('admin.album.showImage');
-Route::post('admin/album/fetchAlbum', 'admin\AlbumController@fetchAlbum')->name('admin.album.fetchAlbum');
+Route::resource("", "PublicAlbumController");
+Route::get('album/{id}/content', 'PublicImageController@showContent')->name('image.content');
 
+Route::get('admin/album/{id}/createImage', 'admin\ImageController@createImage')->name('admin.image.createImage');
+Route::get('admin/album/{id}/showImage', 'admin\ImageController@showImage')->name('admin.image.showImage');
+
+Route::post('admin/album/fetchAlbum', 'admin\AlbumController@fetchAlbum')->name('admin.album.fetchAlbum');
 
 Auth::routes();
 
