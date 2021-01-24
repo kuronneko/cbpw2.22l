@@ -29,12 +29,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($images as $image)
+                            @foreach ($images->reverse() as $image)
                             <tr>
                                 <th scope="row">{{ $image->id }}</th>
                                 <td><a data-fancybox="images" class="" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}"><img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" class="imgThumb" data-was-processed='true'></a></td>
                                 <td>{{ $image->ext }}</td>
-                                <td>{{ $image->size }} Byte</td>
+                                <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($image->size) }}</td>
                                 <td>{{ $image->ip }}</td>
                                 <td>{{ $image->tag }}</td>
                                 <td>{{ $image->created_at }}</td>

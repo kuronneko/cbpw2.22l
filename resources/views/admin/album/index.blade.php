@@ -22,17 +22,25 @@
                             <th scope="col">Description</th>
                             <th scope="col">Created by</th>
                             <th scope="col">Created at</th>
+                            <th scope="col">Size</th>
                             <th scope="col">Options</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($albums as $album)
+                            <?php $albumSize = 0;?>
                             <tr>
                                 <th scope="row">{{ $album->id }}</th>
                                 <td>{{ $album->name }}</td>
                                 <td>{{ $album->description }}</td>
                                 <td>{{ $album->user->name}}</td>
                                 <td>{{ $album->created_at}}</td>
+                                @foreach ($images as $image)
+                                @if (($image->album->id == $album->id) && ($album->user->id == auth()->user()->id))
+                                <?php $albumSize = $albumSize + $image->size?>
+                                @endif
+                                @endforeach
+                                <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>
                                 <td>
                                     <div class="btn-group">
                                     <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>

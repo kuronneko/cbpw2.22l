@@ -158,6 +158,7 @@ class ImageController extends Controller
                 $image->ip = $request->ip();
                 $image->tag = "";
                 $image->save();
+
                }
 
     //dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
@@ -167,6 +168,43 @@ class ImageController extends Controller
         }
 
 
+    }
+
+         /**
+     * Display the specified resource.
+     *
+     * @param  string  $url
+     * @return $bytes
+     */
+    public function formatSizeUnits($bytes)
+
+    {
+        if ($bytes >= 1073741824)
+        {
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        }
+        elseif ($bytes >= 1048576)
+        {
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        }
+        elseif ($bytes >= 1024)
+        {
+            $bytes = number_format($bytes / 1024, 2) . ' KB';
+        }
+        elseif ($bytes > 1)
+        {
+            $bytes = $bytes . ' Bytes';
+        }
+        elseif ($bytes == 1)
+        {
+            $bytes = $bytes . ' Byte';
+        }
+        else
+        {
+            $bytes = '0 Bytes';
+        }
+
+        return $bytes;
     }
 
      /**
@@ -260,7 +298,7 @@ class ImageController extends Controller
             $image = Image::findOrFail($imageFound->id);
             $image->delete();
 
-            return redirect()->route('admin.album.showImage', $albumId);
+            return redirect()->route('admin.image.showImage', $albumId);
         }else{
             return back()->with('message', 'Image '.$imageFound->id.' not found or cannot be accessed');
         }

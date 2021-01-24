@@ -43,6 +43,20 @@
         width: 100%;
     }
 
+.cardAlbumDetails{
+    margin-bottom: 0px;
+    margin-top: 0px;
+    font-size: 12px;
+}
+
+.cardAlbumTittle{
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.cardAlbumDescription{
+    font-size: 15px;
+}
 
 .uploadIcon{
     font-size: 70px !important;
