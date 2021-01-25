@@ -23,6 +23,7 @@
                             <th scope="col">Created by</th>
                             <th scope="col">Created at</th>
                             <th scope="col">Size</th>
+                            <th scope="col">Visible</th>
                             <th scope="col">Options</th>
                             </tr>
                         </thead>
@@ -41,6 +42,13 @@
                                 @endif
                                 @endforeach
                                 <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>
+                                <td>
+                                    @if ($album->visibility == 0)
+                                    Private
+                                    @else
+                                    Public
+                                    @endif
+                                </td>
                                 <td>
                                     <div class="btn-group">
                                     <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>

@@ -56,13 +56,15 @@ class AlbumController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'visibility' => 'required'
         ]);
 
         $album = new Album();
         $album->user_id = auth()->user()->id;
         $album->name = $request->name;
         $album->description = $request->description;
+        $album->visibility = $request->visibility;
         $album->save();
 
         return back()->with('message', 'Album create successfully');
@@ -124,7 +126,8 @@ class AlbumController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'visibility' => 'required'
         ]);
 
         $userId = auth()->user()->id;
@@ -133,6 +136,7 @@ class AlbumController extends Controller
             $album = Album::findOrFail($id);
             $album->name=$request->input("name");
             $album->description=$request->input("description");
+            $album->visibility=$request->visibility;
             $album->update();
             return back()->with('message', 'Album edited successfully');
         }else{

@@ -21,7 +21,7 @@ class CreateImagesTable extends Migration
 
             $table->string('url');
             $table->string('ext');
-            $table->string('size');
+            $table->integer('size');
             $table->string('basename');
             $table->string('ip');
             $table->string('tag');

@@ -44,6 +44,11 @@
                     value="{{ old('description') }}"
                     class="form-control mb-3"
                   />
+                  <select class="form-control" id="visibility" name="visibility">
+                    <option value="1">Public</option>
+                    <option value="0">Private</option>
+                  </select>
+                  <br>
                     <button class="btn btn-secondary" type="submit">Create</button>
                   </form>
                 </div>

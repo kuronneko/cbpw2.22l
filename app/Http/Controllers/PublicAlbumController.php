@@ -20,7 +20,7 @@ class PublicAlbumController extends Controller
     public function index()
     {
         $images = Image::all()->sortByDesc("id");
-        $albums = Album::paginate(10);
+        $albums = Album::where('visibility', 1)->paginate(10);
         return view('welcome',compact('albums','images'));
     }
 

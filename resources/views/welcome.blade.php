@@ -11,6 +11,7 @@
                 <div class="card-body">
                     <div class="row">
                             @foreach ($albums as $album)
+
                             <?php $imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = "";$albumSize = 0;?>
                                 <div class="col-12 col-sm-6">
                             <div class="card bg-dark text-white indexCard">
@@ -48,6 +49,7 @@
                             </div>
                             <br>
                         </div>
+
                             @endforeach
                         </div>
                         {{$albums->links("pagination::bootstrap-4")}}

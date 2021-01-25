@@ -58,6 +58,10 @@
     font-size: 15px;
 }
 
+.privateAlbumIcon{
+    font-size: 100px!important;
+  }
+
 .uploadIcon{
     font-size: 70px !important;
 }
