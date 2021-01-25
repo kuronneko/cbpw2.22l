@@ -11,7 +11,9 @@
                     @else
                         <p>Private Album</p>
                     @endif
-                    <a href="{{route('index')}}" class="btn btn-secondary btn-sm">Back to Public Albums</a>
+                    <a href="{{route('index')}}" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-home"></i>
+                    </a>
                 </div>
                 <div class="card-body">
                     <?php $imageCountperAlbum = 0;$updated_at = "";$albumSize = 0;?>

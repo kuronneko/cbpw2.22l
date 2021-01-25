@@ -33,5 +33,15 @@
         </div>
     </div>
 </div>
-
+<script>
+    Dropzone.options.mydropzone = {
+        headers:{
+            'X-CSRF-TOKEN' : "{{csrf_token()}}"
+        },
+        //dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
+        acceptedFiles: "image/*",
+        maxFilesize: 100,
+        maxFiles: 100,
+    };
+</script>
 @endsection

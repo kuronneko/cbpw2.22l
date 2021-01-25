@@ -103,4 +103,26 @@
     </div>
   </div>
 </div>
+<script>
+    $(document).ready(function(){
+$(document).on('click', '.getAlbumData', function(){
+var albumId = $(this).attr("id");
+$.ajax({
+    headers:{
+    'X-CSRF-TOKEN' : "{{csrf_token()}}"
+},
+url:"{{ route('admin.album.fetchAlbum') }}",
+method:"POST",
+data:{albumId:albumId},
+dataType:"json",
+success:function(data){
+$('#albumId').val(data.id);
+//$('#deleteAlbum').attr('action', controllerPath);
+$('#albumName').text('[Album:'+data.name+']');
+$('#myModal').modal('show');
+}
+});
+});
+});
+</script>
 @endsection

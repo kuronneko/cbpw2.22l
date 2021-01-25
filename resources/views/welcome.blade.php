@@ -7,6 +7,9 @@
             <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <p>Public Album List</p>
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#stats">
+                        <i class="fas fa-chart-bar"></i>
+                    </button>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -60,5 +63,73 @@
         </div>
     </div>
 </div>
+      <!-- The Modal -->
+      <div class="modal fade" id="stats">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bg-dark text-white">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Cyberpunkwaifus statistics</h4>
+              <button type="button" class="close bg-dark text-white" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+
+                <?php $totalPublicAlbums = 0;$totalPublicImages = 0;$albumSize = 0;$lastImageUploaded = "";?>
+                @foreach ($albums as $album)
+                        @foreach ($images as $image)
+                        @if($image->album->id == $album->id)
+                        @if ($totalPublicImages == 0)
+                        <?php $lastImageUploaded = $image->updated_at?>
+                        @endif
+                        <?php $albumSize = $albumSize + $image->size;?>
+                        <?php $totalPublicImages++ ?>
+                        @endif
+                        @endforeach
+                        <?php $totalPublicAlbums++ ?>
+                @endforeach
+
+                    <div class="container mt-3">
+                        <p>General statistics collected from album content (private albums will not be counted)</p>
+                        <ul class="list-group">
+                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            Total Public Albums
+                            <span class="badge badge-secondary"><i class="fas fa-book"></i><span class="badge badge-secondary"><?php echo $totalPublicAlbums?></span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            Total Public Images
+                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary"><?php echo $totalPublicImages?></span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            Total Size
+                            <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize)?></span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            Last image added
+                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary"><?php echo $lastImageUploaded?></span></span>
+                          </li>
+                        </ul>
+                      </div>
+
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
+      <script type="text/javascript">
+       $(document).ready(function() {
+           if ($.cookie('pop') == null) {
+               $('#stats').modal('show');
+               $.cookie('pop', '1');
+           }
+       });
+      </script>
 @endsection
 
