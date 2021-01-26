@@ -91,21 +91,14 @@
         <main class="py-4">
             @yield('content')
         </main>
+<br><br><br><br>
+    <footer>
+        <br>
+        <p><a class="text-white" href="" target="_top">{{ config('app.name', 'Laravel') }}</a> image gallery engine create by KuroNeko</p>
+        <p>2018-<?php echo date("Y"); ?> ~ <a class="text-white" href="" target="_top">Contact</a></p>
+    </footer>
+
+
     </div>
-<script>
-    $(document).ready(function(){
-    var $grid = $('.photos').masonry({
-    itemSelector: '.masonry',
-    // use element for option
-    //  columnWidth: '.masonry',
-    FitWidth: true,
-    percentPosition: true
-    });
-    // layout Masonry after each image loads
-    $grid.imagesLoaded().progress( function() {
-    $grid.masonry('layout');
-    });
-    });
-    </script>
 </body>
 </html>

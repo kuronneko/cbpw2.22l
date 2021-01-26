@@ -131,5 +131,21 @@
            }
        });
       </script>
+      <script>
+        $(document).ready(function(){
+        var $grid = $('.photos').masonry({
+        itemSelector: '.masonry',
+        // use element for option
+        //  columnWidth: '.masonry',
+        FitWidth: true,
+        percentPosition: true,
+        transitionDuration: 0
+        });
+        // layout Masonry after each image loads
+        $grid.imagesLoaded().progress( function() {
+        $grid.masonry('layout');
+        });
+        });
+        </script>
 @endsection
 

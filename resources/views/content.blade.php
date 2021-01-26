@@ -34,9 +34,9 @@
                     <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize)?></span></span>
                     </div>
 
-                    <div class="photos">
+                    <div class="grid">
                         @foreach ($images->reverse() as $image)
-                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}"><img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" class="img-fluid masonry imgThumbPublicContent" data-was-processed='true'></a>
+                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}"><img class="grid-item" src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" data-was-processed='true'></a>
                         @endforeach
                         @else
                         <div class="text-center">
@@ -54,4 +54,20 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+var $grid = $('.grid').masonry({
+itemSelector: '.grid-item',
+// use element for option
+//  columnWidth: '.masonry',
+FitWidth: true,
+percentPosition: true,
+transitionDuration: 0
+});
+// layout Masonry after each image loads
+$grid.imagesLoaded().progress( function() {
+$grid.masonry('layout');
+});
+});
+</script>
 @endsection
