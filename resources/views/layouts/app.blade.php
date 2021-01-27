@@ -17,6 +17,7 @@
     <script type="text/javascript" src="{{asset('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -91,7 +92,7 @@
         <main class="py-4">
             @yield('content')
         </main>
-<br><br><br><br>
+
     <footer>
         <br>
         <p><a class="text-white" href="" target="_top">{{ config('app.name', 'Laravel') }}</a> image gallery engine create by KuroNeko</p>

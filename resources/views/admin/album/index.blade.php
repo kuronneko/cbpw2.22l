@@ -17,11 +17,12 @@
                     <table class="table table-dark table-hover">
                         <thead>
                             <tr>
+                            <th scope="col">Options</th>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Description</th>
-                            <th scope="col">Created by</th>
-                            <th scope="col">Created at</th>
+                            <th scope="col">Admin</th>
+                            <th scope="col">Created</th>
                             <th scope="col">Size</th>
                             <th scope="col">Visible</th>
                             <th scope="col">Options</th>
@@ -31,6 +32,12 @@
                             @foreach ($albums as $album)
                             <?php $albumSize = 0;?>
                             <tr>
+                                <td>
+                                    <div class="btn-group">
+                                    <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
+                                    <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
+                                    </div>
+                                </td>
                                 <th scope="row">{{ $album->id }}</th>
                                 <td>{{ $album->name }}</td>
                                 <td>{{ $album->description }}</td>
@@ -50,10 +57,6 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="btn-group">
-                                    <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
-                                    <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
-                                    </div>
                                     <div class="btn-group">
                                         <a href="#" name="getAlbumData" value="{{ $album->id }}" class="btn btn-danger getAlbumData" id="{{ $album->id }}"><i class="fas fa-trash-alt"></i></a>
 

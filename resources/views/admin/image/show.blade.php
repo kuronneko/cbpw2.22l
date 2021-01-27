@@ -18,13 +18,13 @@
                         <thead>
                             <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Options</th>
                             <th scope="col">URL</th>
                             <th scope="col">Ext</th>
                             <th scope="col">Size</th>
                             <th scope="col">IP</th>
                             <th scope="col">Tags</th>
-                            <th scope="col">Created at</th>
-                            <th scope="col">Options</th>
+                            <th scope="col">Created</th>
                             <th scope="col">Basename</th>
                             </tr>
                         </thead>
@@ -32,12 +32,6 @@
                             @foreach ($images->reverse() as $image)
                             <tr>
                                 <th scope="row">{{ $image->id }}</th>
-                                <td><a data-fancybox="images" class="" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}"><img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" class="imgThumb" data-was-processed='true'></a></td>
-                                <td>{{ $image->ext }}</td>
-                                <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($image->size) }}</td>
-                                <td>{{ $image->ip }}</td>
-                                <td>{{ $image->tag }}</td>
-                                <td>{{ $image->created_at }}</td>
                                 <td>
                                     <form action="{{route('admin.image.destroy', $image->id)}}" method="POST">
                                         @method('DELETE')
@@ -46,6 +40,12 @@
                                         <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
+                                <td><a data-fancybox="images" class="" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}"><img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumb" data-was-processed='true'></a></td>
+                                <td>{{ $image->ext }}</td>
+                                <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($image->size) }}</td>
+                                <td>{{ $image->ip }}</td>
+                                <td>{{ $image->tag }}</td>
+                                <td>{{ $image->created_at }}</td>
                                 <td>{{ $image->basename }}</td>
                             </tr>
                             @endforeach

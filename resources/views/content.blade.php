@@ -36,7 +36,7 @@
 
                     <div class="grid">
                         @foreach ($images->reverse() as $image)
-                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}"><img class="grid-item" src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" data-was-processed='true'></a>
+                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}"><img class="grid-item" src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" data-was-processed='true'></a>
                         @endforeach
                         @else
                         <div class="text-center">

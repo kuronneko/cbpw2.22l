@@ -35,7 +35,7 @@
                                     @endif
                                     <?php $imageCountperAlbum++ ?>
                                     @if($imageLimitperAlbum != 4)
-                                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}thumb.{{$image->ext}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
+                                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
                                     <?php $imageLimitperAlbum++ ?>
                                     @endif
                                     @endif
@@ -122,7 +122,6 @@
           </div>
         </div>
       </div>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
       <script type="text/javascript">
        $(document).ready(function() {
            if ($.cookie('pop') == null) {

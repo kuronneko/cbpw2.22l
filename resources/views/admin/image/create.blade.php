@@ -10,10 +10,16 @@
                     <a href="{{route('admin.album.index')}}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                 <div class="card-body">
-                    @if ( session('message') )
-                    <div class="alert alert-success">{{ session('message') }}</div>
-                  @endif
-                    <div class="container" style="padding: 0px;">
+                  <div class="alert alert-success alert-dismissible" id="dropzoneMessageOK" style="display: none">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Success!</strong> Images uploaded successfully.
+                </div>
+                <div class="alert alert-warning alert-dismissible" id="dropzoneMessageProblem" style="display: none">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Warning!</strong> Some images will be not uploaded.
+                  </div>
+                <div class="text-center">
+                    <div class="container-fluid" style="padding: 0px;">
                         <div class="form-container">
                             <form action="{{route('admin.image.store')}}" method="POST" class="dropzone" id="mydropzone">
                                 <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
@@ -27,13 +33,15 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
+                     </div>
+                  </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+    var errors = false;
     Dropzone.options.mydropzone = {
         headers:{
             'X-CSRF-TOKEN' : "{{csrf_token()}}"
@@ -42,6 +50,32 @@
         acceptedFiles: "image/*",
         maxFilesize: 100,
         maxFiles: 100,
+        //addRemoveLinks: true,
+        init: function (){
+    this.on("error", function (file){
+        errors = true;
+    });
+    this.on("queuecomplete", function (file) {
+        if(errors) $('#dropzoneMessageProblem').show();
+        else $('#dropzoneMessageOK').show();
+    });
+           /*
+    this.on("success", function (file){
+        $('#dropzoneMessageOK').show();
+    //file_up_names.push(file.name);
+    //alert("El archivo se cargó correctamente");
+    });
+*/
+    /*
+    this.on("removedfile", function (file){
+    $.post('php/controller/adminController.php',
+    {file_name:file.name},
+    function(data,status){
+    //alert(data);
+    });
+    });
+    */
+    }
     };
 </script>
 @endsection

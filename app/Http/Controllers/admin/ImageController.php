@@ -124,7 +124,7 @@ class ImageController extends Controller
         $albumFound = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($albumId);
 
         if(($albumFound->user->id == $userId)){
-            $newFilename = md5( $document->getClientOriginalName() ).".".$document->getClientOriginalExtension();  //rename filename
+            $newFilename = md5( $document->getClientOriginalName() );  //rename filename
 
             $albumFolderPath = public_path('/storage/images/'.$albumId);
             if (!file_exists($albumFolderPath)) {       //check if folder exist
@@ -132,13 +132,13 @@ class ImageController extends Controller
                 mkdir($albumFolderPath, 0755, true);
             }
 
-            $filePath = public_path('/storage/images/'.$albumId.'/'.$newFilename);
+            $filePath = public_path('/storage/images/'.$albumId.'/'.$newFilename.'.'.$document->getClientOriginalExtension());
             if (!file_exists($filePath)) {             //check if physical file exist
 
-                $imageFiles = $request->file('file')->storeAs('public/images/'. $albumId, $newFilename);
-                $url = Storage::url($imageFiles);
+                $request->file('file')->storeAs('public/images/'. $albumId, $newFilename.'.'.$document->getClientOriginalExtension()); //upload main file
+                $url = Storage::url('public/images/'.$albumId.'/'. $newFilename); //url without extension
 
-                $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . 'thumb.'.$document->getClientOriginalExtension()); //generate thumbnail with intervention image library
+                $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . '_thumb.'.$document->getClientOriginalExtension()); //generate thumbnail with intervention image library
                 ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200,null, function($constraint)
                 {
                     $constraint->aspectRatio();
@@ -292,8 +292,8 @@ class ImageController extends Controller
 
             $productImage = str_replace('/storage', '', $imageFound->url);
 
-            Storage::delete('/public' . $productImage);
-            Storage::delete('/public' . $productImage.'thumb.'.$imageFound->ext);
+            Storage::delete('/public' . $productImage.'.'.$imageFound->ext);
+            Storage::delete('/public' . $productImage.'_thumb.'.$imageFound->ext);
 
             $image = Image::findOrFail($imageFound->id);
             $image->delete();
