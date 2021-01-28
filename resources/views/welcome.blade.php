@@ -14,10 +14,9 @@
                 <div class="card-body">
                     <div class="row">
                             @foreach ($albums as $album)
-
-                            <?php $imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = "";$albumSize = 0;?>
+                            <?php $imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;?>
                                 <div class="col-12 col-sm-6">
-                            <div class="card bg-dark text-white indexCard">
+                            <div class="card bg-dark text-white indexCard mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                 <p class="cardAlbumTittle">[Album:{{$album->name}}]</p><p class="cardAlbumTittle">[User:{{$album->user->name}}]</p>
                                 </div>
@@ -30,13 +29,10 @@
                                     @foreach ($images as $image)
                                     @if($image->album->id == $album->id)
                                     <?php $albumSize = $albumSize + $image->size;?>
-                                    @if ($imageCountperAlbum == 0)
-                                    <?php $updated_at = $image->updated_at?>
-                                    @endif
-                                    <?php $imageCountperAlbum++ ?>
+                                    <?php $imageCountperAlbum++; ?>
                                     @if($imageLimitperAlbum != 4)
                                     <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
-                                    <?php $imageLimitperAlbum++ ?>
+                                    <?php $imageLimitperAlbum++; ?>
                                     @endif
                                     @endif
                                     @endforeach
@@ -50,11 +46,10 @@
                                     <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
                                 </div>
                             </div>
-                            <br>
                         </div>
-
                             @endforeach
                         </div>
+                        <hr>
                         {{$albums->links("pagination::bootstrap-4")}}
                 {{-- fin card body --}}
                 </div>
@@ -77,38 +72,24 @@
             <!-- Modal body -->
             <div class="modal-body">
 
-                <?php $totalPublicAlbums = 0;$totalPublicImages = 0;$albumSize = 0;$lastImageUploaded = "";?>
-                @foreach ($albums as $album)
-                        @foreach ($images as $image)
-                        @if($image->album->id == $album->id)
-                        @if ($totalPublicImages == 0)
-                        <?php $lastImageUploaded = $image->updated_at?>
-                        @endif
-                        <?php $albumSize = $albumSize + $image->size;?>
-                        <?php $totalPublicImages++ ?>
-                        @endif
-                        @endforeach
-                        <?php $totalPublicAlbums++ ?>
-                @endforeach
-
                     <div class="container mt-3">
                         <p>General statistics collected from album content (private albums will not be counted)</p>
                         <ul class="list-group">
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Public Albums
-                            <span class="badge badge-secondary"><i class="fas fa-book"></i><span class="badge badge-secondary"><?php echo $totalPublicAlbums?></span></span>
+                            <span class="badge badge-secondary"><i class="fas fa-book"></i><span class="badge badge-secondary">{{$stats['totalPublicAlbums']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Public Images
-                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary"><?php echo $totalPublicImages?></span></span>
+                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['totalPublicImages']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Size
-                            <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize)?></span></span>
+                            <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary">{{$stats['totalAlbumSize']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
-                            Last image added
-                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary"><?php echo $lastImageUploaded?></span></span>
+                            Last update at
+                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['lastUpdateAlbum']}}</span></span>
                           </li>
                         </ul>
                       </div>

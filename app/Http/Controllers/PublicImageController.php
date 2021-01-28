@@ -80,11 +80,40 @@ class PublicImageController extends Controller
 
     {
         $album = app('App\Http\Controllers\PublicAlbumController')->searchAlbum($id);
-        $images = Image::where('album_id', $id)->paginate(100);
-        return view('content',['images'=> $images, 'album'=> $album]);
+        $images = Image::where('album_id', $id)->orderBy('id','desc')->paginate(100);
+
+        $imagesFull = Image::where('album_id', $id)->orderBy('id','desc')->get();
+        $imageCountperAlbum = 0;$albumSize = 0;
+        foreach ($imagesFull as $image) {
+           $imageCountperAlbum++;
+           $albumSize = $albumSize + $image->size;
+        }
+        $stats = array();
+        $stats['imageCountperAlbum'] = $imageCountperAlbum;
+        $stats['updated_at'] = $album->updated_at;
+        $stats['albumSize'] = $this->formatSizeUnits($albumSize);
+
+
+        return view('content',compact('images','album','stats'));
+        //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);
 
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function searchImageById($id)
+
+    {
+        $image = Image::where('id',$id)->first();
+        if($image){
+            return $image;
+        }
+
+    }
     /**
      * Display the specified resource.
      *

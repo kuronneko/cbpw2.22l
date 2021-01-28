@@ -20,8 +20,32 @@ class PublicAlbumController extends Controller
     public function index()
     {
         $images = Image::all()->sortByDesc("id");
-        $albums = Album::where('visibility', 1)->paginate(10);
-        return view('welcome',compact('albums','images'));
+        $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
+//fail test of bump albums    $albums = Album::where('visibility', 1)->whereHas('images', 'albums.id', '=', 'images.album_id')->orderBy('images.updated_at', 'desc')->paginate(5);
+//SELECT DISTINCT ALBUMS.name from albums, images WHERE (albums.visibility=1) AND (albums.id=images.album_id) ORDER BY (images.updated_at) DESC
+        $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
+        $totalPublicAlbums = 0;$totalPublicImages = 0;$totalAlbumSize = 0;$lastImageUploaded = "";
+        foreach ($albumsFull as $album) {
+            foreach ($images as $image) {
+                if($image->album->id == $album->id){
+                   $totalAlbumSize = $totalAlbumSize + $image->size;
+                   if($totalPublicAlbums == 0){
+                      $lastUpdateAlbum = $album->updated_at;
+                   }
+                   $totalPublicImages++;
+                }
+            }
+            $totalPublicAlbums++;
+        }
+        //$lastImageUploaded = app('App\Http\Controllers\PublicImageController')->searchImageById($max)->updated_at; //deprecated method using algoritm who obtain the max number id asuming that is the last image uploaded
+        $stats = array(
+            'totalPublicAlbums' => $totalPublicAlbums,
+            'totalPublicImages' => $totalPublicImages,
+            'totalAlbumSize' => app('App\Http\Controllers\PublicImageController')->formatSizeUnits($totalAlbumSize),
+            'lastUpdateAlbum' => $lastUpdateAlbum,
+        );
+
+        return view('welcome',compact('albums','images','stats'));
     }
 
     /**

@@ -45,7 +45,7 @@
                                 <td>{{ $album->created_at}}</td>
                                 @foreach ($images as $image)
                                 @if (($image->album->id == $album->id) && ($album->user->id == auth()->user()->id))
-                                <?php $albumSize = $albumSize + $image->size?>
+                                <?php $albumSize = $albumSize + $image->size;?>
                                 @endif
                                 @endforeach
                                 <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>

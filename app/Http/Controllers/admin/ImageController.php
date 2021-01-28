@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic;
 use SebastianBergmann\Environment\Console;
+use Illuminate\Support\Facades\DB;
 
 class ImageController extends Controller
 {
@@ -158,6 +159,7 @@ class ImageController extends Controller
                 $image->ip = $request->ip();
                 $image->tag = "";
                 $image->save();
+                $albumFound->touch();
 
                }
 
