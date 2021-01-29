@@ -79,11 +79,12 @@ class ImageController extends Controller
     public function createImage($id)
     {
         $userId = auth()->user()->id;
-        $album = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($id);
+        $album = Album::find($id);
+
         if(($album->user->id) == $userId){
             return view('admin.image.create')->with('album',$album); //podria mandar el objeto album completo?????
         }else{
-            return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+            return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
         }
     }
 
@@ -97,13 +98,13 @@ class ImageController extends Controller
 
     {
         $userId = auth()->user()->id;
-        $album = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($id);
+        $album = Album::find($id);
 
     if(($album->user->id) == $userId){
-        $images = Image::where('album_id', $id)->paginate(100);
+        $images = Image::where('album_id', $album->id)->paginate(100);
         return view('admin.image.show',['images'=> $images, 'album'=> $album]);
     }else{
-        return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+        return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
     }
 
     }
@@ -122,24 +123,24 @@ class ImageController extends Controller
         $document = $request->file('file');
         $albumId = $request->input('albumId');
         $userId = auth()->user()->id;
-        $albumFound = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($albumId);
+        $albumFound = Album::find($albumId);
 
         if(($albumFound->user->id == $userId)){
             $newFilename = md5( $document->getClientOriginalName() );  //rename filename
 
-            $albumFolderPath = public_path('/storage/images/'.$albumId);
+            $albumFolderPath = public_path('/storage/images/'.$albumFound->id);
             if (!file_exists($albumFolderPath)) {       //check if folder exist
 
                 mkdir($albumFolderPath, 0755, true);
             }
 
-            $filePath = public_path('/storage/images/'.$albumId.'/'.$newFilename.'.'.$document->getClientOriginalExtension());
+            $filePath = public_path('/storage/images/'.$albumFound->id.'/'.$newFilename.'.'.$document->getClientOriginalExtension());
             if (!file_exists($filePath)) {             //check if physical file exist
 
-                $request->file('file')->storeAs('public/images/'. $albumId, $newFilename.'.'.$document->getClientOriginalExtension()); //upload main file
-                $url = Storage::url('public/images/'.$albumId.'/'. $newFilename); //url without extension
+                $request->file('file')->storeAs('public/images/'. $albumFound->id, $newFilename.'.'.$document->getClientOriginalExtension()); //upload main file
+                $url = Storage::url('public/images/'.$albumFound->id.'/'. $newFilename); //url without extension
 
-                $thumbTarget = public_path('/storage/images/' . $albumId . '/'. $newFilename . '_thumb.'.$document->getClientOriginalExtension()); //generate thumbnail with intervention image library
+                $thumbTarget = public_path('/storage/images/' . $albumFound->id . '/'. $newFilename . '_thumb.'.$document->getClientOriginalExtension()); //generate thumbnail with intervention image library
                 ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200,null, function($constraint)
                 {
                     $constraint->aspectRatio();
@@ -147,11 +148,11 @@ class ImageController extends Controller
             }
 
 
-               if($this->searchImageByUrl($url)){ //check if image exist in DB based by URL parameters
+               if(Image::find($url)){ //check if image exist in DB based by URL parameters old method [[$image = Image::where('url',$url)->first();if($image){return $image;}]]
 
                }else{
                 $image = new Image();
-                $image->album_id = $albumId;
+                $image->album_id = $albumFound->id;
                 $image->url = $url;
                 $image->ext = $document->getClientOriginalExtension();
                 $image->size = $document->getSize();
@@ -166,7 +167,7 @@ class ImageController extends Controller
     //dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
     //dump($imageFiles); //"public/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
         }else{
-            return back()->with('message', 'Album '.$albumId.' not found or cannot be accessed');
+            return back()->with('message', 'Album '.$albumFound->id.' not found or cannot be accessed');
         }
 
 
@@ -209,37 +210,6 @@ class ImageController extends Controller
         return $bytes;
     }
 
-     /**
-     * Display the specified resource.
-     *
-     * @param  string  $url
-     * @return \Illuminate\Http\Response
-     */
-    public function searchImageByUrl($url)
-
-    {
-        $image = Image::where('url',$url)->first();
-        if($image){
-            return $image;
-        }
-
-    }
-
-     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function searchImageById($id)
-
-    {
-        $image = Image::where('id',$id)->first();
-        if($image){
-            return $image;
-        }
-
-    }
 
     /**
      * Display the specified resource.
@@ -287,8 +257,8 @@ class ImageController extends Controller
 
         $albumId = $request->input('albumId');
         $userId = auth()->user()->id;
-        $albumFound = app('App\Http\Controllers\admin\AlbumController')->searchAlbum($albumId);
-        $imageFound = $this->searchImageById($imageId);
+        $albumFound = Album::find($albumId);
+        $imageFound = Image::find($imageId);
 
         if(($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId)){
 
@@ -300,7 +270,7 @@ class ImageController extends Controller
             $image = Image::findOrFail($imageFound->id);
             $image->delete();
 
-            return redirect()->route('admin.image.showImage', $albumId);
+            return redirect()->route('admin.image.showImage', $albumFound->id);
         }else{
             return back()->with('message', 'Image '.$imageFound->id.' not found or cannot be accessed');
         }

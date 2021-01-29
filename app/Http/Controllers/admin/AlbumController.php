@@ -71,19 +71,6 @@ class AlbumController extends Controller
     }
 
 
-        /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function searchAlbum($id)
-
-    {
-        $album = Album::findOrFail($id);
-        return $album;
-    }
-
     /**
      * Display the specified resource.
      *
@@ -106,12 +93,11 @@ class AlbumController extends Controller
     {
 
         $userId = auth()->user()->id;
-        $foundAlbum = $this->searchAlbum($id);
+        $foundAlbum = Album::find($id);
         if(($foundAlbum->user->id) == $userId){
-            $album = Album::findOrFail($id);
-            return view("admin.album.edit", compact("album"));
+            return view("admin.album.edit", compact("foundAlbum"));
         }else{
-            return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+            return back()->with('message', 'Album '.$foundAlbum->id.' not found or cannot be accessed');
         }
     }
 
@@ -131,16 +117,15 @@ class AlbumController extends Controller
         ]);
 
         $userId = auth()->user()->id;
-        $foundAlbum = $this->searchAlbum($id);
+        $foundAlbum = Album::find($id);
         if(($foundAlbum->user->id) == $userId){
-            $album = Album::findOrFail($id);
-            $album->name=$request->input("name");
-            $album->description=$request->input("description");
-            $album->visibility=$request->visibility;
-            $album->update();
+            $foundAlbum->name=$request->input("name");
+            $foundAlbum->description=$request->input("description");
+            $foundAlbum->visibility=$request->visibility;
+            $foundAlbum->update();
             return back()->with('message', 'Album edited successfully');
         }else{
-            return back()->with('message', 'Album '.$id.' not found or cannot be accessed');
+            return back()->with('message', 'Album '.$foundAlbum->id.' not found or cannot be accessed');
         }
 
     }
@@ -156,7 +141,7 @@ class AlbumController extends Controller
     {
        $id = $request->input("albumId");
        if($request->ajax()){
-        $album = $this->searchAlbum($id);
+        $album = Album::find($id);
         return response()->json(['id' => $album->id, 'name' => $album->name]);
        }
 
@@ -173,7 +158,7 @@ class AlbumController extends Controller
 
         $userId = auth()->user()->id;
         $albumId = $request->input("albumId");
-        $foundAlbum = $this->searchAlbum($albumId);
+        $foundAlbum = Album::find($albumId);
 
     if(($foundAlbum->user->id) == $userId){
         $images = Image::where('album_id', $foundAlbum->id);
@@ -189,7 +174,7 @@ class AlbumController extends Controller
 
         return back()->with('message', 'Album deleted successfully');
     }else{
-        return back()->with('message', 'Album '.$albumId.' not found or cannot be accessed');
+        return back()->with('message', 'Album '.$foundAlbum->id.' not found or cannot be accessed');
     }
 
 

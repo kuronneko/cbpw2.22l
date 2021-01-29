@@ -7,7 +7,7 @@
             <div class="card bg-dark text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     @if ($album->visibility == 1)
-                        <p>[Album:{{$album->name}}] Content</p>
+                        <p class="text-danger">Album: {{$album->name}}</p>
                     @else
                         <p>Private Album</p>
                     @endif
@@ -47,6 +47,14 @@
                 <div class="card-body">
                     <div class="container">
                         <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                                Created by
+                                <span class="badge badge-secondary"><i class="fas fa-user"></i><span class="badge badge-secondary">{{$album->user->name}}</span></span>
+                              </li>
+                              <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                                Album name
+                                <span class="badge badge-secondary"><i class="fas fa-book"></i><span class="badge badge-secondary">{{$album->name}}</span></span>
+                              </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Images
                             <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['imageCountperAlbum']}}</span></span>
@@ -57,7 +65,7 @@
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Last update at
-                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['updated_at']}}</span></span>
+                            <span class="badge badge-secondary"><i class="fas fa-redo-alt"></i><span class="badge badge-secondary">{{$stats['updated_at']}}</span></span>
                           </li>
                         </ul>
                       </div>
@@ -65,25 +73,10 @@
             </div>
             <div class="card bg-dark text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <p>Album statistics</p>
+                    <p>Comments</p>
                 </div>
                 <div class="card-body">
-                    <div class="container">
-                        <ul class="list-group">
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
-                            Total Images
-                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['imageCountperAlbum']}}</span></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
-                            Total Size
-                            <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary">{{$stats['albumSize']}}</span></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
-                            Last update at
-                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['updated_at']}}</span></span>
-                          </li>
-                        </ul>
-                      </div>
+
                 </div>
             </div>
         </div>

@@ -95,7 +95,7 @@
 
     <footer>
         <br>
-        <p><a class="text-white" href="" target="_top">{{ config('app.name', 'Laravel') }}</a> image gallery engine create by KuroNeko</p>
+        <p><a class="text-white" href="" target="_top">{{ config('app.name', 'Laravel') }}</a> image gallery engine developed by Kuroneko</p>
         <p>2018-<?php echo date("Y"); ?> ~ <a class="text-white" href="" target="_top">Contact</a></p>
     </footer>
 

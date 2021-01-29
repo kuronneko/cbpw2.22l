@@ -18,7 +18,7 @@
                                 <div class="col-12 col-sm-6">
                             <div class="card bg-dark text-white indexCard mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                <p class="cardAlbumTittle">[Album:{{$album->name}}]</p><p class="cardAlbumTittle">[User:{{$album->user->name}}]</p>
+                                <p class="cardAlbumTittle text-danger">Album: {{$album->name}}</p><p class="cardAlbumTittle text-secondary">By: {{$album->user->name}}</p>
                                 </div>
                                 <div class="card-body">
                                     @if ( session('message') )
@@ -89,7 +89,7 @@
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Last update at
-                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['lastUpdateAlbum']}}</span></span>
+                            <span class="badge badge-secondary"><i class="fas fa-redo-alt"></i><span class="badge badge-secondary">{{$stats['lastUpdateAlbum']}}</span></span>
                           </li>
                         </ul>
                       </div>

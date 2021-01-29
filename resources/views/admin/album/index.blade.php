@@ -51,9 +51,9 @@
                                 <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>
                                 <td>
                                     @if ($album->visibility == 0)
-                                    Private
+                                    <p class="text-warning">Private</p>
                                     @else
-                                    Public
+                                    <p>Public</p>
                                     @endif
                                 </td>
                                 <td>

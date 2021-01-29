@@ -49,18 +49,6 @@ class PublicAlbumController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function searchAlbum($id)
-
-    {
-        $album = Album::findOrFail($id);
-        return $album;
-    }
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

@@ -16,6 +16,7 @@
     filter: alpha(opacity=60);
 }
 
+
 @media only screen and (max-width: 600px) {
     .grid .grid-item{ /* public content images grid center*/
         width: 25%!important;
@@ -27,7 +28,7 @@
 }
 @media (min-width: 576px) {
     .grid .grid-item{ /* public content images grid center*/
-        width: 10%!important;
+        width: 20%!important;
     }
     .grid>a img{ /* public images/div thumbs resize */
         width: 100%;
