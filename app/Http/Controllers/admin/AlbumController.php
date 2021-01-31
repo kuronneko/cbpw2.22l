@@ -93,11 +93,11 @@ class AlbumController extends Controller
     {
 
         $userId = auth()->user()->id;
-        $foundAlbum = Album::find($id);
-        if(($foundAlbum->user->id) == $userId){
-            return view("admin.album.edit", compact("foundAlbum"));
+        $album = Album::find($id);
+        if(($album->user->id) == $userId){
+            return view("admin.album.edit", compact("album"));
         }else{
-            return back()->with('message', 'Album '.$foundAlbum->id.' not found or cannot be accessed');
+            return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
         }
     }
 

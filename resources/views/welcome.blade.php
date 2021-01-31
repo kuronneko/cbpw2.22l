@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <div class="row">
                             @foreach ($albums as $album)
-                            <?php $imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;?>
+                            <?php $imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;?>
                                 <div class="col-12 col-sm-6">
                             <div class="card bg-dark text-white indexCard mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -26,6 +26,11 @@
                                   @endif
                                     <p class="cardAlbumDescription">Description: {{$album->description}}</p>
                                 <div class="photos">
+                                    @foreach ($comments as $comment)
+                                        @if ($comment->album->id == $album->id)
+                                        <?php $commentCountperAlbum++; ?>
+                                        @endif
+                                    @endforeach
                                     @foreach ($images as $image)
                                     @if($image->album->id == $album->id)
                                     <?php $albumSize = $albumSize + $image->size;?>
@@ -40,9 +45,10 @@
                                 {{-- fin card body --}}
                                 </div>
                                 <div class="card-footer">
-                                    <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary"><?php echo $imageCountperAlbum?></span></span>
-                                    <span class="badge badge-secondary"><i class="fas fa-redo-alt"></i><span class="badge badge-secondary"><?php echo $updated_at?></span></span>
-                                    <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize)?></span></span>
+                                    <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary"><?php echo $imageCountperAlbum;?></span></span>
+                                    <span class="badge badge-secondary"><i class="fas fa-comments"></i><span class="badge badge-secondary"><?php echo $commentCountperAlbum;?></span></span>
+                                    <span class="badge badge-secondary"><i class="fas fa-redo-alt"></i><span class="badge badge-secondary"><?php echo $updated_at;?></span></span>
+                                    <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
                                     <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
                                 </div>
                             </div>
@@ -82,6 +88,10 @@
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Public Images
                             <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['totalPublicImages']}}</span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            Total Public Comments
+                            <span class="badge badge-secondary"><i class="fas fa-comments"></i></i><span class="badge badge-secondary">{{$stats['totalPublicComments']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Size

@@ -28,6 +28,7 @@ Route::get('admin/album/{id}/createImage', 'admin\ImageController@createImage')-
 Route::get('admin/album/{id}/showImage', 'admin\ImageController@showImage')->name('admin.image.showImage');
 Route::post('admin/album/fetchAlbum', 'admin\AlbumController@fetchAlbum')->name('admin.album.fetchAlbum');
 
+Route::resource("comment", "PublicCommentController");
 Route::resource("/", "PublicAlbumController");
 Route::get('album/{id}/content', 'PublicImageController@showContent')->name('image.content');
 

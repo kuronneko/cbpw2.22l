@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -20,32 +21,36 @@ class PublicAlbumController extends Controller
     public function index()
     {
         $images = Image::all()->sortByDesc("id");
+        $comments = Comment::all()->sortByDesc("id");
         $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
 //fail test of bump albums    $albums = Album::where('visibility', 1)->whereHas('images', 'albums.id', '=', 'images.album_id')->orderBy('images.updated_at', 'desc')->paginate(5);
 //SELECT DISTINCT ALBUMS.name from albums, images WHERE (albums.visibility=1) AND (albums.id=images.album_id) ORDER BY (images.updated_at) DESC
         $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
-        $totalPublicAlbums = 0;$totalPublicImages = 0;$totalAlbumSize = 0;$lastImageUploaded = "";
+
+        $totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;
         foreach ($albumsFull as $album) {
+            foreach ($comments as $comment) {
+                if($comment->album->id == $album->id){
+                    $totalPublicComments++;
+                }
+           }
             foreach ($images as $image) {
                 if($image->album->id == $album->id){
                    $totalAlbumSize = $totalAlbumSize + $image->size;
-                   if($totalPublicAlbums == 0){
-                      $lastUpdateAlbum = $album->updated_at;
-                   }
                    $totalPublicImages++;
                 }
             }
-            $totalPublicAlbums++;
         }
         //$lastImageUploaded = app('App\Http\Controllers\PublicImageController')->searchImageById($max)->updated_at; //deprecated method using algoritm who obtain the max number id asuming that is the last image uploaded
         $stats = array(
-            'totalPublicAlbums' => $totalPublicAlbums,
+            'totalPublicAlbums' => count($albumsFull),
             'totalPublicImages' => $totalPublicImages,
+            'totalPublicComments' => $totalPublicComments,
             'totalAlbumSize' => app('App\Http\Controllers\PublicImageController')->formatSizeUnits($totalAlbumSize),
-            'lastUpdateAlbum' => $lastUpdateAlbum,
+            'lastUpdateAlbum' => $albumsFull->first()->updated_at,
         );
 
-        return view('welcome',compact('albums','images','stats'));
+        return view('welcome',compact('albums','images','stats','comments'));
     }
 
     /**
