@@ -26,7 +26,7 @@ class AlbumController extends Controller
     public function index()
     {
         $userId = auth()->user()->id;
-        $albums = Album::where('user_id', $userId)->paginate(100);
+        $albums = Album::where('user_id', $userId)->orderBy('updated_at','desc')->paginate(100);
         $images = Image::all();
         //$imageArray = DB::select("SELECT images.id, images.album_id, images.url, images.ext, images.size, images.basename, images.ip, images.tag, images.created_at FROM images, albums, users WHERE (images.album_id=albums.id) AND (albums.user_id=users.id) AND (albums.user_id='$userId')");
         //$images = collect($imageArray); //this object is similar but no real image object, they have similar parameters than sql query and you cant get the relacionship objects like (album, user)

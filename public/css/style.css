@@ -111,4 +111,16 @@ body{
     background-color: #333!important;
 }
 
+.commentBody{
+    padding-top: 10px!important;
+    padding-bottom: 10px!important;
+}
+
+.commentHeader{
+    font-size: 12px;
+}
+.commentHeader> p{
+    margin-bottom: 0px;
+}
+
 

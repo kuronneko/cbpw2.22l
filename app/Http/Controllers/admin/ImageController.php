@@ -101,7 +101,7 @@ class ImageController extends Controller
         $album = Album::find($id);
 
     if(($album->user->id) == $userId){
-        $images = Image::where('album_id', $album->id)->paginate(100);
+        $images = Image::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
         return view('admin.image.show',['images'=> $images, 'album'=> $album]);
     }else{
         return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');

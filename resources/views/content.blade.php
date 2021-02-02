@@ -61,7 +61,7 @@
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Comments
-                            <span class="badge badge-secondary"><i class="fas fa-comments"></i></i><span class="badge badge-secondary">{{$stats['commentCountperAlbum']}}</span></span>
+                            <span class="badge badge-secondary"><i class="fas fa-comments"></i></i><span class="badge badge-secondary" id="commentCountperAlbum">{{$stats['commentCountperAlbum']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Size
@@ -84,14 +84,29 @@
                 </div>
                 <div class="card-body">
                     <div class="alert alert-success alert-dismissible fade show" role="alert" id="doneMsg" style="display: none;">
-                        Name and Text required
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                     </div>
-                    @foreach ($comments as $comment)
-                        <p>Name: [{{$comment->name}}] >> Comment: [{{$comment->text}}]</p>
-                    @endforeach
+                    <div id="commentBox">
+                        @foreach ($comments as $comment)
+                        <div class="card bg-dark text-white mb-2 bg-comments">
+                        <div class="card-header d-flex justify-content-between align-items-center commentHeader">
+                              <p class='text-danger'>{{$comment->name}}&nbsp;&nbsp;{{$comment->created_at}}&nbsp;&nbsp;No.{{$comment->id}}</p>
+
+                        </div>
+                        <div class="card-body commentBody">
+                            <p>{{$comment->text}}</p>
+                        </div>
+                    </div>
+                        @endforeach
+                    </div>
+               </div>
+            <div class="card-footer">
+                <div>
+                    <button type="button" class="btn btn-secondary btn-sm btn-block getajaxComments">Load more</button>
+                    <input type="hidden" id="row" value="">
+                    <input type="hidden" id="all" value="{{$stats['commentCountperAlbum']}}">
                 </div>
             </div>
         </div>
@@ -120,10 +135,17 @@
           <form method="POST" id="commentPost" name="commentPost" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
+            @if (Auth::check())
             <div class="form-group">
-                <label for="usr">Name:</label>
-                <input type="text" name="name" id="name" placeholder="Name" value="{{ old('name') }}" class="form-control mb-3"/>
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" maxlength="20" value="{{auth()->user()->name}}" class="form-control mb-3" readonly/>
             </div>
+            @else
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" placeholder="Name" maxlength="20" value="{{ old('name') }}" class="form-control mb-3"/>
+            </div>
+            @endif
             <div class="form-group">
                 <label for="comment">Comment:</label>
                 <textarea class="form-control" rows="3" id="text" name="text" maxlength="150" placeholder="Maximum length: 50 characters" value="{{ old('text') }}"></textarea>
@@ -170,6 +192,8 @@ $grid.masonry('layout');
   }else{
     $("#insert").attr("disabled", true);
    var data = new FormData(this);
+   var albumId = ($('#albumId').val());
+   var permaAll = Number($('#permaAll').val());
    $.ajax({
     headers:{
     'X-CSRF-TOKEN' : "{{csrf_token()}}"
@@ -192,9 +216,10 @@ $grid.masonry('layout');
      $("#insert").attr("disabled", false);
      $('#doneMsg').text(data.message);
      $('#doneMsg').show("slow");
-
+     reloadComments(albumId);
      //$("#row").val(0);
-     //getTotalComments();
+     getTotalComments(albumId);
+
      setTimeout(function() {
     $('#doneMsg').hide("slow");
   }, 5000);
@@ -206,4 +231,91 @@ $grid.masonry('layout');
  });
 });
 </script>
+<script>
+    function reloadComments(albumId){
+            $.ajax({
+                headers:{
+    'X-CSRF-TOKEN' : "{{csrf_token()}}"
+},
+                url:"{{ route('comment.reloadComments') }}",
+                method: 'POST',
+                data: {albumId:albumId},
+                dataType:"json",
+                success: function(data) {
+                $('#commentBox').html(data.output);
+                }
+            });
+          }
+    </script>
+    <script>
+            function getTotalComments(albumId){
+        $.ajax({
+            headers:{
+    'X-CSRF-TOKEN' : "{{csrf_token()}}"
+},
+url:"{{ route('comment.getTotalComments') }}",
+            method: 'POST',
+            data: {albumId:albumId},
+            success: function(data) {
+            $('#all').val(data.getTotalComments);
+            $('#commentCountperAlbum').text(data.getTotalComments);
+            }
+        });
+      }
+    </script>
+    <script>
+        $(document).ready(function(){
+    $('.getajaxComments').click(function(){
+        var row = Number($('#row').val());
+        var allcount = Number($('#all').val());
+        var albumId = ($('#albumId').val());
+        var rowperpage = 3;
+        row = row + rowperpage;
+        if(row <= allcount){
+            $("#row").val(row);
+            $.ajax({
+                headers:{
+    'X-CSRF-TOKEN' : "{{csrf_token()}}"
+},
+                url:"{{ route('comment.commentAjaxLoad') }}",
+                type: 'post',
+                data: {row,albumId:row,albumId},
+                beforeSend:function(){
+                    $(".getajaxComments").text("Loading...");
+                },
+                success: function(response){
+                    // Setting little delay while displaying new content
+                    setTimeout(function() {
+                        // appending posts after last post with class="post"
+                        $(".bg-comments:last").after(response.output).show().fadeIn("slow");
+                        var rowno = row + rowperpage;
+                        // checking row value is greater than allcount or not
+                        if(rowno > allcount){
+                            // Change the text and background
+                            $('.getajaxComments').text("Hide");
+                            //$('.getajaxComments').css("background","darkorchid");
+                        }else{
+                            $(".getajaxComments").text("Load more comments");
+                        }
+                    }, 500);
+                }
+            });
+        }else{
+            $('.getajaxComments').text("Loading...");
+            // Setting little delay while removing contents
+            setTimeout(function() {
+                // When row is greater than allcount then remove all class='post' element after 3 element
+                //$('.bg-comments:nth-child(3)').nextAll('.bg-comments').remove();
+                reloadComments(albumId);
+                // Reset the value of row
+                $("#row").val(0);
+                // Change the text and background
+                $('.getajaxComments').text("Load more comments");
+                //$('.getajaxComments').css("background","#15a9ce");
+            }, 500);
+        }
+    });
+});
+
+    </script>
 @endsection

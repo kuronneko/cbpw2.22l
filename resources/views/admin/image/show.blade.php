@@ -29,7 +29,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($images->reverse() as $image)
+                            @foreach ($images as $image)
                             <tr>
                                 <th scope="row">{{ $image->id }}</th>
                                 <td>

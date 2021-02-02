@@ -31,6 +31,9 @@ Route::post('admin/album/fetchAlbum', 'admin\AlbumController@fetchAlbum')->name(
 Route::resource("comment", "PublicCommentController");
 Route::resource("/", "PublicAlbumController");
 Route::get('album/{id}/content', 'PublicImageController@showContent')->name('image.content');
+Route::post('content/reloadComments', 'PublicCommentController@reloadComments')->name('comment.reloadComments');
+Route::post('content/commentAjaxLoad', 'PublicCommentController@commentAjaxLoad')->name('comment.commentAjaxLoad');
+Route::post('content/getTotalComments', 'PublicCommentController@getTotalComments')->name('comment.getTotalComments');
 
 Auth::routes();
 
