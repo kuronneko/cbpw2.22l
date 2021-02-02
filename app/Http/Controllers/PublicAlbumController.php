@@ -27,7 +27,7 @@ class PublicAlbumController extends Controller
 //SELECT DISTINCT ALBUMS.name from albums, images WHERE (albums.visibility=1) AND (albums.id=images.album_id) ORDER BY (images.updated_at) DESC
         $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
 
-        $totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;
+        $totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;$lastUpdateAlbum = 0;
         foreach ($albumsFull as $album) {
             foreach ($comments as $comment) {
                 if($comment->album->id == $album->id){
@@ -42,12 +42,13 @@ class PublicAlbumController extends Controller
             }
         }
         //$lastImageUploaded = app('App\Http\Controllers\PublicImageController')->searchImageById($max)->updated_at; //deprecated method using algoritm who obtain the max number id asuming that is the last image uploaded
+        if(count($albumsFull) != 0){$lastUpdateAlbum = $albumsFull->first()->updated_at;}
         $stats = array(
             'totalPublicAlbums' => count($albumsFull),
             'totalPublicImages' => $totalPublicImages,
             'totalPublicComments' => $totalPublicComments,
             'totalAlbumSize' => app('App\Http\Controllers\PublicImageController')->formatSizeUnits($totalAlbumSize),
-            'lastUpdateAlbum' => $albumsFull->first()->updated_at,
+            'lastUpdateAlbum' => $lastUpdateAlbum,
         );
 
         return view('welcome',compact('albums','images','stats','comments'));
