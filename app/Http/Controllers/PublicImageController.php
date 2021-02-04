@@ -83,17 +83,23 @@ class PublicImageController extends Controller
         $images = Image::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
 
         $imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
-        $albumSize = 0;//$imageCountperAlbum = 0;
+        $totalPublicVideos = 0;$totalPublicImages = 0;$albumSize = 0;//$imageCountperAlbum = 0;
         foreach ($imagesFull as $image) {
            //$imageCountperAlbum++;
            $albumSize = $albumSize + $image->size;
+           if($image->ext == "mp4" || $image->ext == "webm"){
+            $totalPublicVideos++;
+           }else{
+            $totalPublicImages++;
+           }
         }
 
         $commentsType = app('App\Http\Controllers\PublicCommentController')->showComment($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
         $comments = $commentsType['comment'];
 
         $stats = array();
-        $stats['imageCountperAlbum'] = count($imagesFull);
+        $stats['imageCountperAlbum'] = $totalPublicImages;
+        $stats['videoCountperAlbum'] = $totalPublicVideos;
         $stats['updated_at'] = $album->updated_at;
         $stats['albumSize'] = $this->formatSizeUnits($albumSize);
         $stats['commentCountperAlbum'] = count($commentsType['commentFull']);

@@ -28,8 +28,8 @@
                                         <i class="fas fa-cloud-upload-alt uploadIcon"></i>
                                     </div>
                                     <h2>Drag your images here</h2>
-                                    <span class="note">Allow files: JPG, PNG, JPEG, MP4, WEBM</span>
-                                    <span class="note">Max size: 100mb</span>
+                                    <span class="note">Allow files: JPG, PNG, JPEG, GIF, MP4, WEBM</span>
+                                    <span class="note">-> Max size: 100MB</span>
                                 </div>
                             </form>
                         </div>
@@ -47,7 +47,8 @@
             'X-CSRF-TOKEN' : "{{csrf_token()}}"
         },
         //dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
-        acceptedFiles: "image/*",
+        acceptedFiles: ".png, .jpeg, .jpg, .gif, .mp4, .webm",
+        //acceptedFiles: "image/*",
         maxFilesize: 100,
         maxFiles: 100,
         //addRemoveLinks: true,

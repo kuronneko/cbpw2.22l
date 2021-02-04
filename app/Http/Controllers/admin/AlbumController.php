@@ -169,8 +169,7 @@ class AlbumController extends Controller
             Storage::deleteDirectory($folderPath);
         }
 
-        $album = Album::findOrFail($foundAlbum->id);
-        $album->delete();
+        $foundAlbum->delete();
 
         return back()->with('message', 'Album deleted successfully');
     }else{

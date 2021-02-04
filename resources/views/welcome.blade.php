@@ -14,11 +14,11 @@
                 <div class="card-body">
                     <div class="row">
                             @foreach ($albums as $album)
-                            <?php $imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;?>
+                            <?php $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;?>
                                 <div class="col-12 col-sm-6">
                             <div class="card bg-dark text-white indexCard mb-4">
                                 <div class="card-header d-flex justify-content-between align-items-center">
-                                <p class="cardAlbumTittle text-danger">Album: {{$album->name}}</p><p class="cardAlbumTittle text-secondary">By: {{$album->user->name}}</p>
+                                <strong><p class="cardAlbumTittle text-danger">Album: {{$album->name}}</p></strong><p class="cardAlbumTittle text-secondary">By: {{$album->user->name}}</p>
                                 </div>
                                 <div class="card-body">
                                     @if ( session('message') )
@@ -34,10 +34,18 @@
                                     @foreach ($images as $image)
                                     @if($image->album->id == $album->id)
                                     <?php $albumSize = $albumSize + $image->size;?>
+                                    @if ($image->ext == "mp4" || $image->ext == "webm")
+                                    <?php $videoCountperAlbum++; ?>
+                                    @else
                                     <?php $imageCountperAlbum++; ?>
+                                    @endif
                                     @if($imageLimitperAlbum != 4)
-                                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
                                     <?php $imageLimitperAlbum++; ?>
+                                    @if ($image->ext == "mp4" || $image->ext == "webm")
+                                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
+                                    @else
+                                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
+                                    @endif
                                     @endif
                                     @endif
                                     @endforeach
@@ -46,6 +54,7 @@
                                 </div>
                                 <div class="card-footer">
                                     <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary"><?php echo $imageCountperAlbum;?></span></span>
+                                    <span class="badge badge-secondary"><i class="fas fa-film"></i><span class="badge badge-secondary"><?php echo $videoCountperAlbum;?></span></span>
                                     <span class="badge badge-secondary"><i class="fas fa-comments"></i><span class="badge badge-secondary"><?php echo $commentCountperAlbum;?></span></span>
                                     <span class="badge badge-secondary"><i class="fas fa-redo-alt"></i><span class="badge badge-secondary"><?php echo $updated_at;?></span></span>
                                     <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
@@ -88,6 +97,10 @@
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Public Images
                             <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['totalPublicImages']}}</span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            Total Public Videos
+                            <span class="badge badge-secondary"><i class="fas fa-film"></i><span class="badge badge-secondary">{{$stats['totalPublicVideos']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Public Comments

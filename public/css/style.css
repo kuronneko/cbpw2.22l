@@ -16,6 +16,10 @@
     filter: alpha(opacity=60);
 }
 
+.grid{
+    display: none;  /*hidde images grid before loaded with masonry script*/
+}
+
 
 @media only screen and (max-width: 600px) {
     .grid .grid-item{ /* public content images grid center*/

@@ -6,7 +6,7 @@
         <div class="col-md-10">
             <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>[Album:{{$album->name}}] Image List </span>
+                    <span>[Album:{{$album->name}}] Comments List </span>
                     <a href="{{route('admin.album.index')}}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                 <div class="card-body">
@@ -19,46 +19,34 @@
                             <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Options</th>
-                            <th scope="col">URL</th>
-                            <th scope="col">Ext</th>
-                            <th scope="col">Size</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Text</th>
                             <th scope="col">IP</th>
-                            <th scope="col">Tags</th>
                             <th scope="col">Created</th>
-                            <th scope="col">Basename</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($images as $image)
+                            @foreach ($comments as $comment)
                             <tr>
-                                <th scope="row">{{ $image->id }}</th>
+                                <th scope="row">{{ $comment->id }}</th>
                                 <td>
-                                    <form action="{{route('admin.image.destroy', $image->id)}}" method="POST">
+                                    <form action="{{route('admin.comment.destroy', $comment->id)}}" method="POST">
                                         @method('DELETE')
                                         @csrf
                                         <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
                                         <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
                                     </form>
                                 </td>
-                                <td>
-                                    @if ($image->ext == "mp4" || $image->ext == "webm")
-                                    <a data-fancybox="images" class="" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}"><img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" class="imgThumb" data-was-processed='true'></a>
-                                    @else
-                                    <a data-fancybox="images" class="" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}"><img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumb" data-was-processed='true'></a>
-                                    @endif
-                                </td>
-                                <td>{{ $image->ext }}</td>
-                                <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($image->size) }}</td>
-                                <td>{{ $image->ip }}</td>
-                                <td>{{ $image->tag }}</td>
-                                <td>{{ $image->created_at }}</td>
-                                <td>{{ $image->basename }}</td>
+                                <td>{{ $comment->name }}</td>
+                                <td>{{ $comment->text }}</td>
+                                <td>{{ $comment->ip }}</td>
+                                <td>{{ $comment->created_at }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-                   {{$images->links("pagination::bootstrap-4")}}
+                   {{$comments->links("pagination::bootstrap-4")}}
                 {{-- fin card body --}}
                 </div>
             </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
+use App\Models\Album;
+use App\Models\Comment;
 
 use Illuminate\Http\Request;
 
@@ -36,6 +38,28 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showComment($id)
+
+    {
+        $userId = auth()->user()->id;
+        $album = Album::find($id);
+
+    if(($album->user->id) == $userId){
+        $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
+        return view('admin.comment.show',['comments'=> $comments, 'album'=> $album]);
+    }else{
+        return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
+    }
+
     }
 
     /**
@@ -78,8 +102,20 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $commentId)
     {
-        //
+        $albumId = $request->input('albumId');
+        $userId = auth()->user()->id;
+        $albumFound = Album::find($albumId);
+        $commentFound = Comment::find($commentId);
+
+        if(($commentFound->album->id == $albumFound->id && $albumFound->user->id == $userId)){
+
+            $commentFound->delete();
+
+            return redirect()->route('admin.comment.showComment', $albumFound->id);
+        }else{
+            return back()->with('message', 'Comment '.$commentFound->id.' not found or cannot be accessed');
+        }
     }
 }

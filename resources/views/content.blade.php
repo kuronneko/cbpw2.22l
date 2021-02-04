@@ -7,19 +7,26 @@
             <div class="card bg-dark text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     @if ($album->visibility == 1)
-                        <p class="text-danger">Album: {{$album->name}}</p>
+                        <strong><p class="text-danger">Album: {{$album->name}}</p></strong>
                     @else
-                        <p>Private Album</p>
+                        <strong><p>Private Album</p></strong>
                     @endif
                     <a href="{{route('index')}}" class="btn btn-secondary btn-sm">
                         <i class="fas fa-home"></i>
                     </a>
                 </div>
                 <div class="card-body">
+                    <div class="text-center">
+                        <img src="{{'/cbpw2.22l/public/storage/images/loading.gif'}}" class="img-responsive loadingGif">
+                    </div>
                     @if ($album->visibility == 1)
                     <div class="grid">
                         @foreach ($images as $image)
+                        @if ($image->ext == "mp4" || $image->ext == "webm")
+                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}"><img class="grid-item" src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'></a>
+                        @else
                         <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}"><img class="grid-item" src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" data-was-processed='true'></a>
+                        @endif
                         @endforeach
                     </div>
                         @else
@@ -58,6 +65,10 @@
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Images
                             <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['imageCountperAlbum']}}</span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            Total Videos
+                            <span class="badge badge-secondary"><i class="fas fa-film"></i><span class="badge badge-secondary">{{$stats['videoCountperAlbum']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
                             Total Comments
@@ -169,13 +180,15 @@
 var $grid = $('.grid').masonry({
 itemSelector: '.grid-item',
 // use element for option
-//  columnWidth: '.masonry',
+//columnWidth: 5,
 FitWidth: true,
 percentPosition: true,
 transitionDuration: 0
 });
 // layout Masonry after each image loads
 $grid.imagesLoaded().progress( function() {
+  $(".loadingGif").hide();
+  $(".grid").show(); //grid is hidden by css
 $grid.masonry('layout');
 });
 });

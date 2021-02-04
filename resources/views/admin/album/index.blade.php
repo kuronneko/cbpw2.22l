@@ -35,6 +35,7 @@
                                 <td>
                                     <div class="btn-group">
                                     <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
+                                    <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-secondary" role="button" type="button"><i class="fas fa-comments"></i></i></a>
                                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
                                     </div>
                                 </td>
