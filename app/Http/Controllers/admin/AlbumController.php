@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -163,6 +164,8 @@ class AlbumController extends Controller
     if(($foundAlbum->user->id) == $userId){
         $images = Image::where('album_id', $foundAlbum->id);
         $images->delete();
+        $comments = Comment::where('album_id', $foundAlbum->id);
+        $comments->delete();
 
         $folderPath = 'public/images/' . $foundAlbum->id;
         if (Storage::exists($folderPath)) {  //check if folder exist

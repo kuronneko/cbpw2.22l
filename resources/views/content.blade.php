@@ -185,6 +185,11 @@ FitWidth: true,
 percentPosition: true,
 transitionDuration: 0
 });
+var gridItemCount = $('.grid-item').length;
+if(gridItemCount == 0){
+  $(".loadingGif").hide();
+  $(".grid").show(); //grid is hidden by css
+}
 // layout Masonry after each image loads
 $grid.imagesLoaded().progress( function() {
   $(".loadingGif").hide();
