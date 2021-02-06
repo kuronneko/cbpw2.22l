@@ -116,7 +116,7 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:mp4,webm,gif,png,jpg,jpeg|max:100000'
+            'file' => 'required|mimes:mp4,webm,gif,png,jpg,jpeg|max:1000000'
         ]);
 
         $document = $request->file('file');

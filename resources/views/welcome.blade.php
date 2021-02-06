@@ -7,12 +7,21 @@
             <div class="card bg-dark text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <p>Public Album List</p>
-                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#stats">
-                        <i class="fas fa-chart-bar"></i>
-                    </button>
+                    <div class="group-buttons">
+                        <a href="{{route('index')}}" class="btn btn-secondary btn-sm">
+                            <i class="fas fa-sync"></i>
+                        </a>
+                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#stats">
+                            <i class="fas fa-chart-bar"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                        <div class="form-group">
+                          <input type="text" name="search" id="search" class="form-control bg-dark text-white searchBarIndex" placeholder="Search albums by name" />
+                        </div>
+                    <div class="row" id="albumsBox">
+
                             @foreach ($albums as $album)
                             <?php $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;?>
                                 <div class="col-12 col-sm-6">
@@ -25,6 +34,9 @@
                                     <div class="alert alert-success">{{ session('message') }}</div>
                                   @endif
                                     <p class="cardAlbumDescription">Description: {{$album->description}}</p>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger progress-bar-striped" style="width:50%"></div>
+                                      </div>
                                 <div class="photos">
                                     @foreach ($comments as $comment)
                                         @if ($comment->album->id == $album->id)
@@ -63,9 +75,12 @@
                             </div>
                         </div>
                             @endforeach
-                        </div>
+
+                    </div>
                         <hr>
+                        <div id="albumsPagination">
                         {{$albums->links("pagination::bootstrap-4")}}
+                        </div>
                 {{-- fin card body --}}
                 </div>
             </div>
@@ -126,6 +141,30 @@
           </div>
         </div>
       </div>
+      <script>
+        $(document).ready(function(){
+         $(document).on('keyup', '#search', function(){
+          var query = $(this).val();
+          fetch_customer_data(query);
+         });
+         function fetch_customer_data(query = ''){
+          $.ajax({
+           url:"{{ route('album.getAjaxAlbums') }}",
+           method:'GET',
+           data:{query:query},
+           dataType:'json',
+           success:function(data){
+               if(data.paginationType == 0){
+                $("#albumsPagination").hide();
+                $('#albumsBox').html(data.output);
+               }else{
+                //location.reload();
+               }
+           }
+          })
+         }
+        });
+        </script>
       <script type="text/javascript">
        $(document).ready(function() {
            if ($.cookie('pop') == null) {
@@ -145,7 +184,12 @@
         transitionDuration: 0
         });
         // layout Masonry after each image loads
-        $grid.imagesLoaded().progress( function() {
+        //$grid.imagesLoaded().progress( function() {
+        $(".progress-bar").css({"width": "100%"});
+
+        $grid.imagesLoaded( function() {
+        $(".progress").hide();
+        $(".photos").show();
         $grid.masonry('layout');
         });
         });

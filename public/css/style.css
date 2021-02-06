@@ -20,8 +20,11 @@
     display: none;  /*hidde images grid before loaded with masonry script*/
 }
 
+.photos{
+    display: none;  /*hidde images grid before loaded with masonry script*/
+}
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) { /* responsive size*/
     .grid .grid-item{ /* public content images grid center*/
         width: 25%!important;
     }
@@ -30,7 +33,7 @@
     }
 
 }
-@media (min-width: 576px) {
+@media (min-width: 576px) {  /* desktop size */
     .grid .grid-item{ /* public content images grid center*/
         width: 20%!important;
     }
@@ -126,5 +129,22 @@ body{
 .commentHeader> p{
     margin-bottom: 0px;
 }
+
+@media only screen and (max-width: 600px) { /*responsive size*/
+    .girl404{
+        width: 50%!important;
+    }
+
+}
+@media (min-width: 576px) { /*desktop size*/
+    .girl404{
+        width: 20%!important;
+    }
+}
+
+.searchBarIndex{
+    border-color: #2d3338!important;
+}
+
 
 

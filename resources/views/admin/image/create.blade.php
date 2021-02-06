@@ -49,8 +49,9 @@
         //dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
         acceptedFiles: ".png, .jpeg, .jpg, .gif, .mp4, .webm",
         //acceptedFiles: "image/*",
-        maxFilesize: 100,
+        maxFilesize: 1000,
         maxFiles: 100,
+        timeout: 0,
         //addRemoveLinks: true,
         init: function (){
     this.on("error", function (file){

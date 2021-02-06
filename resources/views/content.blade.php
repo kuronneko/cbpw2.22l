@@ -191,7 +191,8 @@ if(gridItemCount == 0){
   $(".grid").show(); //grid is hidden by css
 }
 // layout Masonry after each image loads
-$grid.imagesLoaded().progress( function() {
+//$grid.imagesLoaded().progress( function() {
+$grid.imagesLoaded( function() {
   $(".loadingGif").hide();
   $(".grid").show(); //grid is hidden by css
 $grid.masonry('layout');

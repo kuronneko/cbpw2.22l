@@ -38,6 +38,11 @@ class PublicCommentController extends Controller
     public function store(Request $request)
     {
 
+        $request->validate([
+            'name' => 'required',
+            'text' => 'required'
+        ]);
+
         $message = "";
         if($request->ajax()){
             $album = Album::find($request->albumId);

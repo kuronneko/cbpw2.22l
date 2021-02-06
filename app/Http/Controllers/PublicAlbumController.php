@@ -20,13 +20,23 @@ class PublicAlbumController extends Controller
      */
     public function index()
     {
+        //fail test of bump albums    $albums = Album::where('visibility', 1)->whereHas('images', 'albums.id', '=', 'images.album_id')->orderBy('images.updated_at', 'desc')->paginate(5);
+//SELECT DISTINCT ALBUMS.name from albums, images WHERE (albums.visibility=1) AND (albums.id=images.album_id) ORDER BY (images.updated_at) DESC
         $images = Image::all()->sortByDesc("id");
         $comments = Comment::all()->sortByDesc("id");
         $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
-//fail test of bump albums    $albums = Album::where('visibility', 1)->whereHas('images', 'albums.id', '=', 'images.album_id')->orderBy('images.updated_at', 'desc')->paginate(5);
-//SELECT DISTINCT ALBUMS.name from albums, images WHERE (albums.visibility=1) AND (albums.id=images.album_id) ORDER BY (images.updated_at) DESC
         $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
+        $stats = $this->getCompleteStatistics($images, $albumsFull, $comments);
+        return view('welcome',compact('albums','images','stats','comments'));
+    }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCompleteStatistics($images, $albumsFull, $comments) //needs all images desc, with visibility filtered albums no paginate, and all comments desc
+    {
         $totalPublicVideos = 0;$totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;$lastUpdateAlbum = 0;
         foreach ($albumsFull as $album) {
             foreach ($comments as $comment) {
@@ -56,7 +66,97 @@ class PublicAlbumController extends Controller
             'lastUpdateAlbum' => $lastUpdateAlbum,
         );
 
-        return view('welcome',compact('albums','images','stats','comments'));
+        return $stats;
+    }
+
+    function getAjaxAlbums(Request $request)
+    {
+
+     if($request->ajax()){
+
+      $output = "";
+      $paginationType = 0;
+      $query = $request->get('query');
+      if($query != "") {
+       $albums = Album::where('visibility', 1)->where('name', 'like', '%'.$query.'%')->orderBy('updated_at','desc')->get();
+       $images = Image::all()->sortByDesc("id");
+       $comments = Comment::all()->sortByDesc("id");
+       $paginationType = 0;
+      }else{
+       $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
+       $images = Image::all()->sortByDesc("id");
+       $comments = Comment::all()->sortByDesc("id");
+       $paginationType = 1;
+      }
+
+      if(count($albums) > 0){
+        //$output .= "<div class='row'>";
+        foreach ($albums as $album) {
+            # code...
+        $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;
+        $output .= "<div class='col-12 col-sm-6'>";
+        $output .= "<div class='card bg-dark text-white indexCard mb-4'>";
+        $output .= "<div class='card-header d-flex justify-content-between align-items-center'>";
+        $output .= "<strong><p class='cardAlbumTittle text-danger'>Album: ".$album->name."</p></strong><p class='cardAlbumTittle text-secondary'>By: ".$album->user->name."</p>";
+        $output .= "</div>";
+        $output .= "<div class='card-body'>";
+            if(session('message')){
+                $output .= "<div class='alert alert-success'>{{ session('message') }}</div>";
+            }
+            $output .= "<p class='cardAlbumDescription'>Description: ".$album->description."</p>";
+            $output .= "<div class='photos' style='display: block'>";
+            foreach ($comments as $comment) {
+                # code...
+                if ($comment->album->id == $album->id){
+                    $commentCountperAlbum++;
+                }
+            }
+            foreach ($images as $image) {
+                if($image->album->id == $album->id){
+                    $albumSize = $albumSize + $image->size;
+                    if ($image->ext == "mp4" || $image->ext == "webm"){
+                        $videoCountperAlbum++;
+                    }else{
+                        $imageCountperAlbum++;
+                    }
+                    if($imageLimitperAlbum != 4){
+                        $imageLimitperAlbum++;
+                        if ($image->ext == "mp4" || $image->ext == "webm"){
+                            $output .= "<img src='/cbpw2.22l/public/storage/images/videothumb.png' class='imgThumbPublicIndex masonry' data-was-processed='true'>";
+                        }else{
+                            $output .= "<img src='/cbpw2.22l/public/".$image->url."_thumb.".$image->ext."' class='imgThumbPublicIndex masonry' data-was-processed='true'>";
+                        }
+                    }
+                }
+            }
+
+            $output .= "</div>";
+    /// fin card body
+        $output .= "</div>";
+        $output .= "<div class='card-footer'>";
+            $output .= "<span class='badge badge-secondary'><i class='fas fa-images'></i><span class='badge badge-secondary'>".$imageCountperAlbum." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-secondary'><i class='fas fa-film'></i><span class='badge badge-secondary'>".$videoCountperAlbum." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-secondary'><i class='fas fa-comments'></i><span class='badge badge-secondary'>".$commentCountperAlbum." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-secondary'><i class='fas fa-redo-alt'></i><span class='badge badge-secondary'>".$updated_at." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-secondary'><i class='fas fa-hdd'></i><span class='badge badge-secondary'>".app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize)."</span></span>";
+            $output .= "<a href='album/".$album->id."/content' class='stretched-link'></a>";
+            $output .= "</div>";
+        $output .= "</div>";
+        $output .= "</div>";
+    }
+    //$output .= "</div>";
+
+      }else{
+        $output .= "<div class='col-sm-12'>";
+        $output .= "<div class='text-center'>";
+        $output .= "<img src='/cbpw2.22l/public/storage/images/404.png' class='img-responsive girl404' data-was-processed='true'>";
+        $output .= "</div>";
+        $output .= "</div>";
+      }
+
+      return response()->json(['output' => $output, 'paginationType' => $paginationType]);
+     }
+
     }
 
     /**
