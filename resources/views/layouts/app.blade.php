@@ -30,7 +30,7 @@
     <link href="{{ asset('css/dropzone.min.css')}}" rel="stylesheet" >
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')}}" rel="stylesheet" />
-
+ @livewireStyles
 </head>
 <body>
     <div id="app">
@@ -99,7 +99,7 @@
         <p>2018-<?php echo date("Y"); ?> ~ <a class="text-white" href="" target="_top">Contact</a></p>
     </footer>
 
-
     </div>
+    @livewireScripts
 </body>
 </html>

@@ -19,11 +19,13 @@
 .grid{
     display: none;  /*hidde images grid before loaded with masonry script*/
 }
-
+/*
 .photos{
-    display: none;  /*hidde images grid before loaded with masonry script*/
-}
 
+    display: none;  hidde images grid before loaded with masonry script
+
+}
+*/
 @media only screen and (max-width: 600px) { /* responsive size*/
     .grid .grid-item{ /* public content images grid center*/
         width: 25%!important;

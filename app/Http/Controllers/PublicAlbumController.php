@@ -81,12 +81,12 @@ class PublicAlbumController extends Controller
        $albums = Album::where('visibility', 1)->where('name', 'like', '%'.$query.'%')->orderBy('updated_at','desc')->get();
        $images = Image::all()->sortByDesc("id");
        $comments = Comment::all()->sortByDesc("id");
-       $paginationType = 0;
+       $paginationType = 0; //filtered
       }else{
-       $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
-       $images = Image::all()->sortByDesc("id");
-       $comments = Comment::all()->sortByDesc("id");
-       $paginationType = 1;
+       //$albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
+       //$images = Image::all()->sortByDesc("id");
+       //$comments = Comment::all()->sortByDesc("id");
+       //$paginationType = 1;//all
       }
 
       if(count($albums) > 0){
@@ -104,7 +104,7 @@ class PublicAlbumController extends Controller
                 $output .= "<div class='alert alert-success'>{{ session('message') }}</div>";
             }
             $output .= "<p class='cardAlbumDescription'>Description: ".$album->description."</p>";
-            $output .= "<div class='photos' style='display: block'>";
+            $output .= "<div class='photos'>";
             foreach ($comments as $comment) {
                 # code...
                 if ($comment->album->id == $album->id){
