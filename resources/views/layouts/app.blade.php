@@ -18,6 +18,7 @@
     <script type="text/javascript" src="{{asset('https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -93,11 +94,11 @@
             @yield('content')
         </main>
 
-    <footer>
-        <br>
-        <p><a class="text-white" href="" target="_top">{{ config('app.name', 'Laravel') }}</a> image gallery engine developed by Kuroneko</p>
-        <p>2018-<?php echo date("Y"); ?> ~ <a class="text-white" href="" target="_top">Contact</a></p>
-    </footer>
+                <footer class="justify-content-center">
+                    <br>
+                    <p><a class="text-white" href="" target="_top">{{ config('app.name', 'Laravel') }}</a> image gallery engine developed by Kuroneko</p>
+                    <p>2018-<?php echo date("Y"); ?> ~ <a class="text-white" href="" target="_top">Contact</a></p>
+                </footer>
 
     </div>
     @livewireScripts

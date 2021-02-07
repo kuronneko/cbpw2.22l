@@ -37,9 +37,14 @@ Route::post('content/commentAjaxLoad', 'PublicCommentController@commentAjaxLoad'
 Route::post('content/getTotalComments', 'PublicCommentController@getTotalComments')->name('comment.getTotalComments');
 Route::get('/getAjaxAlbums', 'PublicAlbumController@getAjaxAlbums')->name('album.getAjaxAlbums');
 
+//Auth::routes();
+Auth::routes([
+    'register' => false, // Registration Routes...
+    'reset' => false, // Password Reset Routes...
+    'verify' => false, // Email Verification Routes...
+  ]);
 //Route::get('/livewire', [App\Http\Controllers\PublicAlbumController::class, 'livewire'])->name('livewire');
 
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

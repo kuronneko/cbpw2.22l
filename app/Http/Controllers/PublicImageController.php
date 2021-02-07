@@ -81,6 +81,7 @@ class PublicImageController extends Controller
     {
         $album = Album::findOrFail($id);
         $images = Image::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
+        abort_if($images->isEmpty(), 204);
 
         $imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
         $totalPublicVideos = 0;$totalPublicImages = 0;$albumSize = 0;//$imageCountperAlbum = 0;

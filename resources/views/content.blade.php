@@ -23,9 +23,16 @@
                     <div class="grid">
                         @foreach ($images as $image)
                         @if ($image->ext == "mp4" || $image->ext == "webm")
-                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}"><img class="grid-item" src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'></a>
+                        <div class="grid-item" >
+                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}">
+                        <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                        </a>
+                        </div>
                         @else
-                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}"><img class="grid-item" src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" data-was-processed='true'></a>
+                        <div class="grid-item" >
+                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}">
+                        <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" data-was-processed='true'></a>
+                        </div>
                         @endif
                         @endforeach
                     </div>
@@ -38,7 +45,14 @@
                         @endif
                     @if ($album->visibility == 1)
                     <hr>
-                    {{$images->links("pagination::bootstrap-4")}}
+                    <div class="page-load-status">
+                        <div class="loader-ellips infinite-scroll-request">
+                          <span class="loader-ellips__dot"></span>
+                          <span class="loader-ellips__dot"></span>
+                          <span class="loader-ellips__dot"></span>
+                          <span class="loader-ellips__dot"></span>
+                        </div>
+                      </div>
                 {{-- fin card body --}}
                 @endif
                 </div>
@@ -174,32 +188,36 @@
     </div>
   </div>
   @endif
-
-<script>
-    $(document).ready(function(){
-var $grid = $('.grid').masonry({
-itemSelector: '.grid-item',
-// use element for option
-//columnWidth: 5,
-FitWidth: true,
-percentPosition: true,
-transitionDuration: 0
-});
+  <script>
+$(document).ready(function(){
+    var $grid = $('.grid').masonry({
+        itemSelector: '.grid-item',
+        // use element for option
+        //columnWidth: 5,
+        FitWidth: true,
+        percentPosition: true,
+        transitionDuration: 0
+        });
 var gridItemCount = $('.grid-item').length;
 if(gridItemCount == 0){
   $(".loadingGif").hide();
-  $(".grid").show(); //grid is hidden by css
+  $(".grid").show();
 }
-// layout Masonry after each image loads
-//$grid.imagesLoaded().progress( function() {
 $grid.imagesLoaded( function() {
   $(".loadingGif").hide();
-  $(".grid").show(); //grid is hidden by css
+  $(".grid").show();
 $grid.masonry('layout');
 });
+   var msnry = $grid.data('masonry');
+        var infScroll = new InfiniteScroll( '.grid', {
+        path: '?page=@{{#}}',
+        append: '.grid-item',
+        outlayer: msnry,
+        history: false,
+        status: '.page-load-status',
+        });
 });
 </script>
-
 <script>
     $(document).ready(function(){
  $('#commentPost').on("submit", function(event){
