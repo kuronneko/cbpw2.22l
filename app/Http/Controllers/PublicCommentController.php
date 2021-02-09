@@ -82,7 +82,7 @@ class PublicCommentController extends Controller
          foreach($comments as $comment){
             $output .= "<div class='card bg-dark text-white mb-2 bg-comments'>";
             $output .= "<div class='card-header d-flex justify-content-between align-items-center commentHeader'>";
-            $output .= "<p class='text-danger'>".htmlspecialchars($comment->name)."&nbsp;&nbsp;".$comment->created_at."&nbsp;&nbsp;No.".$comment->id."</p>";
+            $output .= "<p class='text-danger'><strong>".htmlspecialchars($comment->name)."</strong>&nbsp;&nbsp;".$comment->created_at."&nbsp;&nbsp;No.".$comment->id."</p>";
 
             $output .= "</div>";
             $output .= "<div class='card-body commentBody'>";
@@ -138,7 +138,7 @@ class PublicCommentController extends Controller
          foreach($comments as $comment){
             $output .= "<div class='card bg-dark text-white mb-2 bg-comments'>";
             $output .= "<div class='card-header d-flex justify-content-between align-items-center commentHeader'>";
-            $output .= "<p class='text-danger'>".htmlspecialchars($comment->name)."&nbsp;&nbsp;".$comment->created_at."&nbsp;&nbsp;No.".$comment->id."</p>";
+            $output .= "<p class='text-danger'><strong>".htmlspecialchars($comment->name)."</strong>&nbsp;&nbsp;".$comment->created_at."&nbsp;&nbsp;No.".$comment->id."</p>";
 
             $output .= "</div>";
             $output .= "<div class='card-body commentBody'>";

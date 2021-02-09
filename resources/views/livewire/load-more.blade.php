@@ -54,6 +54,7 @@
 
 </div>
 <hr>
-<a wire:click='load' class="btn btn-secondary btn-block" id="livewireAjaxLoadMore">Load more</a>
+
+<a wire:click='load' class="btn btn-secondary btn-sm btn-block" id="livewireAjaxLoadMore">Load more</a>
 
 </div>

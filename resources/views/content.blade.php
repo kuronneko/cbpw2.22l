@@ -117,8 +117,7 @@
                         @foreach ($comments as $comment)
                         <div class="card bg-dark text-white mb-2 bg-comments">
                         <div class="card-header d-flex justify-content-between align-items-center commentHeader">
-                              <p class='text-danger'>{{$comment->name}}&nbsp;&nbsp;{{$comment->created_at}}&nbsp;&nbsp;No.{{$comment->id}}</p>
-
+                           <p class='text-danger'><strong>{{$comment->name}}</strong> &nbsp;&nbsp;{{$comment->created_at}}&nbsp;&nbsp;No.{{$comment->id}}</p>
                         </div>
                         <div class="card-body commentBody">
                             <p>{{$comment->text}}</p>

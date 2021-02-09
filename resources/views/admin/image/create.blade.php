@@ -29,7 +29,7 @@
                                     </div>
                                     <h2>Drag your images here</h2>
                                     <span class="note">Allow files: JPG, PNG, JPEG, GIF, MP4, WEBM</span>
-                                    <span class="note">-> Max size: 100MB</span>
+                                    <span class="note">-> Max size: 1000MB</span>
                                 </div>
                             </form>
                         </div>
