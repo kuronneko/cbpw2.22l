@@ -54,7 +54,9 @@
 
 </div>
 <hr>
-
+@if (count($albums) < $albumMax)
 <a wire:click='load' class="btn btn-secondary btn-sm btn-block" id="livewireAjaxLoadMore">Load more</a>
+@endif
+
 
 </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card bg-dark text-white">
@@ -16,13 +16,13 @@
                         </button>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body indexCardBodyStyle">
                         <div class="form-group">
                           <input type="text" name="search" id="search" class="form-control bg-dark text-white searchBarIndex" placeholder="Search albums by name" />
                         </div>
-<div id="livewireAjax">
+
     <livewire:load-more />
-</div>
+
 
                 {{-- fin card body --}}
                 </div>

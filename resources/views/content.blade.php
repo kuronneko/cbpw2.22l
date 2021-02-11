@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card bg-dark text-white mb-4">
@@ -15,7 +15,7 @@
                         <i class="fas fa-home"></i>
                     </a>
                 </div>
-                <div class="card-body">
+                <div class="card-body contentCardBodyStyle">
                     <div class="text-center">
                         <img src="{{'/cbpw2.22l/public/storage/images/loading.gif'}}" class="img-responsive loadingGif">
                     </div>
@@ -126,13 +126,12 @@
                         @endforeach
                     </div>
                </div>
-            <div class="card-footer">
-                <div>
-                    <button type="button" class="btn btn-secondary btn-sm btn-block getajaxComments">Load more</button>
-                    <input type="hidden" id="row" value="">
-                    <input type="hidden" id="all" value="{{$stats['commentCountperAlbum']}}">
-                </div>
-            </div>
+       <hr>
+       <div>
+        <button type="button" class="btn btn-secondary btn-sm btn-block getajaxComments">Load more</button>
+        <input type="hidden" id="row" value="">
+        <input type="hidden" id="all" value="{{$stats['commentCountperAlbum']}}">
+    </div>
         </div>
         @endif
     </div>
@@ -346,7 +345,7 @@ url:"{{ route('comment.getTotalComments') }}",
                 // Reset the value of row
                 $("#row").val(0);
                 // Change the text and background
-                $('.getajaxComments').text("Load more comments");
+                $('.getajaxComments').text("Load more");
                 //$('.getajaxComments').css("background","#15a9ce");
             }, 500);
         }
