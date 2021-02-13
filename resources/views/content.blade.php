@@ -128,7 +128,14 @@
                </div>
        <hr>
        <div>
-        <button type="button" class="btn btn-secondary btn-sm btn-block getajaxComments">Load more</button>
+        <button type="button" class="btn btn-secondary btn-dark btn-block getajaxComments">
+            <div class="loader-ellips infinite-scroll-request">
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+              </div>
+        </button>
         <input type="hidden" id="row" value="">
         <input type="hidden" id="all" value="{{$stats['commentCountperAlbum']}}">
     </div>
@@ -316,7 +323,7 @@ url:"{{ route('comment.getTotalComments') }}",
                 type: 'post',
                 data: {row,albumId:row,albumId},
                 beforeSend:function(){
-                    $(".getajaxComments").text("Loading...");
+                    //$(".getajaxComments").text("Loading...");
                 },
                 success: function(response){
                     // Setting little delay while displaying new content
@@ -327,16 +334,16 @@ url:"{{ route('comment.getTotalComments') }}",
                         // checking row value is greater than allcount or not
                         if(rowno > allcount){
                             // Change the text and background
-                            $('.getajaxComments').text("Hide");
+                            //$('.getajaxComments').text("Hide");
                             //$('.getajaxComments').css("background","darkorchid");
                         }else{
-                            $(".getajaxComments").text("Load more comments");
+                            //$(".getajaxComments").text("Load more comments");
                         }
                     }, 500);
                 }
             });
         }else{
-            $('.getajaxComments').text("Loading...");
+            //$('.getajaxComments').text("Loading...");
             // Setting little delay while removing contents
             setTimeout(function() {
                 // When row is greater than allcount then remove all class='post' element after 3 element
@@ -345,7 +352,7 @@ url:"{{ route('comment.getTotalComments') }}",
                 // Reset the value of row
                 $("#row").val(0);
                 // Change the text and background
-                $('.getajaxComments').text("Load more");
+                             //$('.getajaxComments').text("Load more");
                 //$('.getajaxComments').css("background","#15a9ce");
             }, 500);
         }

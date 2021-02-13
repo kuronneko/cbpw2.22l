@@ -172,7 +172,7 @@ html, body { /*BODY CENTER WITHOUT SPACES*/
 
 
 .loader-ellips {
-    font-size: 10px; /* change size here */
+    font-size: 7px; /* change size here */
     position: relative;
     width: 4em;
     height: 1em;

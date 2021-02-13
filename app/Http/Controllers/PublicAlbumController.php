@@ -25,6 +25,7 @@ class PublicAlbumController extends Controller
         $images = Image::all()->sortByDesc("id");
         $comments = Comment::all()->sortByDesc("id");
         $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
+        abort_if($albums->isEmpty(), 204);
         $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
         $stats = $this->getCompleteStatistics($images, $albumsFull, $comments);
         return view('welcome',compact('albums','images','stats','comments'));
@@ -78,15 +79,17 @@ class PublicAlbumController extends Controller
       $paginationType = 0;
       $query = $request->get('query');
       if($query != "") {
-       $albums = Album::where('visibility', 1)->where('name', 'like', '%'.$query.'%')->orderBy('updated_at','desc')->get();
+       $albums = Album::where('visibility', 1)->where('name', 'like', '%'.$query.'%')->orWhere('description', 'like', '%'.$query.'%')->orderBy('updated_at','desc')->get();
+       //abort_if($albums->isEmpty(), 204);
        $images = Image::all()->sortByDesc("id");
        $comments = Comment::all()->sortByDesc("id");
        $paginationType = 0; //filtered
       }else{
-       //$albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
-       //$images = Image::all()->sortByDesc("id");
-       //$comments = Comment::all()->sortByDesc("id");
-       //$paginationType = 1;//all
+         $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
+         //abort_if($albums->isEmpty(), 204);
+       $images = Image::all()->sortByDesc("id");
+       $comments = Comment::all()->sortByDesc("id");
+       $paginationType = 1;//all
       }
 
       if(count($albums) > 0){

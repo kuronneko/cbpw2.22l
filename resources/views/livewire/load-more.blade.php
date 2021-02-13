@@ -53,10 +53,18 @@
         @endforeach
 
 </div>
+
 <hr>
-@if (count($albums) < $albumMax)
-<a wire:click='load' class="btn btn-secondary btn-sm btn-block" id="livewireAjaxLoadMore">Load more</a>
-@endif
+
+<a wire:click='load' class="btn btn-dark btn-sm btn-block" id="livewireAjaxLoadMore"><div class="page-load-status">
+    <div class="loader-ellips infinite-scroll-request">
+      <span class="loader-ellips__dot"></span>
+      <span class="loader-ellips__dot"></span>
+      <span class="loader-ellips__dot"></span>
+      <span class="loader-ellips__dot"></span>
+    </div>
+  </div></a>
+
 
 
 </div>

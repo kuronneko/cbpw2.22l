@@ -18,11 +18,11 @@
                 </div>
                 <div class="card-body indexCardBodyStyle">
                         <div class="form-group">
-                          <input type="text" name="search" id="search" class="form-control bg-dark text-white searchBarIndex" placeholder="Search albums by name" />
+                          <input type="text" name="search" id="search" class="form-control bg-dark text-white searchBarIndex" placeholder="Search albums by name or description" />
                         </div>
 
-    <livewire:load-more />
 
+                        <livewire:load-more />
 
                 {{-- fin card body --}}
                 </div>
@@ -84,31 +84,40 @@
           </div>
         </div>
       </div>
-      <script>
 
+      <script>
         $(document).ready(function(){
 
-         $(document).on('keyup', '#search', function(){
+          $(document).on('keyup', '#search', function(){
           var query = $(this).val();
           fetch_customer_data(query);
          });
+
          function fetch_customer_data(query = ''){
-          $.ajax({
+        $.ajax({
            url:"{{ route('album.getAjaxAlbums') }}",
            method:'GET',
            data:{query:query},
            dataType:'json',
            success:function(data){
-            $('#albumsBox').html(data.output);
-                $('#albumsBox').html(data.output);
-                $("#livewireAjaxLoadMore").hide();
+if(data.paginationType == 0){
+    $('#albumsBox').html(data.output);
+               // $(".page-load-status").hide();
+                //$("#livewireAjaxLoadMore").hide();
                 $("#homeOrBack").removeClass('fas fa-sync');
                 $("#homeOrBack").addClass('fas fa-arrow-left');
-           }
-          })
-         }
-        });
+}else{
+    $('#albumsBox').html(data.output);
+               //$("#livewireAjaxLoadMore").show();
+                $("#homeOrBack").removeClass('fas fa-arrow-left');
+                $("#homeOrBack").addClass('fas fa-sync');
+}
 
+
+             }
+           })
+         }
+      });
         </script>
       <script type="text/javascript">
        $(document).ready(function() {
@@ -118,10 +127,36 @@
            }
        });
       </script>
-
 <script>
     $(document).ready(function(){
-    var $grid = $('.photos').masonry({
+      masonryStart();
+
+      document.addEventListener("scroll", function(){
+         masonryStart();
+        });
+        document.addEventListener("click", function(){
+         masonryStart();
+        });
+        document.addEventListener("mouseover", function(){
+         masonryStart();
+         //randomize();
+        });
+        document.addEventListener("mouseout", function(){
+         masonryStart();
+        });
+    });
+    </script>
+<script>
+    function randomColors() {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
+}
+function randomize() {
+  document.getElementById('livewireAjaxLoadMore').style.backgroundColor = randomColors();
+}
+</script>
+    <script>
+            function masonryStart(){
+        var $grid = $('.photos').masonry({
     itemSelector: '.masonry',
     // use element for option
     //  columnWidth: '.masonry',
@@ -135,11 +170,13 @@
 
     $grid.imagesLoaded( function() {
     //$(".progress").hide();
-    $(".photos").show();
+    //$(".photos").show();
     $grid.masonry('layout');
     });
-    });
+
+    }
     </script>
+
 
 @endsection
 
