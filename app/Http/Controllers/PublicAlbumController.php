@@ -25,7 +25,7 @@ class PublicAlbumController extends Controller
         $images = Image::all()->sortByDesc("id");
         $comments = Comment::all()->sortByDesc("id");
         $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
-        abort_if($albums->isEmpty(), 204);
+        //abort_if($albums->isEmpty(), 204);
         $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
         $stats = $this->getCompleteStatistics($images, $albumsFull, $comments);
         return view('welcome',compact('albums','images','stats','comments'));
