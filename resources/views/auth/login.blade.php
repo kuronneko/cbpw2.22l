@@ -4,7 +4,7 @@
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card bg-dark text-white">
+            <div class="card text-white">
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
@@ -53,7 +53,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-secondary">
+                                <button type="submit" class="btn btn-dark">
                                     {{ __('Login') }}
                                 </button>
 

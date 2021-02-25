@@ -4,7 +4,7 @@
         @foreach ($albums as $album)
         <?php $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;?>
             <div class="col-12 col-sm-6">
-        <div class="card bg-dark text-white indexCard mb-4">
+        <div class="card text-white indexCard mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
             <strong><p class="cardAlbumTittle text-danger">Album: {{$album->name}}</p></strong><p class="cardAlbumTittle text-secondary">By: {{$album->user->name}}</p>
             </div>
@@ -41,11 +41,11 @@
             {{-- fin card body --}}
             </div>
             <div class="card-footer">
-                <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary"><?php echo $imageCountperAlbum;?></span></span>
-                <span class="badge badge-secondary"><i class="fas fa-film"></i><span class="badge badge-secondary"><?php echo $videoCountperAlbum;?></span></span>
-                <span class="badge badge-secondary"><i class="fas fa-comments"></i><span class="badge badge-secondary"><?php echo $commentCountperAlbum;?></span></span>
-                <span class="badge badge-secondary"><i class="fas fa-redo-alt"></i><span class="badge badge-secondary"><?php echo $updated_at;?></span></span>
-                <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
+                <span class="badge badge-dark"><i class="fas fa-images"></i><span class="badge badge-dark"><?php echo $imageCountperAlbum;?></span></span>
+                <span class="badge badge-dark"><i class="fas fa-film"></i><span class="badge badge-dark"><?php echo $videoCountperAlbum;?></span></span>
+                <span class="badge badge-dark"><i class="fas fa-comments"></i><span class="badge badge-dark"><?php echo $commentCountperAlbum;?></span></span>
+                <span class="badge badge-dark"><i class="fas fa-redo-alt"></i><span class="badge badge-dark"><?php echo $updated_at;?></span></span>
+                <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
                 <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
             </div>
         </div>
@@ -56,14 +56,15 @@
 
 <hr>
 
-<a wire:click='load' class="btn btn-dark btn-sm btn-block" id="livewireAjaxLoadMore" onclick="masonryStart()"><div class="page-load-status">
+<a wire:click='load' class="btn loadBtn btn-sm btn-block" id="livewireAjaxLoadMore" onclick="masonryStart()"><div class="page-load-status">
     <div class="loader-ellips infinite-scroll-request">
       <span class="loader-ellips__dot"></span>
       <span class="loader-ellips__dot"></span>
       <span class="loader-ellips__dot"></span>
       <span class="loader-ellips__dot"></span>
     </div>
-  </div></a>
+  </div>
+</a>
 
 
 

@@ -79,6 +79,7 @@ class PublicImageController extends Controller
     public function showContent($id)
 
     {
+
         $album = Album::findOrFail($id);
         $images = Image::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
         abort_if($images->isEmpty(), 204); // if images object is empty redirect to 204 error
@@ -104,6 +105,7 @@ class PublicImageController extends Controller
         $stats['updated_at'] = $album->updated_at;
         $stats['albumSize'] = $this->formatSizeUnits($albumSize);
         $stats['commentCountperAlbum'] = count($commentsType['commentFull']);
+        $stats['randomAlbum'] = 0;
 
         return view('content',compact('images','album','stats','comments'));
         //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);

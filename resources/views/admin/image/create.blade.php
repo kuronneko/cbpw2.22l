@@ -4,10 +4,10 @@
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card bg-dark">
+            <div class="card">
                 <div class="text-white card-header d-flex justify-content-between align-items-center">
                     <span>[Album:{{$album->name}}] Image Uploader</span>
-                    <a href="{{route('admin.album.index')}}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i></a>
+                    <a href="{{route('admin.album.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                 <div class="card-body">
                   <div class="alert alert-success alert-dismissible" id="dropzoneMessageOK" style="display: none">

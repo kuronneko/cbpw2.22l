@@ -4,10 +4,10 @@
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card bg-dark text-white">
+            <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>[User:{{auth()->user()->name}}] Album List</span>
-                    <a href="{{route('admin.album.create')}}" class="btn btn-secondary btn-sm">New Album</a>
+                    <a href="{{route('admin.album.create')}}" class="btn btn-dark btn-sm">New Album</a>
                 </div>
                 <div class="card-body">
                     @if ( session('message') )
@@ -35,7 +35,7 @@
                                 <td>
                                     <div class="btn-group">
                                     <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
-                                    <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-secondary" role="button" type="button"><i class="fas fa-comments"></i></i></a>
+                                    <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark" role="button" type="button"><i class="fas fa-comments"></i></i></a>
                                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
                                     </div>
                                 </td>
@@ -80,12 +80,12 @@
       <!-- The Modal -->
   <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content text-white">
 
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Are you sure you want delete this<p id="albumName">AlbumName</p></h4>
-          <button type="button" class="close bg-dark text-white" data-dismiss="modal">&times;</button>
+          <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
         </div>
 
         <!-- Modal body -->
@@ -100,7 +100,7 @@
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
         </div>
 
       </div>

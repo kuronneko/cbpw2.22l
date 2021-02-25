@@ -4,10 +4,10 @@
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card bg-dark text-white">
+            <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Edit Album</span>
-                    <a href="{{route('admin.album.index')}}" class="btn btn-secondary btn-sm"><i class="fas fa-arrow-left"></i></a>
+                    <a href="{{route('admin.album.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                 <div class="card-body">
                     @error('name')
@@ -55,7 +55,7 @@
                     @endif
                   </select>
                   <br>
-                    <button class="btn btn-secondary" type="submit">Edit</button>
+                    <button class="btn btn-dark" type="submit">Edit</button>
                   </form>
                 </div>
             </div>

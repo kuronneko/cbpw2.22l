@@ -4,21 +4,21 @@
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <div class="card bg-dark text-white">
+            <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <p>Public Album List</p>
                     <div class="group-buttons">
-                        <a href="{{route('index')}}" class="btn btn-secondary btn-sm">
+                        <a href="{{route('index')}}" class="btn btn-dark btn-sm">
                             <i id="homeOrBack" class="fas fa-sync"></i>
                         </a>
-                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#stats">
+                        <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#stats">
                             <i class="fas fa-chart-bar"></i>
                         </button>
                     </div>
                 </div>
                 <div class="card-body indexCardBodyStyle">
                         <div class="form-group">
-                          <input type="text" name="search" id="search" class="form-control bg-dark text-white searchBarIndex" placeholder="Search albums by name or description" />
+                          <input type="text" name="search" id="search" class="form-control text-white searchBarIndex" placeholder="Search albums by name or description" />
                         </div>
 
 
@@ -34,12 +34,12 @@
       <!-- The Modal -->
       <div class="modal fade" id="stats">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content bg-dark text-white">
+          <div class="modal-content text-white">
 
             <!-- Modal Header -->
             <div class="modal-header">
               <h4 class="modal-title">Cyberpunkwaifus statistics</h4>
-              <button type="button" class="close bg-dark text-white" data-dismiss="modal">&times;</button>
+              <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- Modal body -->
@@ -48,29 +48,29 @@
                     <div class="container mt-3">
                         <p>General statistics collected from album content (private albums will not be counted)</p>
                         <ul class="list-group">
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                             Total Public Albums
-                            <span class="badge badge-secondary"><i class="fas fa-book"></i><span class="badge badge-secondary">{{$stats['totalPublicAlbums']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-book"></i><span class="badge badge-dark">{{$stats['totalPublicAlbums']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                             Total Public Images
-                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['totalPublicImages']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-images"></i><span class="badge badge-dark">{{$stats['totalPublicImages']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                             Total Public Videos
-                            <span class="badge badge-secondary"><i class="fas fa-film"></i><span class="badge badge-secondary">{{$stats['totalPublicVideos']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-film"></i><span class="badge badge-dark">{{$stats['totalPublicVideos']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                             Total Public Comments
-                            <span class="badge badge-secondary"><i class="fas fa-comments"></i></i><span class="badge badge-secondary">{{$stats['totalPublicComments']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-comments"></i></i><span class="badge badge-dark">{{$stats['totalPublicComments']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                             Total Size
-                            <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary">{{$stats['totalAlbumSize']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark">{{$stats['totalAlbumSize']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                             Last update at
-                            <span class="badge badge-secondary"><i class="fas fa-redo-alt"></i><span class="badge badge-secondary">{{$stats['lastUpdateAlbum']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-redo-alt"></i><span class="badge badge-dark">{{$stats['lastUpdateAlbum']}}</span></span>
                           </li>
                         </ul>
                       </div>
@@ -78,7 +78,7 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
             </div>
 
           </div>

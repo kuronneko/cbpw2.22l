@@ -80,7 +80,7 @@ class PublicCommentController extends Controller
 
 
          foreach($comments as $comment){
-            $output .= "<div class='card bg-dark text-white mb-2 bg-comments'>";
+            $output .= "<div class='card text-white mb-2 bg-comments'>";
             $output .= "<div class='card-header d-flex justify-content-between align-items-center commentHeader'>";
             $output .= "<p class='text-danger'><strong>".htmlspecialchars($comment->name)."</strong>&nbsp;&nbsp;".$comment->created_at."&nbsp;&nbsp;No.".$comment->id."</p>";
 
@@ -136,7 +136,7 @@ class PublicCommentController extends Controller
          $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->offset($row)->limit(3)->get();
 
          foreach($comments as $comment){
-            $output .= "<div class='card bg-dark text-white mb-2 bg-comments'>";
+            $output .= "<div class='card text-white mb-2 bg-comments'>";
             $output .= "<div class='card-header d-flex justify-content-between align-items-center commentHeader'>";
             $output .= "<p class='text-danger'><strong>".htmlspecialchars($comment->name)."</strong>&nbsp;&nbsp;".$comment->created_at."&nbsp;&nbsp;No.".$comment->id."</p>";
 

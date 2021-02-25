@@ -98,7 +98,7 @@ class PublicAlbumController extends Controller
             # code...
         $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;
         $output .= "<div class='col-12 col-sm-6'>";
-        $output .= "<div class='card bg-dark text-white indexCard mb-4'>";
+        $output .= "<div class='card text-white indexCard mb-4'>";
         $output .= "<div class='card-header d-flex justify-content-between align-items-center'>";
         $output .= "<strong><p class='cardAlbumTittle text-danger'>Album: ".$album->name."</p></strong><p class='cardAlbumTittle text-secondary'>By: ".$album->user->name."</p>";
         $output .= "</div>";
@@ -137,11 +137,11 @@ class PublicAlbumController extends Controller
     /// fin card body
         $output .= "</div>";
         $output .= "<div class='card-footer'>";
-            $output .= "<span class='badge badge-secondary'><i class='fas fa-images'></i><span class='badge badge-secondary'>".$imageCountperAlbum." </span></span>&nbsp;";
-            $output .= "<span class='badge badge-secondary'><i class='fas fa-film'></i><span class='badge badge-secondary'>".$videoCountperAlbum." </span></span>&nbsp;";
-            $output .= "<span class='badge badge-secondary'><i class='fas fa-comments'></i><span class='badge badge-secondary'>".$commentCountperAlbum." </span></span>&nbsp;";
-            $output .= "<span class='badge badge-secondary'><i class='fas fa-redo-alt'></i><span class='badge badge-secondary'>".$updated_at." </span></span>&nbsp;";
-            $output .= "<span class='badge badge-secondary'><i class='fas fa-hdd'></i><span class='badge badge-secondary'>".app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize)."</span></span>";
+            $output .= "<span class='badge badge-dark'><i class='fas fa-images'></i><span class='badge badge-dark'>".$imageCountperAlbum." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-dark'><i class='fas fa-film'></i><span class='badge badge-dark'>".$videoCountperAlbum." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-dark'><i class='fas fa-comments'></i><span class='badge badge-dark'>".$commentCountperAlbum." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-dark'><i class='fas fa-redo-alt'></i><span class='badge badge-dark'>".$updated_at." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-dark'><i class='fas fa-hdd'></i><span class='badge badge-dark'>".app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize)."</span></span>";
             $output .= "<a href='album/".$album->id."/content' class='stretched-link'></a>";
             $output .= "</div>";
         $output .= "</div>";

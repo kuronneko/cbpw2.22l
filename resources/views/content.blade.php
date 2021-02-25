@@ -4,14 +4,14 @@
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card bg-dark text-white mb-4">
+            <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     @if ($album->visibility == 1)
                         <strong><p class="text-danger">Album: {{$album->name}}</p></strong>
                     @else
                         <strong><p>Private Album</p></strong>
                     @endif
-                    <a href="{{route('index')}}" class="btn btn-secondary btn-sm">
+                    <a href="{{route('index')}}" class="btn btn-dark btn-sm">
                         <i class="fas fa-home"></i>
                     </a>
                 </div>
@@ -59,55 +59,55 @@
             </div>
 
         </div>
-        @if ($album->visibility == 1)
+        @if ($album->visibility == 1 && $stats['randomAlbum'] == 0)
         <div class="col-md-4">
-            <div class="card bg-dark text-white mb-4">
+            <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <p>Album statistics</p>
+                    <strong><p class="text-danger">Album statistics</p></strong>
                 </div>
-                <div class="card-body">
+                <div class="card-body contentCardBodyStyleSide">
                     <div>
                         <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                            <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                                 Created by
-                                <span class="badge badge-secondary"><i class="fas fa-user"></i><span class="badge badge-secondary">{{$album->user->name}}</span></span>
+                                <span class="badge badge-dark"><i class="fas fa-user"></i><span class="badge badge-dark">{{$album->user->name}}</span></span>
                               </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                              <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                                 Album name
-                                <span class="badge badge-secondary"><i class="fas fa-book"></i><span class="badge badge-secondary">{{$album->name}}</span></span>
+                                <span class="badge badge-dark"><i class="fas fa-book"></i><span class="badge badge-dark">{{$album->name}}</span></span>
                               </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                             Total Images
-                            <span class="badge badge-secondary"><i class="fas fa-images"></i><span class="badge badge-secondary">{{$stats['imageCountperAlbum']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-images"></i><span class="badge badge-dark">{{$stats['imageCountperAlbum']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                             Total Videos
-                            <span class="badge badge-secondary"><i class="fas fa-film"></i><span class="badge badge-secondary">{{$stats['videoCountperAlbum']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-film"></i><span class="badge badge-dark">{{$stats['videoCountperAlbum']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                             Total Comments
-                            <span class="badge badge-secondary"><i class="fas fa-comments"></i></i><span class="badge badge-secondary" id="commentCountperAlbum">{{$stats['commentCountperAlbum']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-comments"></i></i><span class="badge badge-dark" id="commentCountperAlbum">{{$stats['commentCountperAlbum']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                             Total Size
-                            <span class="badge badge-secondary"><i class="fas fa-hdd"></i><span class="badge badge-secondary">{{$stats['albumSize']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark">{{$stats['albumSize']}}</span></span>
                           </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center bg-dark text-white">
+                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                             Last update at
-                            <span class="badge badge-secondary"><i class="fas fa-redo-alt"></i><span class="badge badge-secondary">{{$stats['updated_at']}}</span></span>
+                            <span class="badge badge-dark"><i class="fas fa-redo-alt"></i><span class="badge badge-dark">{{$stats['updated_at']}}</span></span>
                           </li>
                         </ul>
                       </div>
                 </div>
             </div>
-            <div class="card bg-dark text-white mb-4">
+            <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <p>Comments</p>
-                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#modalComments">
+                    <strong><p class="text-danger">Comments</p></strong>
+                    <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalComments">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
-                <div class="card-body">
+                <div class="card-body contentCardBodyStyleSide">
                     <div class="alert alert-success alert-dismissible fade show" role="alert" id="doneMsg" style="display: none;">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -115,9 +115,9 @@
                     </div>
                     <div id="commentBox">
                         @foreach ($comments as $comment)
-                        <div class="card bg-dark text-white mb-2 bg-comments">
+                        <div class="card text-white mb-2 bg-comments">
                         <div class="card-header d-flex justify-content-between align-items-center commentHeader">
-                           <p class='text-danger'><strong>{{$comment->name}}</strong> &nbsp;&nbsp;{{$comment->created_at}}&nbsp;&nbsp;No.{{$comment->id}}</p>
+                           <p class='text-danger'><strong>{{$comment->name}}</strong>&nbsp;&nbsp;{{$comment->created_at}}&nbsp;&nbsp;No.{{$comment->id}}</p>
                         </div>
                         <div class="card-body commentBody">
                             <p>{{$comment->text}}</p>
@@ -128,7 +128,7 @@
                </div>
        <hr>
        <div>
-        <button type="button" class="btn btn-secondary btn-dark btn-block getajaxComments">
+        <button type="button" class="btn loadBtn btn-block getajaxComments">
             <div class="loader-ellips infinite-scroll-request">
                 <span class="loader-ellips__dot"></span>
                 <span class="loader-ellips__dot"></span>
@@ -148,12 +148,12 @@
   <!-- The Modal -->
   <div class="modal fade" id="modalComments">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-dark text-white">
+      <div class="modal-content text-white">
 
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Write Post</h4>
-          <button type="button" class="close bg-dark text-white" data-dismiss="modal">&times;</button>
+          <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
         </div>
 
         <!-- Modal body -->
@@ -180,13 +180,13 @@
                 <label for="comment">Comment:</label>
                 <textarea class="form-control" rows="3" id="text" name="text" maxlength="150" placeholder="Maximum length: 50 characters" value="{{ old('text') }}"></textarea>
             </div>
-            <button class="btn btn-secondary" type="submit" id="insert" name="insert"></i> Send</button>
+            <button class="btn btn-dark" type="submit" id="insert" name="insert"></i> Send</button>
           </form>
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
         </div>
 
       </div>

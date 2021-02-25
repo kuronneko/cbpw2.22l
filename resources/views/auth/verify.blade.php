@@ -4,7 +4,7 @@
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card bg-dark text-white">
+            <div class="card text-white">
                 <div class="card-header">{{ __('Verify Your Email Address') }}</div>
 
                 <div class="card-body">
