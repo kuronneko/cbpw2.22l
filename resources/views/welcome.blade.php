@@ -11,6 +11,9 @@
                         <a href="{{route('index')}}" class="btn btn-dark btn-sm">
                             <i id="homeOrBack" class="fas fa-sync"></i>
                         </a>
+                        <a href="https://www.cyberpunkwaifus.xyz/gallery/waifus/invite.php?key=RtcWERgKo4PsaU3zHgN18SZvMVQiW" class="btn btn-dark btn-sm">
+                            <i class="fas fa-heart"></i>
+                        </a>
                         <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#stats">
                             <i class="fas fa-chart-bar"></i>
                         </button>
@@ -20,10 +23,7 @@
                         <div class="form-group">
                           <input type="text" name="search" id="search" class="form-control text-white searchBarIndex" placeholder="Search albums by name or description" />
                         </div>
-
-
-                        <livewire:load-more />
-
+                        <livewire:load-more-album />
                 {{-- fin card body --}}
                 </div>
             </div>

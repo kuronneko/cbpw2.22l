@@ -37,7 +37,7 @@
                                     <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
                                     <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark" role="button" type="button"><i class="fas fa-comments"></i></i></a>
                                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
-                                    </div>
+                                </div>
                                 </td>
                                 <th scope="row">{{ $album->id }}</th>
                                 <td>{{ $album->name }}</td>
@@ -51,11 +51,7 @@
                                 @endforeach
                                 <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>
                                 <td>
-                                    @if ($album->visibility == 0)
-                                    <p class="text-warning">Private</p>
-                                    @else
-                                    <p>Public</p>
-                                    @endif
+                                    <livewire:admin.album-visibility :albumId="$album->id"/>
                                 </td>
                                 <td>
                                     <div class="btn-group">
