@@ -24,6 +24,7 @@
                             <th scope="col">Admin</th>
                             <th scope="col">Created</th>
                             <th scope="col">Size</th>
+                            <th scope="col">View</th>
                             <th scope="col">Visible</th>
                             <th scope="col">Options</th>
                             </tr>
@@ -50,6 +51,7 @@
                                 @endif
                                 @endforeach
                                 <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>
+                                <td>{{ $album->view}}</td>
                                 <td>
                                     <livewire:admin.album-visibility :albumId="$album->id"/>
                                 </td>

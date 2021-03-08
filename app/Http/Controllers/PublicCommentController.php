@@ -80,15 +80,18 @@ class PublicCommentController extends Controller
 
 
          foreach($comments as $comment){
-            $output .= "<div class='card text-white mb-2 bg-comments'>";
-            $output .= "<div class='card-header d-flex justify-content-between align-items-center commentHeader'>";
-            $output .= "<p class='text-danger'><strong>".htmlspecialchars($comment->name)."</strong>&nbsp;&nbsp;".$comment->created_at."&nbsp;&nbsp;No.".$comment->id."</p>";
-
+            $output .= "<div class='row bg-comments mb-1'>";
+            $output .= "<div class='col-sm-12'>";
+            $output .= "<div class='postNdate'>";
+            $output .= "<p>".htmlspecialchars($comment->name)." ".$comment->created_at." No.<a style='color:#FF3333' href='javascript:quotePost('188')'>".$comment->id."</a></p>";
             $output .= "</div>";
-            $output .= "<div class='card-body commentBody'>";
+            $output .= "</div>";
+            $output .= "<div class='col-sm-12'>";
+            $output .= "<div>";
             $output .= "<p>".htmlspecialchars($comment->text)."</p>";
-                $output .= "</div>";
-                $output .= "</div>";
+            $output .= "</div>";
+            $output .= "</div>";
+            $output .= "</div>";
          }
 
          return response()->json(['output' => $output]);
@@ -136,15 +139,18 @@ class PublicCommentController extends Controller
          $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->offset($row)->limit(3)->get();
 
          foreach($comments as $comment){
-            $output .= "<div class='card text-white mb-2 bg-comments'>";
-            $output .= "<div class='card-header d-flex justify-content-between align-items-center commentHeader'>";
-            $output .= "<p class='text-danger'><strong>".htmlspecialchars($comment->name)."</strong>&nbsp;&nbsp;".$comment->created_at."&nbsp;&nbsp;No.".$comment->id."</p>";
-
+            $output .= "<div class='row bg-comments mb-1'>";
+            $output .= "<div class='col-sm-12'>";
+            $output .= "<div class='postNdate'>";
+            $output .= "<p>".htmlspecialchars($comment->name)." ".$comment->created_at." No.<a style='color:#FF3333' href='javascript:quotePost('188')'>".$comment->id."</a></p>";
             $output .= "</div>";
-            $output .= "<div class='card-body commentBody'>";
+            $output .= "</div>";
+            $output .= "<div class='col-sm-12'>";
+            $output .= "<div>";
             $output .= "<p>".htmlspecialchars($comment->text)."</p>";
-                $output .= "</div>";
-                $output .= "</div>";
+            $output .= "</div>";
+            $output .= "</div>";
+            $output .= "</div>";
          }
          return response()->json(['output' => $output]);
          //return response()->json(['response' => $response]);

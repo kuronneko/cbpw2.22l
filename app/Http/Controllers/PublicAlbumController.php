@@ -31,6 +31,17 @@ class PublicAlbumController extends Controller
         return view('welcome',compact('albums','images','stats','comments'));
     }
 
+
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function viewCount() //needs all images desc, with visibility filtered albums no paginate, and all comments desc
+    {
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -38,8 +49,9 @@ class PublicAlbumController extends Controller
      */
     public function getCompleteStatistics($images, $albumsFull, $comments) //needs all images desc, with visibility filtered albums no paginate, and all comments desc
     {
-        $totalPublicVideos = 0;$totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;$lastUpdateAlbum = 0;
+        $totalPublicVideos = 0;$totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;$lastUpdateAlbum = 0;$totalPublicViews = 0;
         foreach ($albumsFull as $album) {
+            $totalPublicViews = $totalPublicViews + $album->view;
             foreach ($comments as $comment) {
                 if($comment->album->id == $album->id){
                     $totalPublicComments++;
@@ -65,6 +77,7 @@ class PublicAlbumController extends Controller
             'totalPublicComments' => $totalPublicComments,
             'totalAlbumSize' => app('App\Http\Controllers\PublicImageController')->formatSizeUnits($totalAlbumSize),
             'lastUpdateAlbum' => $lastUpdateAlbum,
+            'totalPublicViews' => $totalPublicViews,
         );
 
         return $stats;
@@ -96,7 +109,7 @@ class PublicAlbumController extends Controller
         //$output .= "<div class='row'>";
         foreach ($albums as $album) {
             # code...
-        $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;
+        $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;$view = $album->view;
         $output .= "<div class='col-12 col-sm-6'>";
         $output .= "<div class='card text-white indexCard mb-4'>";
         $output .= "<div class='card-header d-flex justify-content-between align-items-center'>";
@@ -140,6 +153,7 @@ class PublicAlbumController extends Controller
             $output .= "<span class='badge badge-dark'><i class='fas fa-images'></i><span class='badge badge-dark'>".$imageCountperAlbum." </span></span>&nbsp;";
             $output .= "<span class='badge badge-dark'><i class='fas fa-film'></i><span class='badge badge-dark'>".$videoCountperAlbum." </span></span>&nbsp;";
             $output .= "<span class='badge badge-dark'><i class='fas fa-comments'></i><span class='badge badge-dark'>".$commentCountperAlbum." </span></span>&nbsp;";
+            $output .= "<span class='badge badge-dark'><i class='fas fa-eye'></i><span class='badge badge-dark'>".$view." </span></span>&nbsp;";
             $output .= "<span class='badge badge-dark'><i class='fas fa-redo-alt'></i><span class='badge badge-dark'>".$updated_at." </span></span>&nbsp;";
             $output .= "<span class='badge badge-dark'><i class='fas fa-hdd'></i><span class='badge badge-dark'>".app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize)."</span></span>";
             $output .= "<a href='album/".$album->id."/content' class='stretched-link'></a>";

@@ -24,6 +24,67 @@
     filter: alpha(opacity=60);
 }
 
+.imgThumbRandomSuggest{ /* suggest Album preview*/
+
+    border-radius: 0%;
+    object-fit: cover !important;
+    width: 100px;
+    height: 100px;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+}
+
+.containerAlbumSuggest {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .containerAlbumSuggest .image {
+    width: 65px;
+    height: 65px;
+  }
+
+  .containerAlbumSuggest img {
+    border-radius: 0%;
+    object-fit: cover !important;
+    width: 65px;
+    height: 65px;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+  }
+
+
+  @media only screen and (max-width: 600px) { /* responsive size*/
+    .albumSuggestStatsCol{
+        padding-right: 0px!important;
+        margin-right: 0px!important;
+        padding-left: 60px!important;
+    }
+}
+@media (min-width: 576px) {  /* desktop size */
+    .albumSuggestStatsCol{
+        padding-right: 0px!important;
+        margin-right: 0px!important;
+        padding-left: 45px!important;
+    }
+}
+
+@media only screen and (max-width: 600px) { /* responsive size*/
+    .albumSuggestImageCol{
+        padding-left: 0px!important;
+        padding-right: 0px!important;
+        margin-left: 0px!important;
+    }
+}
+@media (min-width: 576px) {  /* desktop size */
+    .albumSuggestImageCol{
+        padding-left: 0px!important;
+        margin-left: -25px!important;
+
+    }
+}
+
+
 .grid{
     display: none;  /*hidde images grid before loaded with masonry script*/
 }
@@ -67,6 +128,9 @@
 }
 .list-group-item{
     background-color: #1A1A1A!important;
+    padding-top: 0px!important;
+    padding-bottom: 0px!important;
+
 }
 .modal-content{
     background-color: #1A1A1A!important;
@@ -125,6 +189,26 @@ padding-bottom: 0px!important;
 .contentCardBodyStyleSide{
     padding-left: 10px!important;
     padding-right: 10px!important;
+    padding-top: 10px!important;
+    padding-bottom: 10px!important;
+}
+.contentCardBodyStyleSideAlbumSuggest{
+    padding-left: 10px!important;
+    padding-right: 10px!important;
+    padding-top: 10px!important;
+    padding-bottom: 10px!important;
+}
+.contentCardBodyStyleSideAlbumSuggest:hover{
+    border-color: white!important;
+    border-width: 10px;
+    opacity: 0.9;
+    filter: alpha(opacity=100);
+    background-color: #181818;
+}
+
+.personalizeA:hover, .personalizeA:visited, .personalizeA:link, .personalizeA:active
+{
+    text-decoration: none;
 }
 
 .privateAlbumIcon{
@@ -179,6 +263,32 @@ html, body { /*BODY CENTER WITHOUT SPACES*/
     overflow-x: hidden;
     font-family: "CyberpunkWaifus"!important;
 }
+
+
+.bg-comments {            /* COMMENTS CONTAINER */
+    /*display:none;*/
+margin-left: 0px!important;
+margin-right: 0px!important;
+padding: 5px;
+
+border-radius: .25rem!important;
+background-color: #181818!important;
+color: #ffffff;
+
+text-align: left;
+font-weight: normal;
+font-size: 16px;
+
+   border-color:#161616;
+   border-width: 1px;
+   border-style: solid;
+}
+
+.postNdate{                      /* COMMENTS DATE STYLE */
+    color: #e14a4a;
+    font-weight: normal;
+    font-size: 12px;
+ }
 
 .commentBody{
     padding-top: 10px!important;

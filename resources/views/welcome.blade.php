@@ -11,9 +11,6 @@
                         <a href="{{route('index')}}" class="btn btn-dark btn-sm">
                             <i id="homeOrBack" class="fas fa-sync"></i>
                         </a>
-                        <a href="https://www.cyberpunkwaifus.xyz/gallery/waifus/invite.php?key=RtcWERgKo4PsaU3zHgN18SZvMVQiW" class="btn btn-dark btn-sm">
-                            <i class="fas fa-heart"></i>
-                        </a>
                         <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#stats">
                             <i class="fas fa-chart-bar"></i>
                         </button>
@@ -65,6 +62,10 @@
                             <span class="badge badge-dark"><i class="fas fa-comments"></i></i><span class="badge badge-dark">{{$stats['totalPublicComments']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center text-white">
+                            Total Views
+                            <span class="badge badge-dark"><i class="fas fa-eye"></i><span class="badge badge-dark">{{$stats['totalPublicViews']}}</span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                             Total Size
                             <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark">{{$stats['totalAlbumSize']}}</span></span>
                           </li>
@@ -73,6 +74,11 @@
                             <span class="badge badge-dark"><i class="fas fa-redo-alt"></i><span class="badge badge-dark">{{$stats['lastUpdateAlbum']}}</span></span>
                           </li>
                         </ul>
+                          <div class="mt-4">
+                            <small>
+                            <p>Also, you can access to old cbpw software  <a class="text-white" href="https://old.cyberpunkwaifus.xyz/gallery/waifus">HERE</a></p>
+                            </small>
+                          </div>
                       </div>
 
             </div>

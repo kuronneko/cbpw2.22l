@@ -81,10 +81,32 @@ class PublicImageController extends Controller
     {
 
         $album = Album::findOrFail($id);
+
+        $album->view = $album->view + 1;
+        $album->timestamps = false;
+        $album->update();
+
         $images = Image::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
         abort_if($images->isEmpty(), 204); // if images object is empty redirect to 204 error
 
         $imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
+        $commentsType = app('App\Http\Controllers\PublicCommentController')->showComment($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
+        $stats = $this->getAlbumStats($imagesFull, $album, $commentsType);
+        $comments = $commentsType['comment'];
+
+        return view('content',compact('images','album','stats','comments'));
+        //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);
+
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getAlbumStats($imagesFull, $album, $commentsType)
+    {
         $totalPublicVideos = 0;$totalPublicImages = 0;$albumSize = 0;//$imageCountperAlbum = 0;
         foreach ($imagesFull as $image) {
            //$imageCountperAlbum++;
@@ -96,20 +118,16 @@ class PublicImageController extends Controller
            }
         }
 
-        $commentsType = app('App\Http\Controllers\PublicCommentController')->showComment($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
-        $comments = $commentsType['comment'];
-
         $stats = array();
         $stats['imageCountperAlbum'] = $totalPublicImages;
         $stats['videoCountperAlbum'] = $totalPublicVideos;
         $stats['updated_at'] = $album->updated_at;
         $stats['albumSize'] = $this->formatSizeUnits($albumSize);
         $stats['commentCountperAlbum'] = count($commentsType['commentFull']);
-        $stats['randomAlbum'] = 0;
+        //$stats['randomAlbum'] = 0; try to get random image album
+        $stats['viewCountperAlbum'] = $album->view;
 
-        return view('content',compact('images','album','stats','comments'));
-        //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);
-
+        return $stats;
     }
 
     /**

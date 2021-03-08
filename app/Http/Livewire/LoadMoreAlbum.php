@@ -27,7 +27,11 @@ class LoadMoreAlbum extends Component
 
     public function albumMax(){
         $albumMax = count(Album::where('visibility', 1)->orderBy('updated_at','desc')->get());
-        return $albumMax;
+        if ($albumMax <= $this->amount){
+            return 0;
+        }else{
+            return 1;
+        }
     }
 
 

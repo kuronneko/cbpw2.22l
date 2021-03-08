@@ -22,6 +22,7 @@ class CreateAlbumsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->integer('visibility');
+            $table->integer('view');
             $table->timestamps();
         });
     }

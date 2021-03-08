@@ -57,9 +57,9 @@
                 @endif
                 </div>
             </div>
-
         </div>
-        @if ($album->visibility == 1 && $stats['randomAlbum'] == 0)
+
+        @if ($album->visibility == 1)
         <div class="col-md-4">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -74,7 +74,7 @@
                               </li>
                               <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                                 Album name
-                                <span class="badge badge-dark"><i class="fas fa-book"></i><span class="badge badge-dark">{{$album->name}}</span></span>
+                                <span class="badge badge-danger"><i class="fas fa-book"></i><span class="badge badge-danger">{{$album->name}}</span></span>
                               </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                             Total Images
@@ -89,6 +89,10 @@
                             <span class="badge badge-dark"><i class="fas fa-comments"></i></i><span class="badge badge-dark" id="commentCountperAlbum">{{$stats['commentCountperAlbum']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
+                            Total Views
+                            <span class="badge badge-dark"><i class="fas fa-eye"></i><span class="badge badge-dark">{{$stats['viewCountperAlbum']}}</span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
                             Total Size
                             <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark">{{$stats['albumSize']}}</span></span>
                           </li>
@@ -100,6 +104,7 @@
                       </div>
                 </div>
             </div>
+            <livewire:random-album-suggest/>
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <strong><p class="text-danger">Comments</p></strong>
@@ -115,19 +120,23 @@
                     </div>
                     <div id="commentBox">
                         @foreach ($comments as $comment)
-                        <div class="card text-white mb-2 bg-comments">
-                        <div class="card-header d-flex justify-content-between align-items-center commentHeader">
-                           <p class='text-danger'><strong>{{$comment->name}}</strong>&nbsp;&nbsp;{{$comment->created_at}}&nbsp;&nbsp;No.{{$comment->id}}</p>
+                        <div class="row bg-comments mb-1">
+                            <div class="col-sm-12">
+                                <div class="postNdate">
+                                    <p>{{$comment->name}} {{$comment->created_at}} No.<a style="color:#FF3333" href="javascript:quotePost('188')">{{$comment->id}}</a></p>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div>
+                                    <p>{{$comment->text}}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body commentBody">
-                            <p>{{$comment->text}}</p>
-                        </div>
-                    </div>
                         @endforeach
                     </div>
                </div>
        <hr>
-       <div>
+    <div>
         <button type="button" class="btn loadBtn btn-block getajaxComments">
             <div class="loader-ellips infinite-scroll-request">
                 <span class="loader-ellips__dot"></span>
@@ -140,6 +149,7 @@
         <input type="hidden" id="all" value="{{$stats['commentCountperAlbum']}}">
     </div>
         </div>
+
         @endif
     </div>
 </div>

@@ -13,7 +13,7 @@ class AlbumVisibility extends Component
     public function render()
     {
             return view('admin.album.livewire.album-visibility', [
-                'foundAlbum' => $foundAlbum = Album::find($this->albumId)
+                'foundAlbum' => Album::find($this->albumId),
             ]);
     }
 
