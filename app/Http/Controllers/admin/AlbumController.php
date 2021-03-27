@@ -66,6 +66,7 @@ class AlbumController extends Controller
         $album->name = $request->name;
         $album->description = $request->description;
         $album->visibility = $request->visibility;
+        $album->view = 0;
         $album->save();
 
         return back()->with('message', 'Album create successfully');

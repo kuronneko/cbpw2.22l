@@ -12,6 +12,10 @@ class RandomAlbumSuggest extends Component
     public function render()
     {
         $album = Album::where('visibility', 1)->inRandomOrder()->first();
+        if(empty($album)){
+            $empty = 0;
+            return view('livewire.random-album-suggest', ['empty' => $empty,]);
+        }
         $images = Image::where('album_id' , $album->id)->orderBy('id','desc')->limit(4)->get();
         $comments = Comment::where('album_id' , $album->id)->orderBy('id','desc')->get();
 
@@ -24,6 +28,7 @@ class RandomAlbumSuggest extends Component
             'images' => $images,
             'comments' => $comments,
             'stats' => $stats,
+            'empty' => 1,
         ]);
     }
 }

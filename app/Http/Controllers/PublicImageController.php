@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Album;
 use App\Models\Image;
 
@@ -94,7 +95,13 @@ class PublicImageController extends Controller
         $stats = $this->getAlbumStats($imagesFull, $album, $commentsType);
         $comments = $commentsType['comment'];
 
-        return view('content',compact('images','album','stats','comments'));
+        if (Auth::check()){
+            $userId = auth()->user()->id;
+        }else{
+            $userId = "";
+        }
+
+        return view('content',compact('images','album','stats','comments','userId'));
         //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);
 
     }

@@ -6,8 +6,12 @@
         <div class="col-md-8">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    @if ($album->visibility == 1)
-                        <strong><p class="text-danger">Album: {{$album->name}}</p></strong>
+                    @if ($album->visibility == 1 || $album->user->id == $userId)
+                       @if ($album->visibility == 0)
+                    <strong><p class="text-danger">Private Album: {{$album->name}}</p></strong>
+                       @else
+                    <strong><p class="text-danger">Album: {{$album->name}}</p></strong>
+                       @endif
                     @else
                         <strong><p>Private Album</p></strong>
                     @endif
@@ -19,7 +23,7 @@
                     <div class="text-center">
                         <img src="{{'/cbpw2.22l/public/storage/images/loading.gif'}}" class="img-responsive loadingGif">
                     </div>
-                    @if ($album->visibility == 1)
+                    @if ($album->visibility == 1 || $album->user->id == $userId)
                     <div class="grid">
                         @foreach ($images as $image)
                         @if ($image->ext == "mp4" || $image->ext == "webm")
@@ -43,7 +47,7 @@
                             <p><strong>You cannot access the content of this album.</strong><p>
                         </div>
                         @endif
-                    @if ($album->visibility == 1)
+                    @if ($album->visibility == 1 || $album->user->id == $userId)
                     <hr>
                     <div class="page-load-status">
                         <div class="loader-ellips infinite-scroll-request">
@@ -59,7 +63,7 @@
             </div>
         </div>
 
-        @if ($album->visibility == 1)
+        @if ($album->visibility == 1 || $album->user->id == $userId)
         <div class="col-md-4">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -154,7 +158,7 @@
     </div>
 </div>
 
-@if ($album->visibility == 1)
+@if ($album->visibility == 1 || $album->user->id == $userId)
   <!-- The Modal -->
   <div class="modal fade" id="modalComments">
     <div class="modal-dialog modal-dialog-centered">

@@ -41,7 +41,7 @@
                                 </div>
                                 </td>
                                 <th scope="row">{{ $album->id }}</th>
-                                <td>{{ $album->name }}</td>
+                                <td><a class="text-white" href="{{route('image.content', $album->id)}}">{{ $album->name }}</a></td>
                                 <td>{{ $album->description }}</td>
                                 <td>{{ $album->user->name}}</td>
                                 <td>{{ $album->created_at}}</td>

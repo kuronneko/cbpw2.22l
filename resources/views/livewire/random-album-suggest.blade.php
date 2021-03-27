@@ -19,55 +19,72 @@
               </div>
               <br><br>
         </div>
-        <a href="{{route('image.content', $album->id)}}" class="personalizeA">
-        <div class="card-body contentCardBodyStyleSideAlbumSuggest">
-             <div class="row" wire:loading.remove>
+@if ($empty == 0)
+<div wire:loading.remove class="text-center mt-4 mb-4">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p class="text-secondary">No album suggestion found</p>
+</div>
+@else
+<a href="{{route('image.content', $album->id)}}" class="personalizeA">
+    <div class="card-body contentCardBodyStyleSideAlbumSuggest">
+         <div class="row" wire:loading.remove>
 <div class="col-6 col-sm-7 albumSuggestStatsCol text-white">
+<div>
+    <span class="badge badge-danger"><i class="fas fa-book"></i>&nbsp;&nbsp;{{$album->name}}&nbsp;&nbsp;</span>
+    </div>
     <div>
-        <span class="badge badge-danger"><i class="fas fa-book"></i>&nbsp;&nbsp;{{$album->name}}&nbsp;&nbsp;</span>
-        </div>
-        <div>
-            <span class="badge badge-dark"><i class="fas fa-images"></i>&nbsp;&nbsp;Images: {{$stats['imageCountperAlbum']}}&nbsp;&nbsp;</span>
-        </div>
-        <div>
-            <span class="badge badge-dark"><i class="fas fa-film"></i>&nbsp;&nbsp;Videos: {{$stats['videoCountperAlbum']}}&nbsp;&nbsp;</span>
-                </div>
+        <span class="badge badge-dark"><i class="fas fa-images"></i>&nbsp;&nbsp;Images: {{$stats['imageCountperAlbum']}}&nbsp;&nbsp;</span>
+    </div>
+    <div>
+        <span class="badge badge-dark"><i class="fas fa-film"></i>&nbsp;&nbsp;Videos: {{$stats['videoCountperAlbum']}}&nbsp;&nbsp;</span>
+            </div>
+                <div>
+                    <span class="badge badge-dark"><i class="fas fa-comments"></i>&nbsp;&nbsp;Comments: {{$stats['commentCountperAlbum']}}&nbsp;&nbsp;</span>
+                    </div>
                     <div>
-                        <span class="badge badge-dark"><i class="fas fa-comments"></i>&nbsp;&nbsp;Comments: {{$stats['commentCountperAlbum']}}&nbsp;&nbsp;</span>
+                        <span class="badge badge-dark"><i class="fas fa-eye"></i>&nbsp;&nbsp;Views: {{$stats['viewCountperAlbum']}}&nbsp;&nbsp;</span>
                         </div>
-                        <div>
-                            <span class="badge badge-dark"><i class="fas fa-eye"></i>&nbsp;&nbsp;Views: {{$stats['viewCountperAlbum']}}&nbsp;&nbsp;</span>
-                            </div>
 
 </div>
 <div class="col-6 col-sm-5 albumSuggestImageCol">
 
-    <div class="containerAlbumSuggest">
+<div class="containerAlbumSuggest">
 @php $count = 0;@endphp
 @foreach ($images as $image)
 @if ($count != 2)
 <div class="image">
-    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+@if ($image->ext == "mp4" || $image->ext == "webm")
+<img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+@else
+<img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+@endif
 </div>
 @php $count++ @endphp
 @endif
 @endforeach
-      </div>
-      <div class="containerAlbumSuggest">
-        @php $count = 0;@endphp
-        @foreach ($images as $image)
-        @php $count++ @endphp
-        @if ($count > 2)
-        <div class="image">
-            <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-        </div>
+  </div>
+  <div class="containerAlbumSuggest">
+    @php $count = 0;@endphp
+    @foreach ($images as $image)
+    @php $count++ @endphp
+    @if ($count > 2)
+    <div class="image">
+        @if ($image->ext == "mp4" || $image->ext == "webm")
+        <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+        @else
+        <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
         @endif
-        @endforeach
-              </div>
+    </div>
+    @endif
+    @endforeach
+          </div>
 
 </div>
-             </div>
-        </div>
-    </a>
+         </div>
     </div>
+</a>
+</div>
+@endif
+
+
 </div>
