@@ -83,6 +83,7 @@ class PublicAlbumController extends Controller
         return $stats;
     }
 
+/*
     function getAjaxAlbums(Request $request)
     {
 
@@ -175,7 +176,7 @@ class PublicAlbumController extends Controller
      }
 
     }
-
+*/
     /**
      * Show the form for creating a new resource.
      *
