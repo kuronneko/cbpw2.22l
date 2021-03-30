@@ -3,12 +3,13 @@
 
         @foreach ($albums as $album)
         <?php $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;$view = $album->view;?>
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-4">
         <div class="card text-white indexCard mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-            <strong><p class="cardAlbumTittle text-danger">Album: {{$album->name}}</p></strong><p class="cardAlbumTittle text-secondary">By: {{$album->user->name}}</p>
+            <strong><p class="cardAlbumTittle upperCaseTittles text-danger">Album: {{$album->name}}</p></strong><p class="cardAlbumTittle text-secondary">By: {{$album->user->name}}</p>
             </div>
-            <div class="card-body">
+            <div class="card-body cardIndexBodyPadding">
+                <p class="text-secondary dateIndexCard"><?php echo $updated_at;?></p>
                 @if ( session('message') )
                 <div class="alert alert-success">{{ session('message') }}</div>
               @endif
@@ -45,7 +46,6 @@
                 <span class="badge badge-dark"><i class="fas fa-film"></i><span class="badge badge-dark"><?php echo $videoCountperAlbum;?></span></span>
                 <span class="badge badge-dark"><i class="fas fa-comments"></i><span class="badge badge-dark"><?php echo $commentCountperAlbum;?></span></span>
                 <span class="badge badge-dark"><i class="fas fa-eye"></i><span class="badge badge-dark"><?php echo $view;?></span></span>
-                <span class="badge badge-dark"><i class="fas fa-redo-alt"></i><span class="badge badge-dark"><?php echo $updated_at;?></span></span>
                 <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
                 <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
             </div>
@@ -59,15 +59,20 @@
 @if ($albumMax == 0)
 
 @else
-<a wire:click='load' class="btn loadBtn btn-sm btn-block" id="livewireAjaxLoadMore" onclick="masonryStart()"><div class="page-load-status">
-    <div class="loader-ellips infinite-scroll-request">
-      <span class="loader-ellips__dot"></span>
-      <span class="loader-ellips__dot"></span>
-      <span class="loader-ellips__dot"></span>
-      <span class="loader-ellips__dot"></span>
-    </div>
-  </div>
-</a>
+<button wire:click='load' wire:loading.remove class="btn btn-dark btn-sm btn-block">
+Load more
+</button>
+<button wire:loading class="btn btn-dark btn-sm btn-block">
+    <div class="page-load-status">
+        <div class="loader-ellips infinite-scroll-request">
+          <span class="loader-ellips__dot"></span>
+          <span class="loader-ellips__dot"></span>
+          <span class="loader-ellips__dot"></span>
+          <span class="loader-ellips__dot"></span>
+        </div>
+      </div>
+</button>
+
 @endif
 
 

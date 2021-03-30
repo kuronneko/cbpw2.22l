@@ -26,62 +26,116 @@
 </div>
 @else
 <a href="{{route('image.content', $album->id)}}" class="personalizeA">
-    <div class="card-body contentCardBodyStyleSideAlbumSuggest">
-         <div class="row" wire:loading.remove>
-<div class="col-6 col-sm-7 albumSuggestStatsCol text-white">
-<div>
-    <span class="badge badge-danger"><i class="fas fa-book"></i>&nbsp;&nbsp;{{$album->name}}&nbsp;&nbsp;</span>
-    </div>
-    <div>
-        <span class="badge badge-dark"><i class="fas fa-images"></i>&nbsp;&nbsp;Images: {{$stats['imageCountperAlbum']}}&nbsp;&nbsp;</span>
-    </div>
-    <div>
-        <span class="badge badge-dark"><i class="fas fa-film"></i>&nbsp;&nbsp;Videos: {{$stats['videoCountperAlbum']}}&nbsp;&nbsp;</span>
+
+    <div wire:loading.remove class="container mt-3 text-center">
+
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+          <!-- Indicators -->
+          <ul class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+          </ul>
+
+
+          <!-- The slideshow -->
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+                @php $count = 0;@endphp
+                @foreach ($images as $image)
+                @php $count++ @endphp
+                @if ($count == 1)
+                <div class="image">
+                @if ($image->ext == "mp4" || $image->ext == "webm")
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                @else
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                @endif
+                </div>
+
+                @endif
+                @endforeach
             </div>
-                <div>
-                    <span class="badge badge-dark"><i class="fas fa-comments"></i>&nbsp;&nbsp;Comments: {{$stats['commentCountperAlbum']}}&nbsp;&nbsp;</span>
-                    </div>
-                    <div>
-                        <span class="badge badge-dark"><i class="fas fa-eye"></i>&nbsp;&nbsp;Views: {{$stats['viewCountperAlbum']}}&nbsp;&nbsp;</span>
-                        </div>
+            <div class="carousel-item">
+                @php $count = 0;@endphp
+                @foreach ($images as $image)
+                @php $count++ @endphp
+                @if ($count == 2)
+                <div class="image">
+                @if ($image->ext == "mp4" || $image->ext == "webm")
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                @else
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                @endif
+                </div>
 
-</div>
-<div class="col-6 col-sm-5 albumSuggestImageCol">
+                @endif
+                @endforeach
+            </div>
+            <div class="carousel-item">
+                @php $count = 0;@endphp
+                @foreach ($images as $image)
+                @php $count++ @endphp
+                @if ($count == 3)
+                <div class="image">
+                @if ($image->ext == "mp4" || $image->ext == "webm")
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                @else
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                @endif
+                </div>
 
-<div class="containerAlbumSuggest">
-@php $count = 0;@endphp
-@foreach ($images as $image)
-@if ($count != 2)
-<div class="image">
-@if ($image->ext == "mp4" || $image->ext == "webm")
-<img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-@else
-<img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-@endif
-</div>
-@php $count++ @endphp
-@endif
-@endforeach
-  </div>
-  <div class="containerAlbumSuggest">
-    @php $count = 0;@endphp
-    @foreach ($images as $image)
-    @php $count++ @endphp
-    @if ($count > 2)
-    <div class="image">
-        @if ($image->ext == "mp4" || $image->ext == "webm")
-        <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-        @else
-        <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-        @endif
-    </div>
-    @endif
-    @endforeach
+                @endif
+                @endforeach
+            </div>
+            <div class="carousel-item">
+                @php $count = 0;@endphp
+                @foreach ($images as $image)
+                @php $count++ @endphp
+                @if ($count == 4)
+                <div class="image">
+                @if ($image->ext == "mp4" || $image->ext == "webm")
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                @else
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                @endif
+                </div>
+
+                @endif
+                @endforeach
+            </div>
+
           </div>
 
-</div>
-         </div>
-    </div>
+          <!-- Left and right controls -->
+          <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </a>
+          <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </a>
+        </div>
+
+        </div>
+
 </a>
 </div>
 @endif

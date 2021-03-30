@@ -78,21 +78,27 @@ class PublicCommentController extends Controller
          $album = Album::find($id);
          $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->paginate(3);
 
-
-         foreach($comments as $comment){
-            $output .= "<div class='row bg-comments mb-1'>";
-            $output .= "<div class='col-sm-12'>";
-            $output .= "<div class='postNdate'>";
-            $output .= "<p>".htmlspecialchars($comment->name)." ".$comment->created_at." No.<a style='color:#FF3333' href='javascript:quotePost('188')'>".$comment->id."</a></p>";
+         if(count($comments) == 0){
+            $output .= "<div class='text-center mt-4 mb-4'>";
+            $output .= "<i class='fas fa-exclamation-triangle'></i>";
+            $output .= "<p class='text-secondary'>No comments found</p>";
             $output .= "</div>";
-            $output .= "</div>";
-            $output .= "<div class='col-sm-12'>";
-            $output .= "<div>";
-            $output .= "<p>".htmlspecialchars($comment->text)."</p>";
-            $output .= "</div>";
-            $output .= "</div>";
-            $output .= "</div>";
-         }
+        }else{
+            foreach($comments as $comment){
+                $output .= "<div class='row bg-comments mb-1'>";
+                $output .= "<div class='col-sm-12'>";
+                $output .= "<div class='postNdate'>";
+                $output .= "<p>".htmlspecialchars($comment->name)." ".$comment->created_at." No.<a style='color:#FF3333' href='javascript:quotePost('188')'>".$comment->id."</a></p>";
+                $output .= "</div>";
+                $output .= "</div>";
+                $output .= "<div class='col-sm-12'>";
+                $output .= "<div>";
+                $output .= "<p>".htmlspecialchars($comment->text)."</p>";
+                $output .= "</div>";
+                $output .= "</div>";
+                $output .= "</div>";
+             }
+        }
 
          return response()->json(['output' => $output]);
          //return response()->json(['response' => $response]);
@@ -137,21 +143,27 @@ class PublicCommentController extends Controller
         if($request->ajax()){
          $album = Album::find($id);
          $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->offset($row)->limit(3)->get();
-
-         foreach($comments as $comment){
-            $output .= "<div class='row bg-comments mb-1'>";
-            $output .= "<div class='col-sm-12'>";
-            $output .= "<div class='postNdate'>";
-            $output .= "<p>".htmlspecialchars($comment->name)." ".$comment->created_at." No.<a style='color:#FF3333' href='javascript:quotePost('188')'>".$comment->id."</a></p>";
-            $output .= "</div>";
-            $output .= "</div>";
-            $output .= "<div class='col-sm-12'>";
-            $output .= "<div>";
-            $output .= "<p>".htmlspecialchars($comment->text)."</p>";
-            $output .= "</div>";
-            $output .= "</div>";
-            $output .= "</div>";
-         }
+                if(count($comments) == 0){
+                    $output .= "<div class='text-center mt-4 mb-4'>";
+                    $output .= "<i class='fas fa-exclamation-triangle'></i>";
+                    $output .= "<p class='text-secondary'>No comments found</p>";
+                    $output .= "</div>";
+                }else{
+                    foreach($comments as $comment){
+                        $output .= "<div class='row bg-comments mb-1'>";
+                        $output .= "<div class='col-sm-12'>";
+                        $output .= "<div class='postNdate'>";
+                        $output .= "<p>".htmlspecialchars($comment->name)." ".$comment->created_at." No.<a style='color:#FF3333' href='javascript:quotePost('188')'>".$comment->id."</a></p>";
+                        $output .= "</div>";
+                        $output .= "</div>";
+                        $output .= "<div class='col-sm-12'>";
+                        $output .= "<div>";
+                        $output .= "<p>".htmlspecialchars($comment->text)."</p>";
+                        $output .= "</div>";
+                        $output .= "</div>";
+                        $output .= "</div>";
+                     }
+                }
          return response()->json(['output' => $output]);
          //return response()->json(['response' => $response]);
         }

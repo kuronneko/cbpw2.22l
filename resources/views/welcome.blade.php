@@ -3,7 +3,7 @@
 @section('content')
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <p>Public Album List</p>
@@ -17,9 +17,7 @@
                     </div>
                 </div>
                 <div class="card-body indexCardBodyStyle">
-                        <div class="form-group">
-                          <input type="text" name="search" id="search" class="form-control text-white searchBarIndex" placeholder="Search albums by name or description" />
-                        </div>
+                        <livewire:search-dropdown />
                         <livewire:load-more-album />
                 {{-- fin card body --}}
                 </div>
@@ -92,6 +90,7 @@
       </div>
 
       <script>
+          /*
         $(document).ready(function(){
 
           $(document).on('keyup', '#search', function(){
@@ -124,6 +123,7 @@ if(data.paginationType == 0){
            })
          }
       });
+      */
         </script>
       <script type="text/javascript">
        $(document).ready(function() {

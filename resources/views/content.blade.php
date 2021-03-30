@@ -4,20 +4,18 @@
 <div class="container publicContainerWithNoPadding">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <livewire:search-dropdown />
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     @if ($album->visibility == 1 || $album->user->id == $userId)
                        @if ($album->visibility == 0)
                     <strong><p class="text-danger">Private Album: {{$album->name}}</p></strong>
                        @else
-                    <strong><p class="text-danger">Album: {{$album->name}}</p></strong>
+                    <strong><p class="text-danger upperCaseTittles">Album: {{$album->name}}</p></strong>
                        @endif
                     @else
                         <strong><p>Private Album</p></strong>
                     @endif
-                    <a href="{{route('index')}}" class="btn btn-dark btn-sm">
-                        <i class="fas fa-home"></i>
-                    </a>
                 </div>
                 <div class="card-body contentCardBodyStyle">
                     <div class="text-center">
@@ -28,14 +26,14 @@
                         @foreach ($images as $image)
                         @if ($image->ext == "mp4" || $image->ext == "webm")
                         <div class="grid-item" >
-                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}">
-                        <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                        </a>
+                         <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}">
+                            <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                          </a>
                         </div>
                         @else
                         <div class="grid-item" >
-                        <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}">
-                        <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" data-was-processed='true'></a>
+                            <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}">
+                                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" data-was-processed='true'></a>
                         </div>
                         @endif
                         @endforeach
@@ -61,8 +59,8 @@
                 @endif
                 </div>
             </div>
-        </div>
 
+        </div>
         @if ($album->visibility == 1 || $album->user->id == $userId)
         <div class="col-md-4">
             <div class="card text-white mb-4">
@@ -72,38 +70,14 @@
                 <div class="card-body contentCardBodyStyleSide">
                     <div>
                         <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center text-white">
-                                Created by
-                                <span class="badge badge-dark"><i class="fas fa-user"></i><span class="badge badge-dark">{{$album->user->name}}</span></span>
-                              </li>
-                              <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
-                                Album name
-                                <span class="badge badge-danger"><i class="fas fa-book"></i><span class="badge badge-danger">{{$album->name}}</span></span>
-                              </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
-                            Total Images
-                            <span class="badge badge-dark"><i class="fas fa-images"></i><span class="badge badge-dark">{{$stats['imageCountperAlbum']}}</span></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
-                            Total Videos
-                            <span class="badge badge-dark"><i class="fas fa-film"></i><span class="badge badge-dark">{{$stats['videoCountperAlbum']}}</span></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
-                            Total Comments
-                            <span class="badge badge-dark"><i class="fas fa-comments"></i></i><span class="badge badge-dark" id="commentCountperAlbum">{{$stats['commentCountperAlbum']}}</span></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
-                            Total Views
-                            <span class="badge badge-dark"><i class="fas fa-eye"></i><span class="badge badge-dark">{{$stats['viewCountperAlbum']}}</span></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
-                            Total Size
-                            <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark">{{$stats['albumSize']}}</span></span>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between align-items-center  text-white">
-                            Last update at
-                            <span class="badge badge-dark"><i class="fas fa-redo-alt"></i><span class="badge badge-dark">{{$stats['updated_at']}}</span></span>
-                          </li>
+                        <li class="list-group-item mx-4 text-white customGroupItem upperCaseTittles"><i class="fas fa-book text-white customStatIcons text-center"></i> <strong>{{$album->name}}</strong></li>
+                        <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-user text-white customStatIcons text-center"></i> {{$album->user->name}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-images text-white customStatIcons text-center"></i> {{$stats['imageCountperAlbum']}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-film text-white customStatIcons text-center"></i> {{$stats['videoCountperAlbum']}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-comments text-white customStatIcons text-center"></i> {{$stats['commentCountperAlbum']}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-eye text-white customStatIcons text-center"></i> {{$stats['viewCountperAlbum']}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-hdd text-white customStatIcons text-center"></i> {{$stats['albumSize']}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-redo-alt text-white customStatIcons text-center"></i> {{$stats['updated_at']}}</li>
                         </ul>
                       </div>
                 </div>
@@ -123,6 +97,12 @@
                           </button>
                     </div>
                     <div id="commentBox">
+                        @if (count($comments) == 0)
+                        <div class="text-center mt-4 mb-4">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p class="text-secondary">No comments found</p>
+                        </div>
+                        @endif
                         @foreach ($comments as $comment)
                         <div class="row bg-comments mb-1">
                             <div class="col-sm-12">
