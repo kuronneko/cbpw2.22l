@@ -1,4 +1,5 @@
 <div>
+
         <div class="row" id="albumsBox">
 
         @foreach ($albums as $album)
@@ -59,10 +60,10 @@
 @if ($albumMax == 0)
 
 @else
-<button wire:click='load' wire:loading.remove class="btn btn-dark btn-sm btn-block">
+<button wire:click='load' wire:loading.remove class="btn loadBtn btn-sm btn-block text-white mb-2">
 Load more
 </button>
-<button wire:loading class="btn btn-dark btn-sm btn-block">
+<button wire:loading class="btn loadBtn btn-sm btn-block mb-2">
     <div class="page-load-status">
         <div class="loader-ellips infinite-scroll-request">
           <span class="loader-ellips__dot"></span>

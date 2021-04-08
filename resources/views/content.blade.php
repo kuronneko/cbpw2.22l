@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container publicContainerWithNoPadding">
+<div class="container ">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <livewire:search-dropdown />
@@ -10,8 +10,14 @@
                     @if ($album->visibility == 1 || $album->user->id == $userId)
                        @if ($album->visibility == 0)
                     <strong><p class="text-danger">Private Album: {{$album->name}}</p></strong>
+                    @if ($album->user->id == $userId)
+                    <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
+                    @endif
                        @else
                     <strong><p class="text-danger upperCaseTittles">Album: {{$album->name}}</p></strong>
+                    @if ($album->user->id == $userId)
+                    <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
+                    @endif
                        @endif
                     @else
                         <strong><p>Private Album</p></strong>

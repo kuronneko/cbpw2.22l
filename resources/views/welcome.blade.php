@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container publicContainerWithNoPadding">
+<div class="container ">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card text-white">
@@ -89,42 +89,7 @@
         </div>
       </div>
 
-      <script>
-          /*
-        $(document).ready(function(){
 
-          $(document).on('keyup', '#search', function(){
-          var query = $(this).val();
-          fetch_customer_data(query);
-         });
-
-         function fetch_customer_data(query = ''){
-        $.ajax({
-           url:"{{ route('album.getAjaxAlbums') }}",
-           method:'GET',
-           data:{query:query},
-           dataType:'json',
-           success:function(data){
-if(data.paginationType == 0){
-    $('#albumsBox').html(data.output);
-               // $(".page-load-status").hide();
-                //$("#livewireAjaxLoadMore").hide();
-                $("#homeOrBack").removeClass('fas fa-sync');
-                $("#homeOrBack").addClass('fas fa-arrow-left');
-}else{
-    $('#albumsBox').html(data.output);
-               //$("#livewireAjaxLoadMore").show();
-                $("#homeOrBack").removeClass('fas fa-arrow-left');
-                $("#homeOrBack").addClass('fas fa-sync');
-}
-
-
-             }
-           })
-         }
-      });
-      */
-        </script>
       <script type="text/javascript">
        $(document).ready(function() {
            if ($.cookie('pop') == null) {

@@ -4,7 +4,7 @@
     <div class="input-group">
         <div class="input-group-append">
             <button wire:loading.remove class="btn btn-dark btn-sm rounded"><i class="fas fa-search"></i></button>
-            <button wire:loading class="btn btn-dark btn-sm rounded"><i class="fas fa-spinner"></i></button>
+            <button wire:loading class="btn btn-dark btn-sm rounded"><i class="spinner-border spinner-border-sm"></i></button>
           </div>
         <input wire:model.debounce.500ms="search" type="text" class="form-control text-white searchBarIndex" placeholder="Search albums by name" />
       </div>
