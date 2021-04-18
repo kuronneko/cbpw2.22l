@@ -24,10 +24,15 @@ Route::resource("admin/album", "admin\AlbumController", ['as' => 'admin']);
 Route::resource("admin/image", "admin\ImageController", ['as' => 'admin']);
 Route::resource("admin/comment", "admin\CommentController", ['as' => 'admin']);
 Route::resource("admin/imagec", "admin\ImagecController", ['as' => 'admin']);
+
+Route::resource("super/tag", "super\SuperTagController", ['as' => 'super']);
+
 Route::get('admin/album/{id}/createImage', 'admin\ImageController@createImage')->name('admin.image.createImage');
 Route::get('admin/album/{id}/showImage', 'admin\ImageController@showImage')->name('admin.image.showImage');
 Route::post('admin/album/fetchAlbum', 'admin\AlbumController@fetchAlbum')->name('admin.album.fetchAlbum');
 Route::get('admin/album/{id}/showComment', 'admin\CommentController@showComment')->name('admin.comment.showComment');
+
+Route::get('admin/album/{id}/showTag', 'admin\TagController@showTag')->name('admin.tag.showTag');
 
 Route::resource("comment", "PublicCommentController");
 Route::resource("/", "PublicAlbumController");
@@ -40,9 +45,9 @@ Route::post('content/getTotalComments', 'PublicCommentController@getTotalComment
 
 //Auth::routes();
 Auth::routes([
-    'register' => false, // Registration Routes...
-    'reset' => false, // Password Reset Routes...
-    'verify' => false, // Email Verification Routes...
+    'register' => true, // Registration Routes...
+    'reset' => true, // Password Reset Routes...
+    'verify' => true, // Email Verification Routes...
   ]);
 //Route::get('/livewire', [App\Http\Controllers\PublicAlbumController::class, 'livewire'])->name('livewire');
 

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Album;
 use App\Models\Image;
+use App\Models\Tag;
 use App\Models\Comment;
 
 class LoadMoreAlbum extends Component
@@ -17,6 +18,7 @@ class LoadMoreAlbum extends Component
             'albums' => Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get(),
             'images' => Image::all()->sortByDesc("id"),
             'comments' => Comment::all()->sortByDesc("id"),
+            'tags' => Tag::all()->sortByDesc("id"),
             'albumMax' => $this->albumMax(),
         ]);
     }

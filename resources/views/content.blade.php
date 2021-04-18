@@ -63,7 +63,17 @@
                       </div>
                 {{-- fin card body --}}
                 @endif
+                <div class="px-2">
+                    @foreach ($tags as $tag)
+                    @foreach ($album->tags as $albumtags)
+                        @if($albumtags->pivot->album_id == $album->id && $albumtags->pivot->tag_id == $tag->id)
+                           <span class="badge badge-danger"><i class="fas fa-tag"></i><span class="badge badge-danger">{{$tag->name}}</span></span>
+                        @endif
+                    @endforeach
+                 @endforeach
                 </div>
+                </div>
+
             </div>
 
         </div>
@@ -71,7 +81,7 @@
         <div class="col-md-4">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <strong><p class="text-danger">Album statistics</p></strong>
+                    <strong><p class="text-danger">Album details</p></strong>
                 </div>
                 <div class="card-body contentCardBodyStyleSide">
                     <div>

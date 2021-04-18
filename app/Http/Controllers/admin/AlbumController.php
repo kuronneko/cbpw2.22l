@@ -167,6 +167,7 @@ class AlbumController extends Controller
         $images->delete();
         $comments = Comment::where('album_id', $foundAlbum->id);
         $comments->delete();
+        $foundAlbum->tags()->detach();
 
         $folderPath = 'public/images/' . $foundAlbum->id;
         if (Storage::exists($folderPath)) {  //check if folder exist

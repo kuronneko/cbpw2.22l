@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
-use App\Models\Album;
-use App\Models\Comment;
 
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
+use App\Models\Album;
+use App\Models\Image;
+use App\Models\Comment;
+use App\Models\User;
+use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
+class TagController extends Controller
 {
 
     public function __construct(){
         $this->middleware('auth');
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +28,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -45,28 +52,6 @@ class CommentController extends Controller
         //
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showComment($id)
-
-    {
-        $userId = auth()->user()->id;
-        $album = Album::find($id);
-
-    if(($album->user->id) == $userId){
-        $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
-        return view('admin.comment.show',['comments'=> $comments, 'album'=> $album]);
-    }else{
-        return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
-    }
-
-    }
-
     /**
      * Display the specified resource.
      *
@@ -75,9 +60,27 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showTag($id)
+    {
+        $userId = auth()->user()->id;
+        $album = Album::find($id);
+
+    if(($album->user->id) == $userId){
+        return view('admin.tag.show',['album'=> $album]);
+    }else{
+        return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
+    }
+
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -107,20 +110,8 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $commentId)
+    public function destroy($id)
     {
-        $albumId = $request->input('albumId');
-        $userId = auth()->user()->id;
-        $albumFound = Album::find($albumId);
-        $commentFound = Comment::find($commentId);
-
-        if(($commentFound->album->id == $albumFound->id && $albumFound->user->id == $userId)){
-
-            $commentFound->delete();
-
-            return redirect()->route('admin.comment.showComment', $albumFound->id);
-        }else{
-            return back()->with('message', 'Comment '.$commentFound->id.' not found or cannot be accessed');
-        }
+        //
     }
 }

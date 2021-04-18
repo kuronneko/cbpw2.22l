@@ -3,13 +3,13 @@
 @section('content')
 <div class="container ">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>[Album:{{$album->name}}] Image List </span>
                     <div class="group-buttons">
-                        <a href="{{route('image.content', $album->id)}}" class="btn btn-dark btn-sm"><i class="fas fa-expand-arrows-alt"></i></a>
                         <a href="{{route('admin.album.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a href="{{route('image.content', $album->id)}}" class="btn btn-dark btn-sm"><i class="fas fa-expand-arrows-alt"></i></a>
                     </div>
                 </div>
                 <div class="card-body">

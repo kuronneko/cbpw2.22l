@@ -3,7 +3,7 @@
 @section('content')
 <div class="container ">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>[User:{{auth()->user()->name}}] Album List</span>
@@ -58,9 +58,8 @@
                                 <td>
                                     <div class="btn-group">
                                         <a href="#" name="getAlbumData" value="{{ $album->id }}" class="btn btn-danger getAlbumData" id="{{ $album->id }}"><i class="fas fa-trash-alt"></i></a>
-
                                         <a class="btn btn-info" href="{{route("admin.album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
-
+                                        <a href="{{route('admin.tag.showTag', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-tags"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -68,7 +67,8 @@
                         </tbody>
                     </table>
                 </div>
-                    {{$albums->links()}}
+
+                {{$albums->links("pagination::bootstrap-4")}}
                 {{-- fin card body --}}
                 </div>
             </div>

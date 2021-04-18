@@ -14,7 +14,7 @@
                 @if ( session('message') )
                 <div class="alert alert-success">{{ session('message') }}</div>
               @endif
-                <p class="cardAlbumDescription">Description: {{$album->description}}</p>
+              <p class="cardAlbumDescription">Description: {{$album->description}}</p>
             <div class="photos" wire:ignore>
                 @foreach ($comments as $comment)
                     @if ($comment->album->id == $album->id)
@@ -40,14 +40,24 @@
                 @endif
                 @endforeach
             </div>
+                <div>
+                <span class="badge badge-Light"><i class="fas fa-images"></i><span class="badge badge-Light"><?php echo $imageCountperAlbum;?></span></span>
+                <span class="badge badge-Light"><i class="fas fa-film"></i><span class="badge badge-Light"><?php echo $videoCountperAlbum;?></span></span>
+                <span class="badge badge-Light"><i class="fas fa-comments"></i><span class="badge badge-Light"><?php echo $commentCountperAlbum;?></span></span>
+                <span class="badge badge-Light"><i class="fas fa-eye"></i><span class="badge badge-Light"><?php echo $view;?></span></span>
+                <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
+                </div>
             {{-- fin card body --}}
             </div>
             <div class="card-footer">
-                <span class="badge badge-dark"><i class="fas fa-images"></i><span class="badge badge-dark"><?php echo $imageCountperAlbum;?></span></span>
-                <span class="badge badge-dark"><i class="fas fa-film"></i><span class="badge badge-dark"><?php echo $videoCountperAlbum;?></span></span>
-                <span class="badge badge-dark"><i class="fas fa-comments"></i><span class="badge badge-dark"><?php echo $commentCountperAlbum;?></span></span>
-                <span class="badge badge-dark"><i class="fas fa-eye"></i><span class="badge badge-dark"><?php echo $view;?></span></span>
-                <span class="badge badge-dark"><i class="fas fa-hdd"></i><span class="badge badge-dark"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
+                @foreach ($tags as $tag)
+                @foreach ($album->tags as $albumtags)
+                   @if($albumtags->pivot->album_id == $album->id && $albumtags->pivot->tag_id == $tag->id)
+                   <span class="badge badge-danger"><i class="fas fa-tag"></i><span class="badge badge-danger">{{$tag->name}}</span></span>
+                   @endif
+                   @endforeach
+                   @endforeach
+
                 <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
             </div>
         </div>
