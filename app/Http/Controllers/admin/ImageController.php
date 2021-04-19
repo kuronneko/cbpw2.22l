@@ -14,6 +14,10 @@ use Intervention\Image\ImageManagerStatic;
 use SebastianBergmann\Environment\Console;
 use Illuminate\Support\Facades\DB;
 
+use Lakshmaji\Thumbnail\Facade\Thumbnail;
+use Carbon;
+
+
 class ImageController extends Controller
 {
 
@@ -140,6 +144,12 @@ class ImageController extends Controller
                 $url = Storage::url('public/images/' . $albumFound->id . '/' . $newFilename); //url without extension
 
                 if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm") {
+                    //generate video thumbnail with the Lakshmaji video thumbnail library
+                    $video_path       = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
+                    $thumbnail_path   = public_path('/storage/images/' . $albumFound->id . '/');
+                    $thumbnail_image  = $newFilename . '_thumb.jpg';
+                    $time_to_image =  2;
+                    Thumbnail::getThumbnail($video_path,$thumbnail_path,$thumbnail_image,$time_to_image);
 
                 } else {
                     $thumbTarget = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library

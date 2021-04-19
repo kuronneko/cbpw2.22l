@@ -48,10 +48,14 @@
                 @php $count++ @endphp
                 @if ($count == 1)
                 <div class="image">
-                @if ($image->ext == "mp4" || $image->ext == "webm")
+                @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
                 <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
                 <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
                 <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                @elseif ($image->ext == "mp4" || $image->ext == "webm")
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                 @else
                 <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
                 <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
@@ -68,15 +72,19 @@
                 @php $count++ @endphp
                 @if ($count == 2)
                 <div class="image">
-                @if ($image->ext == "mp4" || $image->ext == "webm")
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                @else
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                @endif
+                    @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    @elseif ($image->ext == "mp4" || $image->ext == "webm")
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    @else
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    @endif
                 </div>
 
                 @endif
@@ -88,15 +96,19 @@
                 @php $count++ @endphp
                 @if ($count == 3)
                 <div class="image">
-                @if ($image->ext == "mp4" || $image->ext == "webm")
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                @else
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                @endif
+                    @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    @elseif ($image->ext == "mp4" || $image->ext == "webm")
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    @else
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    @endif
                 </div>
 
                 @endif
@@ -108,15 +120,19 @@
                 @php $count++ @endphp
                 @if ($count == 4)
                 <div class="image">
-                @if ($image->ext == "mp4" || $image->ext == "webm")
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                @else
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                @endif
+                    @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    @elseif ($image->ext == "mp4" || $image->ext == "webm")
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    @else
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    @endif
                 </div>
 
                 @endif

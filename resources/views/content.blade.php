@@ -30,10 +30,16 @@
                     @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                     <div class="grid">
                         @foreach ($images as $image)
-                        @if ($image->ext == "mp4" || $image->ext == "webm")
+                        @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                        <div class="grid-item" >
+                            <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}">
+                                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}"  data-was-processed='true'>
+                             </a>
+                           </div>
+                        @elseif ($image->ext == "mp4" || $image->ext == "webm")
                         <div class="grid-item" >
                          <a data-fancybox="images" href="{{'/cbpw2.22l/public/'}}{{ $image->url }}.{{$image->ext}}">
-                            <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                            <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                           </a>
                         </div>
                         @else

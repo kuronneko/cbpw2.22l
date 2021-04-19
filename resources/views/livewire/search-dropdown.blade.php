@@ -26,8 +26,10 @@
                    @php
                        $imgLimiteAlbum++;
                    @endphp
-                   @if ($image->ext == "mp4" || $image->ext== "webm")
-                   <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true' class="imgThumb" alt="Album Avatar">
+                   @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                   <img  src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true' class="imgThumb" alt="Album Avatar">
+                   @elseif ($image->ext == "mp4" || $image->ext== "webm")
+                   <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true' class="imgThumb" alt="Album Avatar">
                    @else
                    <img src="{{'/cbpw2.22l/public/'}}{{$image->url}}_thumb.{{$image->ext}}" data-was-processed='true' class="imgThumb" alt="Album Avatar">
                    @endif
