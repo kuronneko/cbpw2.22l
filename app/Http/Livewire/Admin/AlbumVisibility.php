@@ -13,12 +13,15 @@ class AlbumVisibility extends Component
 
     public function render()
     {
-        if(Auth::check()){
+        $userId = auth()->user()->id;
+        $foundAlbum = Album::find($this->albumId);
+
+        if($foundAlbum->user->id == $userId || auth()->user()->type == 1){
             return view('admin.album.livewire.album-visibility', [
                 'foundAlbum' => Album::find($this->albumId),
             ]);
         }else{
-            abort_if(!Auth::check(), 204);
+            abort_if(auth()->user()->type != 1 || $foundAlbum->user->id != $userId, 204);
         }
     }
 
@@ -27,7 +30,7 @@ class AlbumVisibility extends Component
         $userId = auth()->user()->id;
         $foundAlbum = Album::find($this->albumId);
 
-        if(Auth::check() && $foundAlbum->user->id == $userId){
+        if($foundAlbum->user->id == $userId || auth()->user()->type == 1){
             if($foundAlbum->visibility == 0){
                 $foundAlbum->visibility = 1;
                 $foundAlbum->update();
@@ -36,7 +39,7 @@ class AlbumVisibility extends Component
                 $foundAlbum->update();
             }
         }else{
-            abort_if(!Auth::check() || $foundAlbum->user->id != $userId, 204);
+            abort_if(auth()->user()->type != 1 || $foundAlbum->user->id != $userId, 204);
         }
 
     }

@@ -46,7 +46,7 @@
                                 <td>{{ $album->user->name}}</td>
                                 <td>{{ $album->created_at}}</td>
                                 @foreach ($images as $image)
-                                @if (($image->album->id == $album->id) && ($album->user->id == auth()->user()->id))
+                                @if (($image->album->id == $album->id && $album->user->id == auth()->user()->id) || ($image->album->id == $album->id && auth()->user()->type == 1))
                                 <?php $albumSize = $albumSize + $image->size;?>
                                 @endif
                                 @endforeach

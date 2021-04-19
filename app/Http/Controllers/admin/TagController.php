@@ -74,7 +74,7 @@ class TagController extends Controller
         $userId = auth()->user()->id;
         $album = Album::find($id);
 
-    if(($album->user->id) == $userId){
+    if($album->user->id == $userId || auth()->user()->type == 1){
         return view('admin.tag.show',['album'=> $album]);
     }else{
         return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');

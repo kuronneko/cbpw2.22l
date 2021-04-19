@@ -58,7 +58,7 @@ class CommentController extends Controller
         $userId = auth()->user()->id;
         $album = Album::find($id);
 
-    if(($album->user->id) == $userId){
+    if($album->user->id == $userId || auth()->user()->type == 1){
         $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
         return view('admin.comment.show',['comments'=> $comments, 'album'=> $album]);
     }else{
@@ -114,7 +114,7 @@ class CommentController extends Controller
         $albumFound = Album::find($albumId);
         $commentFound = Comment::find($commentId);
 
-        if(($commentFound->album->id == $albumFound->id && $albumFound->user->id == $userId)){
+        if(($commentFound->album->id == $albumFound->id && $albumFound->user->id == $userId) || ($commentFound->album->id == $albumFound->id && auth()->user()->type == 1)){
 
             $commentFound->delete();
 

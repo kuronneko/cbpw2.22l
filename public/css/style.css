@@ -165,6 +165,7 @@
 
 .cardAlbumDescription{
     font-size: 15px;
+
 }
 
 
@@ -403,6 +404,9 @@ font-size: 16px;
 
 .upperCaseTittles{
     text-transform: uppercase;
+}
+.lowerCaseTittles{
+ text-transform: lowercase;
 }
 
 .absoluteItem{

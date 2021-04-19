@@ -6,6 +6,7 @@
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <p>[Album:{{$album->name}}] Tags List</p>
+                    <a href="{{route('admin.album.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                 <div class="card-body">
                     <livewire:admin.attach-tag :albumId="$album->id"/>

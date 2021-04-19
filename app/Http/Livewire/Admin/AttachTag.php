@@ -24,7 +24,7 @@ class AttachTag extends Component
 
         $album = Album::find($albumId);
         $tag = Tag::find($tagId);
-        if(auth()->user()->id == $album->user->id){
+        if(auth()->user()->id == $album->user->id || auth()->user()->type == 1){
             $album->tags()->attach($tag->id);
         }
 
@@ -34,7 +34,7 @@ class AttachTag extends Component
         //Tag::destroy($id);
         $album = Album::find($albumId);
         $tag = Tag::find($tagId);
-        if(auth()->user()->id == $album->user->id){
+        if(auth()->user()->id == $album->user->id || auth()->user()->type == 1){
             $album->tags()->detach($tag->id);
         }
     }

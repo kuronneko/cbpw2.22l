@@ -7,7 +7,7 @@
             <div class="col-12 col-sm-4">
         <div class="card text-white indexCard mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-            <strong><p class="cardAlbumTittle upperCaseTittles text-danger">Album: {{$album->name}}</p></strong><p class="cardAlbumTittle text-secondary">By: {{$album->user->name}}</p>
+            <strong><p class="cardAlbumTittle upperCaseTittles text-danger">Album: {{$album->name}}</p></strong><p class="cardAlbumTittle lowerCaseTittles text-secondary">By: {{$album->user->name}}</p>
             </div>
             <div class="card-body cardIndexBodyPadding">
                 <p class="text-secondary dateIndexCard"><?php echo $updated_at;?></p>

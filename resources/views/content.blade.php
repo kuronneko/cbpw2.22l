@@ -7,15 +7,15 @@
             <livewire:search-dropdown />
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    @if ($album->visibility == 1 || $album->user->id == $userId)
+                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                        @if ($album->visibility == 0)
                     <strong><p class="text-danger">Private Album: {{$album->name}}</p></strong>
-                    @if ($album->user->id == $userId)
+                    @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                     @endif
                        @else
                     <strong><p class="text-danger upperCaseTittles">Album: {{$album->name}}</p></strong>
-                    @if ($album->user->id == $userId)
+                    @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                     @endif
                        @endif
@@ -27,7 +27,7 @@
                     <div class="text-center">
                         <img src="{{'/cbpw2.22l/public/storage/images/loading.gif'}}" class="img-responsive loadingGif">
                     </div>
-                    @if ($album->visibility == 1 || $album->user->id == $userId)
+                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                     <div class="grid">
                         @foreach ($images as $image)
                         @if ($image->ext == "mp4" || $image->ext == "webm")
@@ -51,7 +51,7 @@
                             <p><strong>You cannot access the content of this album.</strong><p>
                         </div>
                         @endif
-                    @if ($album->visibility == 1 || $album->user->id == $userId)
+                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                     <hr>
                     <div class="page-load-status">
                         <div class="loader-ellips infinite-scroll-request">
@@ -62,8 +62,7 @@
                         </div>
                       </div>
                 {{-- fin card body --}}
-                @endif
-                <div class="px-2">
+                <div class="px-4" id="tags">
                     @foreach ($tags as $tag)
                     @foreach ($album->tags as $albumtags)
                         @if($albumtags->pivot->album_id == $album->id && $albumtags->pivot->tag_id == $tag->id)
@@ -72,12 +71,13 @@
                     @endforeach
                  @endforeach
                 </div>
+                @endif
                 </div>
 
             </div>
 
         </div>
-        @if ($album->visibility == 1 || $album->user->id == $userId)
+        @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
         <div class="col-md-4">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -154,7 +154,7 @@
     </div>
 </div>
 
-@if ($album->visibility == 1 || $album->user->id == $userId)
+@if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
   <!-- The Modal -->
   <div class="modal fade" id="modalComments">
     <div class="modal-dialog modal-dialog-centered">

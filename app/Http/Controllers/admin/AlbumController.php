@@ -27,11 +27,20 @@ class AlbumController extends Controller
     public function index()
     {
         $userId = auth()->user()->id;
-        $albums = Album::where('user_id', $userId)->orderBy('updated_at','desc')->paginate(100);
-        $images = Image::all();
-        //$imageArray = DB::select("SELECT images.id, images.album_id, images.url, images.ext, images.size, images.basename, images.ip, images.tag, images.created_at FROM images, albums, users WHERE (images.album_id=albums.id) AND (albums.user_id=users.id) AND (albums.user_id='$userId')");
-        //$images = collect($imageArray); //this object is similar but no real image object, they have similar parameters than sql query and you cant get the relacionship objects like (album, user)
-        return view('admin.album.index',compact('albums','images'));
+
+        if(auth()->user()->type == 1){
+            $albums = Album::orderBy('updated_at', 'desc')->paginate(100);
+            $images = Image::all();
+            //$imageArray = DB::select("SELECT images.id, images.album_id, images.url, images.ext, images.size, images.basename, images.ip, images.tag, images.created_at FROM images, albums, users WHERE (images.album_id=albums.id) AND (albums.user_id=users.id) AND (albums.user_id='$userId')");
+            //$images = collect($imageArray); //this object is similar but no real image object, they have similar parameters than sql query and you cant get the relacionship objects like (album, user)
+            return view('admin.album.index',compact('albums','images'));
+        }else{
+            $albums = Album::where('user_id', $userId)->orderBy('updated_at','desc')->paginate(100);
+            $images = Image::all();
+            //$imageArray = DB::select("SELECT images.id, images.album_id, images.url, images.ext, images.size, images.basename, images.ip, images.tag, images.created_at FROM images, albums, users WHERE (images.album_id=albums.id) AND (albums.user_id=users.id) AND (albums.user_id='$userId')");
+            //$images = collect($imageArray); //this object is similar but no real image object, they have similar parameters than sql query and you cant get the relacionship objects like (album, user)
+            return view('admin.album.index',compact('albums','images'));
+        }
     }
 
     /**
@@ -96,7 +105,7 @@ class AlbumController extends Controller
 
         $userId = auth()->user()->id;
         $album = Album::find($id);
-        if(($album->user->id) == $userId){
+        if($album->user->id == $userId || auth()->user()->type == 1){
             return view("admin.album.edit", compact("album"));
         }else{
             return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
@@ -120,7 +129,7 @@ class AlbumController extends Controller
 
         $userId = auth()->user()->id;
         $foundAlbum = Album::find($id);
-        if(($foundAlbum->user->id) == $userId){
+        if($foundAlbum->user->id == $userId || auth()->user()->type == 1){
             $foundAlbum->name=$request->input("name");
             $foundAlbum->description=$request->input("description");
             $foundAlbum->visibility=$request->visibility;
@@ -162,7 +171,7 @@ class AlbumController extends Controller
         $albumId = $request->input("albumId");
         $foundAlbum = Album::find($albumId);
 
-    if(($foundAlbum->user->id) == $userId){
+    if($foundAlbum->user->id == $userId || auth()->user()->type == 1){
         $images = Image::where('album_id', $foundAlbum->id);
         $images->delete();
         $comments = Comment::where('album_id', $foundAlbum->id);

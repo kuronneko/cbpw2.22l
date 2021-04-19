@@ -81,7 +81,7 @@ class ImageController extends Controller
         $userId = auth()->user()->id;
         $album = Album::find($id);
 
-        if (($album->user->id) == $userId) {
+        if ($album->user->id == $userId || auth()->user()->type == 1) {
             return view('admin.image.create')->with('album', $album); //podria mandar el objeto album completo?????
         } else {
             return back()->with('message', 'Album ' . $album->id . ' not found or cannot be accessed');
@@ -100,7 +100,7 @@ class ImageController extends Controller
         $userId = auth()->user()->id;
         $album = Album::find($id);
 
-        if (($album->user->id) == $userId) {
+        if ($album->user->id == $userId || auth()->user()->type == 1) {
             $images = Image::where('album_id', $album->id)->orderBy('id', 'desc')->paginate(100);
             return view('admin.image.show', ['images' => $images, 'album' => $album]);
         } else {
@@ -124,7 +124,7 @@ class ImageController extends Controller
         $userId = auth()->user()->id;
         $albumFound = Album::find($albumId);
 
-        if (($albumFound->user->id == $userId)) {
+        if ($albumFound->user->id == $userId || auth()->user()->type == 1) {
             $newFilename = md5($document->getClientOriginalName());  //rename filename
 
             $albumFolderPath = public_path('/storage/images/' . $albumFound->id);
@@ -247,7 +247,7 @@ class ImageController extends Controller
         $albumFound = Album::find($albumId);
         $imageFound = Image::find($imageId);
 
-        if (($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId)) {
+        if (($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId) || ($imageFound->album->id == $albumFound->id && auth()->user()->type == 1)) {
 
             $productImage = str_replace('/storage', '', $imageFound->url);
 
