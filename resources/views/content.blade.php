@@ -9,18 +9,18 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                        @if ($album->visibility == 0)
-                    <strong><p class="text-danger">Private Album: {{$album->name}}</p></strong>
+                    <strong><span class="text-danger">Private Album: {{$album->name}}</span></strong>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                     @endif
                        @else
-                    <strong><p class="text-danger upperCaseTittles">Album: {{$album->name}}</p></strong>
+                    <strong><span class="text-danger upperCaseTittles">Album: {{$album->name}}</span></strong>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                     @endif
                        @endif
                     @else
-                        <strong><p>Private Album</p></strong>
+                        <strong><span>Private Album</span></strong>
                     @endif
                 </div>
                 <div class="card-body contentCardBodyStyle">
@@ -58,8 +58,8 @@
                         </div>
                         @endif
                     @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
-                    <hr>
-                    <div class="page-load-status">
+
+                    <div class="page-load-status mt-4">
                         <div class="loader-ellips infinite-scroll-request">
                           <span class="loader-ellips__dot"></span>
                           <span class="loader-ellips__dot"></span>
@@ -67,8 +67,9 @@
                           <span class="loader-ellips__dot"></span>
                         </div>
                       </div>
+                      <hr>
                 {{-- fin card body --}}
-                <div class="px-4" id="tags">
+                <div class="px-4 text-center" id="tags">
                     @foreach ($tags as $tag)
                     @foreach ($album->tags as $albumtags)
                         @if($albumtags->pivot->album_id == $album->id && $albumtags->pivot->tag_id == $tag->id)
@@ -87,7 +88,7 @@
         <div class="col-md-4">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <strong><p class="text-danger">Album details</p></strong>
+                    <strong><span class="text-danger">Album details</span></strong>
                 </div>
                 <div class="card-body contentCardBodyStyleSide">
                     <div>
@@ -107,7 +108,7 @@
             <livewire:random-album-suggest/>
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <strong><p class="text-danger">Comments</p></strong>
+                    <strong><span class="text-danger">Comments</span></strong>
                     <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalComments">
                         <i class="fas fa-paper-plane"></i>
                     </button>

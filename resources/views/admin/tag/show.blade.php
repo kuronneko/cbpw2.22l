@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <p>[Album:{{$album->name}}] Tags List</p>
+                    <small><span>[Album:{{$album->name}}] Tags List</span></small>
                     <a href="{{route('admin.album.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                 <div class="card-body">

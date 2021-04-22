@@ -6,7 +6,7 @@
         <div class="col-md-6">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>New Album</span>
+                    <small><span>New Album</span></small>
                     <a href="{{route('admin.album.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                 <div class="card-body">

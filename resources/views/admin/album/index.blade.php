@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>[User:{{auth()->user()->name}}] Album List</span>
+                    <small><span>[User:{{auth()->user()->name}}] Album List</span></small>
                     <a href="{{route('admin.album.create')}}" class="btn btn-dark btn-sm">New Album</a>
                 </div>
                 <div class="card-body">

@@ -1,7 +1,6 @@
 <div>
     <div id="tagsComponent">
      <h5>Album Tags</h5>
-
                 @foreach ($tags as $tag)
                   @foreach ($album->tags as $albumtags)
                      @if($albumtags->pivot->album_id == $album->id && $albumtags->pivot->tag_id == $tag->id)

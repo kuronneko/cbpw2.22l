@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="card text-white">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <p>Global Tags Settings</p>
+                        <span>Global Tags Settings</span>
                     </div>
                     <div class="card-body">
                     <livewire:super.tag-gestor />

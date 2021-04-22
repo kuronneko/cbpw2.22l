@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <p>Public Album List</p>
+                    <span>Public Album List</span>
                     <div class="group-buttons">
                         <a href="{{route('index')}}" class="btn btn-dark btn-sm">
                             <i id="homeOrBack" class="fas fa-sync"></i>

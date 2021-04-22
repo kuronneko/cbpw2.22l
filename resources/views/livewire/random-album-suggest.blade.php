@@ -1,7 +1,7 @@
 <div>
     <div class="card text-white mb-4">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <strong><p class="text-danger">Random Album Suggest</p></strong>
+            <strong><span class="text-danger">Random Album Suggest</span></strong>
             <a wire:click='render' wire:loading.remove class="btn btn-dark btn-sm">
                 <i class="fas fa-dice"></i>
             </a>

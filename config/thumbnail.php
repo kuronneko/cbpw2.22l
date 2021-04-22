@@ -43,8 +43,8 @@ return array(
     */
 
     'dimensions' => [
-        'width'  => env('THUMBNAIL_IMAGE_WIDTH', 320),
-        'height' => env('THUMBNAIL_IMAGE_HEIGHT', 240),
+        'width'  => env('THUMBNAIL_IMAGE_WIDTH', 720),
+        'height' => env('THUMBNAIL_IMAGE_HEIGHT', 1280),
     ],
 
     /*
@@ -59,11 +59,11 @@ return array(
     'watermark' => [
         'image' => [
             'enabled' => env('WATERMARK_IMAGE', false),
-            'path'    => env('WATERMARK_PATH', 'http://voluntarydba.com/pics/YouTube%20Play%20Button%20Overlay.png'),
+            'path'    => env('WATERMARK_PATH', '\xampp\htdocs\cbpw2.22l\public\storage\images\videoplay.png'),
         ],
         'video' => [
             'enabled' => env('WATERMARK_VIDEO', false),
-            'path'    => env('WATERMARK_PATH', ''),
+            'path'    => env('WATERMARK_PATH', '\xampp\htdocs\cbpw2.22l\public\storage\images\videoplay.png'),
         ],
     ],
 
