@@ -36,109 +36,56 @@
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
             <li data-target="#myCarousel" data-slide-to="2"></li>
-            <li data-target="#myCarousel" data-slide-to="3"></li>
           </ul>
 
 
           <!-- The slideshow -->
           <div class="carousel-inner">
             <div class="carousel-item active">
-                @php $count = 0;@endphp
-                @foreach ($images as $image)
-                @php $count++ @endphp
-                @if ($count == 1)
                 <div class="image">
+                @foreach ($images as $i => $image)
+                    @if ($i < 3)
                 @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
                 <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
                 @elseif ($image->ext == "mp4" || $image->ext == "webm")
                 <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                 @else
                 <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
                 @endif
-                </div>
-
                 @endif
                 @endforeach
             </div>
+            </div>
             <div class="carousel-item">
-                @php $count = 0;@endphp
-                @foreach ($images as $image)
-                @php $count++ @endphp
-                @if ($count == 2)
                 <div class="image">
+                    @foreach ($images2 as $i => $image)
+                        @if ($i < 3)
                     @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
                     <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
                     <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                     @else
                     <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
                     @endif
+                    @endif
+                    @endforeach
                 </div>
-
-                @endif
-                @endforeach
             </div>
             <div class="carousel-item">
-                @php $count = 0;@endphp
-                @foreach ($images as $image)
-                @php $count++ @endphp
-                @if ($count == 3)
                 <div class="image">
+                    @foreach ($images3 as $i => $image)
+                    @if ($i < 3)
                     @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
                     <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
                     <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                     @else
                     <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
                     @endif
-                </div>
-
-                @endif
-                @endforeach
-            </div>
-            <div class="carousel-item">
-                @php $count = 0;@endphp
-                @foreach ($images as $image)
-                @php $count++ @endphp
-                @if ($count == 4)
-                <div class="image">
-                    @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
-                    @elseif ($image->ext == "mp4" || $image->ext == "webm")
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
-                    @else
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
                     @endif
+                    @endforeach
                 </div>
-
-                @endif
-                @endforeach
             </div>
-
           </div>
 
           <!-- Left and right controls -->

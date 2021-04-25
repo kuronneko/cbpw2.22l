@@ -32,11 +32,11 @@
                 @if($imageLimitperAlbum != 4)
                 <?php $imageLimitperAlbum++; ?>
                 @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
+                <img src="{{ config("myconfig.img.url") }}{{'storage/images/videothumb.png'}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
                 @elseif ($image->ext == "mp4" || $image->ext == "webm")
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" class="imgThumbPublicIndex masonry" data-was-processed='true'>
+                <img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.jpg" class="imgThumbPublicIndex masonry" data-was-processed='true'>
                 @else
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
+                <img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumbPublicIndex masonry" data-was-processed='true'>
                 @endif
                 @endif
                 @endif

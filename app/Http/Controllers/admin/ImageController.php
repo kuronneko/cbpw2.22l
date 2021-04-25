@@ -144,20 +144,20 @@ class ImageController extends Controller
                 $url = Storage::url('public/images/' . $albumFound->id . '/' . $newFilename); //url without extension
 
                 if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm") {
-                    //generate video thumbnail with the Lakshmaji video thumbnail library
+                    //generate video thumbnail with Lakshmaji video thumbnail library
                     if(config('myconfig.patch-pre-ffmpeg.ffmpeg-status') == true){
-                        $video_path       = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
-                        $thumbnail_path   = public_path('/storage/images/' . $albumFound->id . '/');
-                        $thumbnail_image  = $newFilename . '_thumb.jpg';
-                        $time_to_image =  2;
-                        Thumbnail::getThumbnail($video_path,$thumbnail_path,$thumbnail_image,$time_to_image); //generate default size thumbnail from the video with Lakshmaji library (watermark settings OFF)
+                        $videoPath       = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
+                        $thumbnailPath   = public_path('/storage/images/' . $albumFound->id . '/');
+                        $thumbnailImageName  = $newFilename . '_thumb.jpg';
+                        $timeToImage =  2;
+                        Thumbnail::getThumbnail($videoPath,$thumbnailPath,$thumbnailImageName,$timeToImage); //generate default size thumbnail from video with Lakshmaji library (watermark settings OFF)
 
-                        $thumbnail_path_resize = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '_thumb.jpg');
+                        $thumbnailPathResize = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '_thumb.jpg');
                         $waterMarkPath = public_path('/storage/images/videoplay4.png');
 
-                            ImageManagerStatic::make($thumbnail_path_resize)->resize(200, null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
+                            ImageManagerStatic::make($thumbnailPathResize)->resize(200, null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
                             $constraint->aspectRatio();
-                        })->resizeCanvas(200, null)->insert($waterMarkPath, 'center')->save($thumbnail_path_resize, 80); //->insert($waterMarkPath, 'bottom-left', 5, 5);
+                        })->resizeCanvas(200, null)->insert($waterMarkPath, 'center')->save($thumbnailPathResize, 80); //->insert($waterMarkPath, 'bottom-left', 5, 5);
 
                     }else{
 

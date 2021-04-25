@@ -16,7 +16,10 @@ class RandomAlbumSuggest extends Component
             $empty = 0;
             return view('livewire.random-album-suggest', ['empty' => $empty,]);
         }
-        $images = Image::where('album_id' , $album->id)->orderBy('id','desc')->limit(4)->get();
+        $images = Image::where('album_id' , $album->id)->inRandomOrder()->take(3)->get();
+        $images2 = Image::where('album_id' , $album->id)->inRandomOrder()->take(3)->get();
+        $images3 = Image::where('album_id' , $album->id)->inRandomOrder()->take(3)->get();
+
         $comments = Comment::where('album_id' , $album->id)->orderBy('id','desc')->get();
 
         $commentsType = app('App\Http\Controllers\PublicCommentController')->showComment($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
@@ -26,6 +29,8 @@ class RandomAlbumSuggest extends Component
         return view('livewire.random-album-suggest', [
             'album' => $album,
             'images' => $images,
+            'images2' => $images2,
+            'images3' => $images3,
             'comments' => $comments,
             'stats' => $stats,
             'empty' => 1,
