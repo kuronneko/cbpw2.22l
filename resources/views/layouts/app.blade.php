@@ -96,10 +96,10 @@
             @yield('content')
         </main>
 
-                <footer>
-                    <p><a class="text-white" href="" target="_top">{{ config('app.name', 'Laravel') }}</a> image gallery engine developed by Kuroneko</p>
-                    <p>2018-<?php echo date("Y"); ?> ~ <a class="text-white" href="" target="_top">Contact</a></p>
-                </footer>
+        <footer>
+            <p><a class="text-white" href="" target="_top">{{ config('myconfig.engine.name') }} {{config('myconfig.engine.version')}}</a> image gallery engine developed by Kuroneko</p>
+            <p>2018-<?php echo date("Y"); ?> ~ <a class="text-white" href="#" target="_top">Contact</a> ~ <a class="text-white" href="#" data-toggle="modal" data-target="#stats">Legal Info</a></p>
+        </footer>
 
     </div>
     @livewireScripts

@@ -46,11 +46,11 @@
                 @foreach ($images as $i => $image)
                     @if ($i < 3)
                 @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{config("myconfig.img.url")}}{{'storage/images/videothumb.png'}}" data-was-processed='true'>
                 @elseif ($image->ext == "mp4" || $image->ext == "webm")
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                 @else
-                <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
                 @endif
                 @endif
                 @endforeach
@@ -61,11 +61,11 @@
                     @foreach ($images2 as $i => $image)
                         @if ($i < 3)
                     @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{config("myconfig.img.url")}}{{'storage/images/videothumb.png'}}" data-was-processed='true'>
                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                     @else
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
                     @endif
                     @endif
                     @endforeach
@@ -76,11 +76,11 @@
                     @foreach ($images3 as $i => $image)
                     @if ($i < 3)
                     @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                    <img src="{{'/cbpw2.22l/public/storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{config("myconfig.img.url")}}{{'storage/images/videothumb.png'}}" data-was-processed='true'>
                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
+                    <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                     @else
-                    <img src="{{'/cbpw2.22l/public/'}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
+                    <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.{{$image->ext}}"  data-was-processed='true'>
                     @endif
                     @endif
                     @endforeach

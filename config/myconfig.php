@@ -15,7 +15,12 @@ return [
             'url' => '/cbpw2.22l/public/',  //cbpw2.22l is the htdocs proyect folder // in production you can delete it and just write /public/
         ],
 
-
+        'engine' =>
+        [
+            'name' => 'Cyberpunkwaifus',
+            'version' => '2.22040',
+            'date' => '4/27/2021',
+        ],
 
 ];
 
