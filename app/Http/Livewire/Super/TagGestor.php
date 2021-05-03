@@ -12,7 +12,7 @@ class TagGestor extends Component
 
     public function render()
     {
-        if(auth()->user()->type == 1){
+        if(auth()->user()->type == config('myconfig.privileges.super')){
             return view('super.tag.livewire.tag-gestor', [
                 'tags' => Tag::all(),
             ]);
@@ -21,7 +21,7 @@ class TagGestor extends Component
 
     public function destroy($id){
         //Tag::destroy($id);
-        if(auth()->user()->type == 1){
+        if(auth()->user()->type == config('myconfig.privileges.super')){
             $tag = Tag::find($id);
             $tag->albums()->detach();
             $tag->delete();
@@ -29,7 +29,7 @@ class TagGestor extends Component
     }
 
     public function store(){
-        if(auth()->user()->type == 1){
+        if(auth()->user()->type == config('myconfig.privileges.super')){
             $this->validate(['name' => 'required']);
             Tag::create([
                 'name' => $this->name,

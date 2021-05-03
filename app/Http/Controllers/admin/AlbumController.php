@@ -26,9 +26,11 @@ class AlbumController extends Controller
      */
     public function index()
     {
+        abort(404);
+        /*
         $userId = auth()->user()->id;
 
-        if(auth()->user()->type == 1){
+        if(auth()->user()->type == config('myconfig.privileges.super')){
             $albums = Album::orderBy('updated_at', 'desc')->paginate(100);
             $images = Image::all();
             //$imageArray = DB::select("SELECT images.id, images.album_id, images.url, images.ext, images.size, images.basename, images.ip, images.tag, images.created_at FROM images, albums, users WHERE (images.album_id=albums.id) AND (albums.user_id=users.id) AND (albums.user_id='$userId')");
@@ -41,6 +43,7 @@ class AlbumController extends Controller
             //$images = collect($imageArray); //this object is similar but no real image object, they have similar parameters than sql query and you cant get the relacionship objects like (album, user)
             return view('admin.album.index',compact('albums','images'));
         }
+        */
     }
 
     /**
@@ -63,12 +66,19 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
+        $userId = auth()->user()->id;
 
         $request->validate([
             'name' => 'required',
             'description' => 'required',
             'visibility' => 'required'
         ]);
+
+        $userFolderPath = public_path('/storage/images/' . 'profile_'.$userId);
+        if (!file_exists($userFolderPath)) {       //check if folder exist
+
+            mkdir($userFolderPath, 0755, true);
+        }
 
         $album = new Album();
         $album->user_id = auth()->user()->id;
@@ -77,6 +87,12 @@ class AlbumController extends Controller
         $album->visibility = $request->visibility;
         $album->view = 0;
         $album->save();
+
+        $albumFolderPath = public_path('/storage/images/' . 'profile_'.$userId.'/'.$album->id);
+        if (!file_exists($albumFolderPath)) {       //check if folder exist
+
+            mkdir($albumFolderPath, 0755, true);
+        }
 
         return back()->with('message', 'Album create successfully');
     }
@@ -91,7 +107,7 @@ class AlbumController extends Controller
     public function show($id)
 
     {
-
+        abort(404);
     }
 
     /**
@@ -104,8 +120,8 @@ class AlbumController extends Controller
     {
 
         $userId = auth()->user()->id;
-        $album = Album::find($id);
-        if($album->user->id == $userId || auth()->user()->type == 1){
+        $album = Album::findOrFail($id);
+        if($album->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')){
             return view("admin.album.edit", compact("album"));
         }else{
             return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
@@ -128,8 +144,8 @@ class AlbumController extends Controller
         ]);
 
         $userId = auth()->user()->id;
-        $foundAlbum = Album::find($id);
-        if($foundAlbum->user->id == $userId || auth()->user()->type == 1){
+        $foundAlbum = Album::findOrFail($id);
+        if($foundAlbum->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')){
             $foundAlbum->name=$request->input("name");
             $foundAlbum->description=$request->input("description");
             $foundAlbum->visibility=$request->visibility;
@@ -152,7 +168,7 @@ class AlbumController extends Controller
     {
        $id = $request->input("albumId");
        if($request->ajax()){
-        $album = Album::find($id);
+        $album = Album::findOrFail($id);
         return response()->json(['id' => $album->id, 'name' => $album->name]);
        }
 
@@ -169,16 +185,16 @@ class AlbumController extends Controller
 
         $userId = auth()->user()->id;
         $albumId = $request->input("albumId");
-        $foundAlbum = Album::find($albumId);
+        $foundAlbum = Album::findOrFail($albumId);
 
-    if($foundAlbum->user->id == $userId || auth()->user()->type == 1){
+    if($foundAlbum->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')){
         $images = Image::where('album_id', $foundAlbum->id);
         $images->delete();
         $comments = Comment::where('album_id', $foundAlbum->id);
         $comments->delete();
         $foundAlbum->tags()->detach();
 
-        $folderPath = 'public/images/' . $foundAlbum->id;
+        $folderPath = 'public/images/' . 'profile_'.$userId.'/'. $foundAlbum->id;
         if (Storage::exists($folderPath)) {  //check if folder exist
             Storage::deleteDirectory($folderPath);
         }

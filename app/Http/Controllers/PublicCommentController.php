@@ -16,7 +16,7 @@ class PublicCommentController extends Controller
      */
     public function index()
     {
-        //
+        abort(404); //
     }
 
     /**
@@ -26,7 +26,7 @@ class PublicCommentController extends Controller
      */
     public function create()
     {
-        //
+        abort(404); //
     }
 
     /**
@@ -45,7 +45,7 @@ class PublicCommentController extends Controller
 
         $message = "";
         if($request->ajax()){
-            $album = Album::find($request->albumId);
+            $album = Album::findOrFail($request->albumId);
             $comment = new Comment();
             $comment->album_id = $album->id;
             $comment->name = $request->name;
@@ -75,7 +75,7 @@ class PublicCommentController extends Controller
         $id = $request->albumId;
         $output = "";
         if($request->ajax()){
-         $album = Album::find($id);
+         $album = Album::findOrFail($id);
          $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->paginate(3);
 
          if(count($comments) == 0){
@@ -118,7 +118,7 @@ class PublicCommentController extends Controller
     {
         $id = $request->albumId;
         if($request->ajax()){
-         $album = Album::find($id);
+         $album = Album::findOrFail($id);
          $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->get();
 
          return response()->json(['getTotalComments' => count($comments)]);
@@ -141,7 +141,7 @@ class PublicCommentController extends Controller
         $id = $request->albumId;
         $output = "";
         if($request->ajax()){
-         $album = Album::find($id);
+         $album = Album::findOrFail($id);
          $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->offset($row)->limit(3)->get();
                 if(count($comments) == 0){
                     $output .= "<div class='text-center mt-4 mb-4'>";
@@ -198,7 +198,7 @@ class PublicCommentController extends Controller
      */
     public function show($id)
     {
-        //
+        abort(404);//
     }
 
     /**
@@ -209,7 +209,7 @@ class PublicCommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        abort(404); //
     }
 
     /**
@@ -221,7 +221,7 @@ class PublicCommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        abort(404); //
     }
 
     /**
@@ -232,6 +232,6 @@ class PublicCommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        abort(404);//
     }
 }

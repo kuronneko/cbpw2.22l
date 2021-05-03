@@ -16,7 +16,7 @@ class AlbumVisibility extends Component
         $userId = auth()->user()->id;
         $foundAlbum = Album::find($this->albumId);
 
-        if($foundAlbum->user->id == $userId || auth()->user()->type == 1){
+        if($foundAlbum->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')){
             return view('admin.album.livewire.album-visibility', [
                 'foundAlbum' => Album::find($this->albumId),
             ]);
@@ -30,7 +30,7 @@ class AlbumVisibility extends Component
         $userId = auth()->user()->id;
         $foundAlbum = Album::find($this->albumId);
 
-        if($foundAlbum->user->id == $userId || auth()->user()->type == 1){
+        if($foundAlbum->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')){
             if($foundAlbum->visibility == 0){
                 $foundAlbum->visibility = 1;
                 $foundAlbum->update();

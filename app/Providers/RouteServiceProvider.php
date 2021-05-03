@@ -17,8 +17,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
-    public const AlbumesIndex = '/admin/album';
+    public const HOME = '/admin/profile';
+    public const AlbumesIndex = '/admin/profile';
     /**
      * The controller namespace for the application.
      *

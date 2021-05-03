@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin;;
+namespace App\Http\Livewire\Admin;
 
 use App\Models\Album;
 use App\Models\Tag;
@@ -24,7 +24,7 @@ class AttachTag extends Component
 
         $album = Album::find($albumId);
         $tag = Tag::find($tagId);
-        if(auth()->user()->id == $album->user->id || auth()->user()->type == 1){
+        if(auth()->user()->id == $album->user->id || auth()->user()->type == config('myconfig.privileges.super')){
             $album->tags()->attach($tag->id);
         }
 
@@ -34,7 +34,7 @@ class AttachTag extends Component
         //Tag::destroy($id);
         $album = Album::find($albumId);
         $tag = Tag::find($tagId);
-        if(auth()->user()->id == $album->user->id || auth()->user()->type == 1){
+        if(auth()->user()->id == $album->user->id || auth()->user()->type == config('myconfig.privileges.super')){
             $album->tags()->detach($tag->id);
         }
     }

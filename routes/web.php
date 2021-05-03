@@ -24,6 +24,7 @@ Route::resource("admin/album", "admin\AlbumController", ['as' => 'admin']);
 Route::resource("admin/image", "admin\ImageController", ['as' => 'admin']);
 Route::resource("admin/comment", "admin\CommentController", ['as' => 'admin']);
 Route::resource("admin/imagec", "admin\ImagecController", ['as' => 'admin']);
+Route::resource("admin/profile", "admin\ProfileController", ['as' => 'admin']);
 
 Route::resource("super/tag", "super\SuperTagController", ['as' => 'super']);
 

@@ -14,11 +14,11 @@
     <script type="text/javascript" src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script>
-    <script type="text/javascript" src="{{asset('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('https://unpkg.com/masonry-layout@4.2.2/dist/masonry.pkgd.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.fancybox.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/masonry.pkgd.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.cookie.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/infinite-scroll.pkgd.min.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -30,7 +30,7 @@
     <link href="{{ asset('css/style.css')}}" rel="stylesheet" >
     <link href="{{ asset('css/dropzone.min.css')}}" rel="stylesheet" >
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css')}}" rel="stylesheet" />
+    <link href="{{ asset('css/jquery.fancybox.min.css') }}" rel="stylesheet">
  @livewireStyles
 </head>
 <body>
@@ -66,18 +66,19 @@
                                 </li>
                             @endif
                         @else
+                        <livewire:admin.avatar :userId="auth()->user()->id"/>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a href="{{ url('admin/album') }}" class="dropdown-item">Manage</a>
+                                    <a href="{{ url('admin/profile') }}" class="dropdown-item">Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                   document.getElementById('logout-form').submit();">
                                      {{ __('Logout') }}
                                  </a>
-                                    @if(Auth::user()->type == 1)
+                                    @if(Auth::user()->type == config('myconfig.privileges.super'))
                                     <div class="hr-sect">Settings</div>
                                     <a href="{{ url('super/tag') }}" class="dropdown-item">Tags</a>
                                     @endif
@@ -96,7 +97,7 @@
             @yield('content')
         </main>
 
-        <footer>
+        <footer class="py-4">
             <p><a class="text-white" href="" target="_top">{{ config('myconfig.engine.name') }} {{config('myconfig.engine.version')}}</a> image gallery engine developed by Kuroneko</p>
             <p>2018-<?php echo date("Y"); ?> ~ <a class="text-white" href="#" target="_top">Contact</a> ~ <a class="text-white" href="#" data-toggle="modal" data-target="#stats">Legal Info</a></p>
         </footer>

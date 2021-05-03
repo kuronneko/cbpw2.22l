@@ -1,23 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\super;
+namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-
 use App\Models\Album;
 use App\Models\Image;
 use App\Models\Comment;
-use App\Models\User;
-use App\Models\Tag;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
-class SuperTagController extends Controller
+class ProfileController extends Controller
 {
-
     public function __construct(){
         $this->middleware('auth');
     }
@@ -28,14 +20,21 @@ class SuperTagController extends Controller
      */
     public function index()
     {
-        if(Auth::check() && auth()->user()->type == config('myconfig.privileges.super')){
-            return view('super.tag.index');
+        $userId = auth()->user()->id;
+
+        if(auth()->user()->type == config('myconfig.privileges.super')){
+            $albums = Album::orderBy('updated_at', 'desc')->paginate(100);
+            $images = Image::all();
+            //$imageArray = DB::select("SELECT images.id, images.album_id, images.url, images.ext, images.size, images.basename, images.ip, images.tag, images.created_at FROM images, albums, users WHERE (images.album_id=albums.id) AND (albums.user_id=users.id) AND (albums.user_id='$userId')");
+            //$images = collect($imageArray); //this object is similar but no real image object, they have similar parameters than sql query and you cant get the relacionship objects like (album, user)
+            return view('admin.profile.index',compact('albums','images'));
         }else{
-            abort_if(auth()->user()->type != 1, 204);
+            $albums = Album::where('user_id', $userId)->orderBy('updated_at','desc')->paginate(100);
+            $images = Image::all();
+            //$imageArray = DB::select("SELECT images.id, images.album_id, images.url, images.ext, images.size, images.basename, images.ip, images.tag, images.created_at FROM images, albums, users WHERE (images.album_id=albums.id) AND (albums.user_id=users.id) AND (albums.user_id='$userId')");
+            //$images = collect($imageArray); //this object is similar but no real image object, they have similar parameters than sql query and you cant get the relacionship objects like (album, user)
+            return view('admin.profile.index',compact('albums','images'));
         }
-        //$tags = Tag::all();
-        //$imageArray = DB::select("SELECT images.id, images.album_id, images.url, images.ext, images.size, images.basename, images.ip, images.tag, images.created_at FROM images, albums, users WHERE (images.album_id=albums.id) AND (albums.user_id=users.id) AND (albums.user_id='$userId')");
-        //$images = collect($imageArray); //this object is similar but no real image object, they have similar parameters than sql query and you cant get the relacionship objects like (album, user)
     }
 
     /**
@@ -69,15 +68,8 @@ class SuperTagController extends Controller
      */
     public function show($id)
     {
-        $userId = auth()->user()->id;
-        $album = Album::findOrFail($id);
-
-    if(($album->user->id) == $userId){
-        return view('super.tag.show');
-    }else{
-        return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
-    }
-
+        abort(404);
+        //
     }
 
     /**

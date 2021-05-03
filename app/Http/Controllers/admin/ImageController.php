@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\File;
@@ -64,6 +65,7 @@ class ImageController extends Controller
      */
     public function index()
     {
+        abort(404);
     }
 
     /**
@@ -73,6 +75,7 @@ class ImageController extends Controller
      */
     public function create()
     {
+        abort(404);
     }
 
     /**
@@ -83,9 +86,9 @@ class ImageController extends Controller
     public function createImage($id)
     {
         $userId = auth()->user()->id;
-        $album = Album::find($id);
+        $album = Album::findOrFail($id);
 
-        if ($album->user->id == $userId || auth()->user()->type == 1) {
+        if ($album->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')) {
             return view('admin.image.create')->with('album', $album); //podria mandar el objeto album completo?????
         } else {
             return back()->with('message', 'Album ' . $album->id . ' not found or cannot be accessed');
@@ -102,9 +105,9 @@ class ImageController extends Controller
 
     {
         $userId = auth()->user()->id;
-        $album = Album::find($id);
+        $album = Album::findOrFail($id);
 
-        if ($album->user->id == $userId || auth()->user()->type == 1) {
+        if ($album->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')) {
             $images = Image::where('album_id', $album->id)->orderBy('id', 'desc')->paginate(100);
             return view('admin.image.show', ['images' => $images, 'album' => $album]);
         } else {
@@ -126,33 +129,38 @@ class ImageController extends Controller
         $document = $request->file('file');
         $albumId = $request->input('albumId');
         $userId = auth()->user()->id;
-        $albumFound = Album::find($albumId);
+        $albumFound = Album::findOrFail($albumId);
 
-        if ($albumFound->user->id == $userId || auth()->user()->type == 1) {
+        if ($albumFound->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')) {
             $newFilename = md5($document->getClientOriginalName());  //rename filename
 
-            $albumFolderPath = public_path('/storage/images/' . $albumFound->id);
+            $userFolderPath = public_path('/storage/images/' . 'profile_'.$userId);
+            if (!file_exists($userFolderPath)) {       //check if folder exist
+
+                mkdir($userFolderPath, 0755, true);
+            }
+            $albumFolderPath = public_path('/storage/images/' . 'profile_'.$userId.'/'.$albumFound->id);
             if (!file_exists($albumFolderPath)) {       //check if folder exist
 
                 mkdir($albumFolderPath, 0755, true);
             }
 
-            $filePath = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
+            $filePath = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
             if (!file_exists($filePath)) {             //check if physical file exist
 
-                $request->file('file')->storeAs('public/images/' . $albumFound->id, $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
-                $url = Storage::url('public/images/' . $albumFound->id . '/' . $newFilename); //url without extension
+                $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
+                $url = Storage::url('public/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename); //url without extension
 
                 if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm") {
                     //generate video thumbnail with Lakshmaji video thumbnail library
                     if(config('myconfig.patch-pre-ffmpeg.ffmpeg-status') == true){
-                        $videoPath       = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
-                        $thumbnailPath   = public_path('/storage/images/' . $albumFound->id . '/');
+                        $videoPath       = public_path('/storage/images/' .'profile_'.$userId.'/'.  $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
+                        $thumbnailPath   = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/');
                         $thumbnailImageName  = $newFilename . '_thumb.jpg';
                         $timeToImage =  2;
                         Thumbnail::getThumbnail($videoPath,$thumbnailPath,$thumbnailImageName,$timeToImage); //generate default size thumbnail from video with Lakshmaji library (watermark settings OFF)
 
-                        $thumbnailPathResize = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '_thumb.jpg');
+                        $thumbnailPathResize = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.jpg');
                         $waterMarkPath = public_path('/storage/images/videoplay4.png');
 
                             ImageManagerStatic::make($thumbnailPathResize)->resize(200, null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
@@ -164,7 +172,7 @@ class ImageController extends Controller
                     }
 
                 } else {
-                    $thumbTarget = public_path('/storage/images/' . $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
+                    $thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
                     ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200, null, function ($constraint) {
                         $constraint->aspectRatio();
                     })->resizeCanvas(200, null)->save($thumbTarget, 80);
@@ -229,6 +237,7 @@ class ImageController extends Controller
      */
     public function show($id)
     {
+        abort(404);
     }
 
     /**
@@ -239,6 +248,7 @@ class ImageController extends Controller
      */
     public function edit($id)
     {
+        abort(404);
         //
     }
 
@@ -251,6 +261,7 @@ class ImageController extends Controller
      */
     public function update(Request $request, $id)
     {
+        abort(404);
         //
     }
 
@@ -266,10 +277,10 @@ class ImageController extends Controller
 
         $albumId = $request->input('albumId');
         $userId = auth()->user()->id;
-        $albumFound = Album::find($albumId);
-        $imageFound = Image::find($imageId);
+        $albumFound = Album::findOrFail($albumId);
+        $imageFound = Image::findOrFail($imageId);
 
-        if (($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId) || ($imageFound->album->id == $albumFound->id && auth()->user()->type == 1)) {
+        if (($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId) || ($imageFound->album->id == $albumFound->id && auth()->user()->type == config('myconfig.privileges.super'))) {
 
             $productImage = str_replace('/storage', '', $imageFound->url);
 

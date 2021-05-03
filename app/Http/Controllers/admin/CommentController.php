@@ -21,6 +21,7 @@ class CommentController extends Controller
      */
     public function index()
     {
+        abort(404);
         //
     }
 
@@ -31,6 +32,7 @@ class CommentController extends Controller
      */
     public function create()
     {
+        abort(404);
         //
     }
 
@@ -42,6 +44,7 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+        abort(404);
         //
     }
 
@@ -56,9 +59,9 @@ class CommentController extends Controller
 
     {
         $userId = auth()->user()->id;
-        $album = Album::find($id);
+        $album = Album::findOrFail($id);
 
-    if($album->user->id == $userId || auth()->user()->type == 1){
+    if($album->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')){
         $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
         return view('admin.comment.show',['comments'=> $comments, 'album'=> $album]);
     }else{
@@ -75,6 +78,7 @@ class CommentController extends Controller
      */
     public function show($id)
     {
+        abort(404);
         //
     }
 
@@ -86,6 +90,7 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
+        abort(404);
         //
     }
 
@@ -98,6 +103,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        abort(404);
         //
     }
 
@@ -111,10 +117,10 @@ class CommentController extends Controller
     {
         $albumId = $request->input('albumId');
         $userId = auth()->user()->id;
-        $albumFound = Album::find($albumId);
-        $commentFound = Comment::find($commentId);
+        $albumFound = Album::findOrFail($albumId);
+        $commentFound = Comment::findOrFail($commentId);
 
-        if(($commentFound->album->id == $albumFound->id && $albumFound->user->id == $userId) || ($commentFound->album->id == $albumFound->id && auth()->user()->type == 1)){
+        if(($commentFound->album->id == $albumFound->id && $albumFound->user->id == $userId) || ($commentFound->album->id == $albumFound->id && auth()->user()->type == config('myconfig.privileges.super'))){
 
             $commentFound->delete();
 

@@ -7,15 +7,15 @@
             <livewire:search-dropdown />
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
+                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                        @if ($album->visibility == 0)
                     <strong><span class="text-danger">Private Album: {{$album->name}}</span></strong>
-                    @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
+                    @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                     @endif
                        @else
                     <strong><span class="text-danger upperCaseTittles">Album: {{$album->name}}</span></strong>
-                    @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
+                    @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                     @endif
                        @endif
@@ -27,7 +27,7 @@
                     <div class="text-center">
                         <img src="{{ config("myconfig.img.url") }}{{'storage/images/loading.gif'}}" class="img-responsive loadingGif">
                     </div>
-                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
+                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <div class="grid">
                         @foreach ($images as $image)
                         @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
@@ -57,7 +57,7 @@
                             <p><strong>You cannot access the content of this album.</strong><p>
                         </div>
                         @endif
-                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
+                    @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
 
                     <div class="page-load-status mt-4">
                         <div class="loader-ellips infinite-scroll-request">
@@ -84,7 +84,7 @@
             </div>
 
         </div>
-        @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
+        @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
         <div class="col-md-4">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -161,7 +161,7 @@
     </div>
 </div>
 
-@if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == 1))
+@if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
   <!-- The Modal -->
   <div class="modal fade" id="modalComments">
     <div class="modal-dialog modal-dialog-centered">
