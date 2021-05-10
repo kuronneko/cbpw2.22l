@@ -9,30 +9,36 @@
                     <small><span>Profile</span></small>
                 </div>
                 <div class="card-body">
-                    <div class="text-center">
-                        <livewire:admin.upload-avatar :userId="auth()->user()->id"/>
-                    </div>
-                        <div>
-<small>
-    <ul class="list-group">
-        <li class="list-group-item">
-            <p>Username: {{auth()->user()->name}}</p>
-        </li>
-        <li class="list-group-item">
-            <p>Email: {{auth()->user()->email}}</p>
-        </li>
-        <li class="list-group-item">
-            @if (auth()->user()->type == config('myconfig.privileges.super'))
-            <p>Status: Super Admin</p>
-            @elseif (auth()->user()->type == config('myconfig.privileges.admin'))
-            <p>Status: Normal User</p>
-            @elseif (auth()->user()->type == config('myconfig.privileges.admin++'))
-            <p>Status: Premium User</p>
-            @endif
-        </li>
-    </ul>
-</small>
+                        <div class="text-center">
+                            <livewire:admin.upload-avatar :userId="auth()->user()->id"/>
                         </div>
+                    <div>
+                        <small>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p>Username: {{auth()->user()->name}}</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p>Email: {{auth()->user()->email}}</p>
+                                </li>
+                                <li class="list-group-item">
+                                    @if (auth()->user()->type == config('myconfig.privileges.super'))
+                                    <p>Status: Super Admin</p>
+                                    @elseif (auth()->user()->type == config('myconfig.privileges.admin'))
+                                    <p>Status: Normal User</p>
+                                    @elseif (auth()->user()->type == config('myconfig.privileges.admin++'))
+                                    <p>Status: Premium User</p>
+                                    @endif
+                                </li>
+                                <li class="list-group-item">
+                                    <p>Last login: {{auth()->user()->last_login_at}}</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <p>Last login IP: {{auth()->user()->last_login_ip}}</p>
+                                </li>
+                            </ul>
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,6 +66,7 @@
     </div>
         </div>
     </div>
-    @include('admin.album.show')
+
+    <livewire:admin.album-gestor/>
 </div>
 @endsection

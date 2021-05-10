@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
 use App\Models\Comment;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;

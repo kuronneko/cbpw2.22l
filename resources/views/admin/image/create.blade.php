@@ -29,6 +29,7 @@
                         <div class="form-container">
                             <form action="{{route('admin.image.store')}}" method="POST" class="dropzone" id="mydropzone">
                                 <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
+                                <input type="hidden" name="userId" id="userId" value="{{$album->user->id}}"/>
                                 <div class="dz-message">
                                     <div class="icon">
                                         <i class="fas fa-cloud-upload-alt uploadIcon"></i>

@@ -1,3 +1,4 @@
+<div>
 
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -40,19 +41,43 @@
                                 </div>
                                 </td>
                                 <th scope="row">{{ $album->id }}</th>
-                                <td><strong><a class="text-warning" href="{{route('image.content', $album->id)}}">{{ $album->name }}</a></strong></td>
+                                <td><strong><a class="text-info" href="{{route('image.content', $album->id)}}">{{ $album->name }}</a></strong></td>
                                 <td>{{ $album->description }}</td>
-                                <td><strong><a href="#" wire:click.prevent="edit({{$album->user->id}})" class="text-warning">{{ $album->user->name }}</a></strong></td>
+                                <td>
+                                        @if(Auth::user()->type == config('myconfig.privileges.super'))
+                                        @if ($album->user->type == config('myconfig.privileges.super'))
+                                        <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-warning"><small>[S] </small>{{ $album->user->name }}</a></strong>
+                                        @elseif ($album->user->type == config('myconfig.privileges.admin'))
+                                        <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-info"><small>[N] </small>{{ $album->user->name }}</a></strong>
+                                        @elseif ($album->user->type == config('myconfig.privileges.admin++'))
+                                        <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-danger"><small>[N+] </small>{{ $album->user->name }}</a></strong>
+                                        @endif
+                                        @else
+
+                                        @if ($album->user->type == config('myconfig.privileges.admin'))
+                                        <strong><p class="text-info"><small>[N] </small>{{ $album->user->name }}</p></strong>
+                                        @else
+                                        <strong><p class="text-danger"><small>[N+] </small>{{ $album->user->name }}</p></strong>
+                                        @endif
+
+                                        @endif
+                                </td>
                                 <td>{{ $album->created_at}}</td>
                                 @foreach ($images as $image)
-                                @if (($image->album->id == $album->id && $album->user->id == auth()->user()->id) || ($image->album->id == $album->id && auth()->user()->type == 1))
+                                @if (($image->album->id == $album->id && $album->user->id == auth()->user()->id) || ($image->album->id == $album->id && auth()->user()->type == config('myconfig.privileges.super')))
                                 <?php $albumSize = $albumSize + $image->size;?>
                                 @endif
                                 @endforeach
                                 <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>
                                 <td>{{ $album->view}}</td>
                                 <td>
-                                    <livewire:admin.album-visibility :albumId="$album->id"/>
+                                    <div>
+                                        @if ($album->visibility == 1)
+                                        <a wire:click='changeVisibility({{$album->id}})' class="btn btn-success" role="button" type="button"><i class="fas fa-lock-open"></i></a>
+                                        @else
+                                        <a wire:click='changeVisibility({{$album->id}})' class="btn btn-dark" role="button" type="button"><i class="fas fa-lock"></i></a>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="btn-group">
@@ -67,7 +92,7 @@
                     </table>
                 </div>
 
-                {{$albums->links("pagination::bootstrap-4")}}
+                {{$albums->links()}}
                 {{-- fin card body --}}
                 </div>
             </div>
@@ -104,12 +129,11 @@
     </div>
   </div>
   <livewire:super.user-gestor/>
-
-<script>
-    window.addEventListener('show-modal', event =>{
-        $('#userPreview').modal('show');
-    })
-</script>
+  @push('scripts')
+  <script>
+      Livewire.restart();
+  </script>
+@endpush
 <script>
     $(document).ready(function(){
 $(document).on('click', '.getAlbumData', function(){
@@ -133,3 +157,4 @@ $('#myModal').modal('show');
 });
 </script>
 
+</div>

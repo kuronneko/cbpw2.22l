@@ -6,6 +6,7 @@
                 <div class="card text-white">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <span>Global Tags Settings</span>
+                        <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                     </div>
                     <div class="card-body">
                     <livewire:super.tag-gestor />

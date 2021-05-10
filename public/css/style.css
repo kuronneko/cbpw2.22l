@@ -480,9 +480,9 @@ font-size: 16px;
 .avatarIcon {
     display: none;
     position: absolute;
-    top: 33%;
+    top: 26%;
     left: 45%;
-    font-size: 35px;
+    font-size: 55px!important;
   }
 
 .avatar:hover + .avatarIcon {
@@ -516,3 +516,15 @@ font-size: 16px;
     cursor: inherit;
     display: block;
   }
+    .swal-modal {
+        background-color: #1A1A1A!important;
+    }
+    .swal-text{
+        color: #ffff!important;
+        font-size: 1.5rem!important;
+    }
+    .swal-button{
+        background-color: #dc3131!important;
+        border: 2px solid #dc3131;
+    }
+

@@ -128,7 +128,7 @@ class ImageController extends Controller
 
         $document = $request->file('file');
         $albumId = $request->input('albumId');
-        $userId = auth()->user()->id;
+        $userId = $request->input('userId');
         $albumFound = Album::findOrFail($albumId);
 
         if ($albumFound->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')) {

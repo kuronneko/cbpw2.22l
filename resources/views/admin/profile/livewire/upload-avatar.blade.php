@@ -1,24 +1,29 @@
 <div>
     {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
-    @error('photo') <small> <span class="text-danger">{{ $message }}</span></small>
-    @enderror
+    @if (session()->has('message'))
+    <script>
+swal('{!! Session::get('message')!!}')
+    </script>
+    @endif
     <div class="avatarContainer">
             <form wire:submit.prevent="store">
-                <input type="hidden" value="{{auth()->user()->id}}">
+                <input type="hidden" value="{{$user->id}}">
                   @if ($photo)
                  <img src="{{ $photo->temporaryUrl() }}" class="avatar mb-4" alt="">
-                 <i class="fas fa-camera avatarIcon btn-file"> <input type="file" wire:model="photo"></i>
+                 <i class="fas fa-camera avatarIcon btn-file"> <input type="file" wire:model="photo"  accept="image/*"></i>
                  @else
-                 <img src="{{config('myconfig.img.url')}}{{auth()->user()->avatar}}" class="avatar mb-4" alt="">
-                 <i class="fas fa-camera avatarIcon btn-file"> <input type="file" wire:model="photo"></i>
+                 <img src="{{config('myconfig.img.url')}}{{$user->avatar}}" class="avatar mb-4" alt="">
+                 <i class="fas fa-camera avatarIcon btn-file"> <input type="file" wire:model="photo"  accept="image/*"></i>
                   @endif
                   <div>
-                      <button type="submit" class="btn btn-danger btn-file btn-sm" style="position: absolute; left: 20%; top: 30%;">Save</button>
+                      <button  wire:loading.remove type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-sm" style="position: absolute; left: 20%; top: 25%;">Save</button>
+                      <button  wire:loading type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-file btn-sm" style="position: absolute; left: 20%; top: 25%;" disabled><span class="spinner-border spinner-border-sm"></span></button>
                   </div>
             </form>
             <div>
-                <button wire:click="destroy({{auth()->user()->id}})" class="btn btn-danger btn-file btn-sm" style="position: absolute; left: 20%; top: 40%;">Remove</button>
-              </div>
+                <button  wire:loading.remove wire:click="destroy({{$user->id}})" id="removeBtn" name="removeBtn" class="btn btn-danger btn-sm" style="position: absolute; left: 20%; top: 35%;">Remove</button>
+                <button  wire:loading wire:click="destroy({{$user->id}})" id="removeBtn" name="removeBtn" class="btn btn-danger btn-sm" style="position: absolute; left: 20%; top: 35%;" disabled><span class="spinner-border spinner-border-sm"></span></button>
+            </div>
     </div>
 
 </div>

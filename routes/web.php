@@ -27,6 +27,7 @@ Route::resource("admin/imagec", "admin\ImagecController", ['as' => 'admin']);
 Route::resource("admin/profile", "admin\ProfileController", ['as' => 'admin']);
 
 Route::resource("super/tag", "super\SuperTagController", ['as' => 'super']);
+Route::resource("super/user", "super\SuperUserController", ['as' => 'super']);
 
 Route::get('admin/album/{id}/createImage', 'admin\ImageController@createImage')->name('admin.image.createImage');
 Route::get('admin/album/{id}/showImage', 'admin\ImageController@showImage')->name('admin.image.showImage');

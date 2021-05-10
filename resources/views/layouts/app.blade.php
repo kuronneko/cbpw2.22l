@@ -19,7 +19,7 @@
     <script type="text/javascript" src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/jquery.cookie.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/infinite-scroll.pkgd.min.js')}}"></script>
-
+    <script type="text/javascript" src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js')}}"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -79,8 +79,9 @@
                                      {{ __('Logout') }}
                                  </a>
                                     @if(Auth::user()->type == config('myconfig.privileges.super'))
-                                    <div class="hr-sect">Settings</div>
+                                    <div class="hr-sect">Options</div>
                                     <a href="{{ url('super/tag') }}" class="dropdown-item">Tags</a>
+                                    <a href="{{ url('super/user') }}" class="dropdown-item">Users</a>
                                     @endif
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
