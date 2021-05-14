@@ -23,11 +23,13 @@
                                 </li>
                                 <li class="list-group-item">
                                     @if (auth()->user()->type == config('myconfig.privileges.super'))
-                                    <p>Status: Super Admin</p>
+                                    <p class="text-warning">Status: Super Admin</p>
                                     @elseif (auth()->user()->type == config('myconfig.privileges.admin'))
-                                    <p>Status: Normal User</p>
+                                    <p class="text-danger">Status: Restrincted User</p>
                                     @elseif (auth()->user()->type == config('myconfig.privileges.admin++'))
-                                    <p>Status: Premium User</p>
+                                    <p class="text-info">Status: Premium User</p>
+                                    @elseif (auth()->user()->type == config('myconfig.privileges.admin+++'))
+                                    <p class="text-success">Status: Premium User+</p>
                                     @endif
                                 </li>
                                 <li class="list-group-item">

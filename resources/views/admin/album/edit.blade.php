@@ -45,15 +45,19 @@
                     value="{{($album->description)}}"
                     class="form-control mb-3"
                   />
-                  <select class="form-control" id="visibility" name="visibility">
-                    @if ($album->visibility == 0)
-                    <option value="0">Private</option>
-                    <option value="1">Public</option>
-                    @else
-                    <option value="1">Public</option>
-                    <option value="0">Private</option>
-                    @endif
-                  </select>
+@if (Auth::user()->type == config('myconfig.privileges.admin+++') || Auth::user()->type == config('myconfig.privileges.super'))
+<select class="form-control" id="visibility" name="visibility">
+    @if ($album->visibility == 0)
+    <option value="0">Private</option>
+    <option value="1">Public</option>
+    @else
+    <option value="1">Public</option>
+    <option value="0">Private</option>
+    @endif
+  </select>
+@else
+
+@endif
                   <br>
                     <button class="btn btn-dark" type="submit">Edit</button>
                   </form>

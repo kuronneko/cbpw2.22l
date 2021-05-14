@@ -11,12 +11,18 @@
                        @if ($album->visibility == 0)
                     <strong><span class="text-danger">Private Album: {{$album->name}}</span></strong>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
-                    <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
+                    <div class="button-grup">
+                        <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
+                        <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
+                    </div>
                     @endif
                        @else
                     <strong><span class="text-danger upperCaseTittles">Album: {{$album->name}}</span></strong>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
-                    <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
+                    <div class="button-grup">
+                        <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
+                        <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
+                    </div>
                     @endif
                        @endif
                     @else
@@ -109,9 +115,15 @@
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <strong><span class="text-danger">Comments</span></strong>
-                    <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalComments">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+                    <div class="group-buttons">
+                        <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modalComments">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
+                        <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
+                        @endif
+                    </div>
+
                 </div>
                 <div class="card-body contentCardBodyStyleSide">
                     <div class="alert alert-success alert-dismissible fade show" role="alert" id="doneMsg" style="display: none;">

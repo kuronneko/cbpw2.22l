@@ -9,12 +9,12 @@
                     <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                 <div class="card-body">
-
-                <hr>
+                    <livewire:super.user-gestor-table />
                 {{-- fin card body --}}
                 </div>
             </div>
         </div>
     </div>
 </div>
+<livewire:super.user-gestor/>
 @endsection

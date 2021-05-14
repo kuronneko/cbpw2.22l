@@ -30,35 +30,51 @@ class UserGestor extends Component
     }
 
 
-    public function changePrivileges($userId){
+    public function premiumUser($userId){
         $user = User::findOrFail($userId);
         if(auth()->user()->type == config('myconfig.privileges.super')){
-            if($user->type == config('myconfig.privileges.admin')){
-                $user->type = config('myconfig.privileges.admin++');
-                $user->update();
-                $this->emit('refreshAlbum');
-            }else if($user->type == config('myconfig.privileges.admin++')){
-                $user->type = config('myconfig.privileges.admin');
-                $user->update();
-                $this->emit('refreshAlbum');
-            }
+            $user->type = config('myconfig.privileges.admin++');
+            $user->update();
+            Album::where('user_id', $user->id)->where('visibility', 1)->update(['visibility' => 0]);
+            $this->emit('refreshAlbum');$this->emit('refreshUsers');
+        }else{
+            abort_if(auth()->user()->type != config('myconfig.privileges.super'), 204);
+        }
+    }
+
+    public function premiumUserPlus($userId){
+        $user = User::findOrFail($userId);
+        if(auth()->user()->type == config('myconfig.privileges.super')){
+            $user->type = config('myconfig.privileges.admin+++');
+            $user->update();
+            Album::where('user_id', $user->id)->where('visibility', 0)->update(['visibility' => 1]);
+            $this->emit('refreshAlbum');$this->emit('refreshUsers');
+        }else{
+            abort_if(auth()->user()->type != config('myconfig.privileges.super'), 204);
+        }
+    }
+
+    public function restrinctedUser($userId){
+        $user = User::findOrFail($userId);
+        if(auth()->user()->type == config('myconfig.privileges.super')){
+            $user->type = config('myconfig.privileges.admin');
+            $user->update();
+            Album::where('user_id', $user->id)->where('visibility', 1)->update(['visibility' => 0]);
+            $this->emit('refreshAlbum');$this->emit('refreshUsers');
         }else{
             abort_if(auth()->user()->type != config('myconfig.privileges.super'), 204);
         }
     }
 
     public function deleteUser($userId){
-        $user = User::findOrFail($userId);
+
         if(auth()->user()->type == config('myconfig.privileges.super')){
-                $albums = Album::where('user_id', $user->id);
-                foreach ($albums as $album) {
-                  dump($album->id);
-                    $images = Image::where('album_id', $album->id);
-                    $images->delete();
-                    $comments = Comment::where('album_id', $album->id);
-                    $comments->delete();
-                    $album->tags()->detach();
-                }
+
+
+                $albumIdList = array();
+                $albumIdList = Album::where('user_id', $userId);
+                dd($albumIdList->id);
+                //$albums->whereIn('id', $AlbumIdList[])->get()->delete();
                 /*
                 $folderPath = 'public/images/' . 'profile_'.$user->id;
                 if (Storage::exists($folderPath)) {  //check if folder exist

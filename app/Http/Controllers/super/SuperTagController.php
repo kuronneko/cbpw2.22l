@@ -69,6 +69,7 @@ class SuperTagController extends Controller
      */
     public function show($id)
     {
+        /*
         $userId = auth()->user()->id;
         $album = Album::findOrFail($id);
 
@@ -77,7 +78,8 @@ class SuperTagController extends Controller
     }else{
         return back()->with('message', 'Album '.$album->id.' not found or cannot be accessed');
     }
-
+*/
+abort(404);
     }
 
     /**

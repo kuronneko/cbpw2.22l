@@ -45,8 +45,12 @@
                     class="form-control mb-3"
                   />
                   <select class="form-control" id="visibility" name="visibility">
+                    @if (Auth::user()->type == config('myconfig.privileges.super') || Auth::user()->type == config('myconfig.privileges.admin+++'))
                     <option value="1">Public</option>
                     <option value="0">Private</option>
+                    @else
+                    <option value="0">Private</option>
+                    @endif
                   </select>
                   <br>
                     <button class="btn btn-dark" type="submit">Create</button>

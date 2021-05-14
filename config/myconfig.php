@@ -2,9 +2,10 @@
 
 return [
     'patch-pre-ffmpeg' =>
-        [
-            'image-id-less' => 0, //this works to fix the no existence of video thumbnail before ffmpeg implementation (0 set all video thumbnails on) and number less than "30" for example, put all 30 elements before with the default video thumbnail (not generate)
-            'ffmpeg-status' => true,
+        [       // turn off ffmpeg set 9999999 and false
+                // enable is 0 and true
+            'image-id-less' => 9999999, //this works to fix the no existence of video thumbnail before ffmpeg implementation (0 set all video thumbnails on) and number less than "30" for example, put all 30 elements before with the default video thumbnail (not generate)
+            'ffmpeg-status' => false,
         ],
     'img' =>
         [   'avatar' => '/storage/images/avatar.png',
@@ -13,14 +14,14 @@ return [
     'engine' =>
         [
             'name' => 'Cyberpunkwaifus',
-            'version' => '2.22040',
+            'version' => '2.22070',
             'date' => '4/27/2021',
         ],
     'privileges' =>
         [
-            'banned' => 0,
-            'admin' => 1, // normal status when user is register
-            'admin++' => 2,
+            'admin' => 1, // restricted user
+            'admin++' => 2, // premium user
+            'admin+++' => 3, // premium user+
             'super' => 5, // super admin can manager normal users
         ],
 ];

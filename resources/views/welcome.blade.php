@@ -8,9 +8,6 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span>Public Album List</span>
                     <div class="group-buttons">
-                        <a href="{{route('index')}}" class="btn btn-dark btn-sm">
-                            <i id="homeOrBack" class="fas fa-sync"></i>
-                        </a>
                         <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#stats">
                             <i class="fas fa-chart-bar"></i>
                         </button>

@@ -45,7 +45,7 @@ class AlbumGestor extends Component
         $userId = auth()->user()->id;
         $foundAlbum = Album::find($albumId);
 
-        if($foundAlbum->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')){
+        if(($foundAlbum->user->id == $userId && auth()->user()->type == config('myconfig.privileges.admin+++')) || auth()->user()->type == config('myconfig.privileges.super')){
             if($foundAlbum->visibility == 0){
                 $foundAlbum->visibility = 1;
                 $foundAlbum->update();
@@ -54,7 +54,8 @@ class AlbumGestor extends Component
                 $foundAlbum->update();
             }
         }else{
-            abort_if(auth()->user()->type != 1 || $foundAlbum->user->id != $userId, 204);
+            return back()->with('message', 'You do not have sufficient privileges to do this');
+            //abort_if(auth()->user()->type != 1 || $foundAlbum->user->id != $userId, 204);
         }
 
     }

@@ -7,7 +7,10 @@
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <small><span>[Album:{{$album->name}}] Comments List</span></small>
-                    <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                    <div class="group-buttons">
+                        <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a href="{{route('image.content', $album->id)}}" class="btn btn-dark btn-sm"><i class="fas fa-expand-arrows-alt"></i></a>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if ( session('message') )

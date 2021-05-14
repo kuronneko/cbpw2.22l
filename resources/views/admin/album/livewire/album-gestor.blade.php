@@ -9,7 +9,7 @@
                 </div>
                 <div class="card-body">
                     @if ( session('message') )
-                    <div class="alert alert-success">{{ session('message') }}</div>
+                    <div class="alert alert-info">{{ session('message') }}</div>
                   @endif
                     <div class="table-responsive">
                     <table class="table table-dark table-hover">
@@ -48,16 +48,20 @@
                                         @if ($album->user->type == config('myconfig.privileges.super'))
                                         <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-warning"><small>[S] </small>{{ $album->user->name }}</a></strong>
                                         @elseif ($album->user->type == config('myconfig.privileges.admin'))
-                                        <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-info"><small>[N] </small>{{ $album->user->name }}</a></strong>
+                                        <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-danger"><small>[R] </small>{{ $album->user->name }}</a></strong>
                                         @elseif ($album->user->type == config('myconfig.privileges.admin++'))
-                                        <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-danger"><small>[N+] </small>{{ $album->user->name }}</a></strong>
+                                        <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-info"><small>[P] </small>{{ $album->user->name }}</a></strong>
+                                        @elseif ($album->user->type == config('myconfig.privileges.admin+++'))
+                                        <strong><a href="#" wire:click.prevent="userEdit({{$album->user->id}})" class="text-success"><small>[P+] </small>{{ $album->user->name }}</a></strong>
                                         @endif
                                         @else
 
                                         @if ($album->user->type == config('myconfig.privileges.admin'))
-                                        <strong><p class="text-info"><small>[N] </small>{{ $album->user->name }}</p></strong>
-                                        @else
-                                        <strong><p class="text-danger"><small>[N+] </small>{{ $album->user->name }}</p></strong>
+                                        <strong><p class="text-danger"><small>[R] </small>{{ $album->user->name }}</p></strong>
+                                        @elseif ($album->user->type == config('myconfig.privileges.admin++'))
+                                        <strong><p class="text-info"><small>[P] </small>{{ $album->user->name }}</p></strong>
+                                        @elseif ($album->user->type == config('myconfig.privileges.admin+++'))
+                                        <strong><p class="text-success"><small>[P+] </small>{{ $album->user->name }}</p></strong>
                                         @endif
 
                                         @endif

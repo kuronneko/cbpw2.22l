@@ -88,7 +88,7 @@ class ImageController extends Controller
         $userId = auth()->user()->id;
         $album = Album::findOrFail($id);
 
-        if ($album->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')) {
+        if (($album->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')) {
             return view('admin.image.create')->with('album', $album); //podria mandar el objeto album completo?????
         } else {
             return back()->with('message', 'Album ' . $album->id . ' not found or cannot be accessed');
@@ -107,7 +107,7 @@ class ImageController extends Controller
         $userId = auth()->user()->id;
         $album = Album::findOrFail($id);
 
-        if ($album->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')) {
+        if (($album->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')) {
             $images = Image::where('album_id', $album->id)->orderBy('id', 'desc')->paginate(100);
             return view('admin.image.show', ['images' => $images, 'album' => $album]);
         } else {
@@ -131,7 +131,7 @@ class ImageController extends Controller
         $userId = $request->input('userId');
         $albumFound = Album::findOrFail($albumId);
 
-        if ($albumFound->user->id == $userId || auth()->user()->type == config('myconfig.privileges.super')) {
+        if (($albumFound->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')) {
             $newFilename = md5($document->getClientOriginalName());  //rename filename
 
             $userFolderPath = public_path('/storage/images/' . 'profile_'.$userId);
@@ -280,7 +280,7 @@ class ImageController extends Controller
         $albumFound = Album::findOrFail($albumId);
         $imageFound = Image::findOrFail($imageId);
 
-        if (($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId) || ($imageFound->album->id == $albumFound->id && auth()->user()->type == config('myconfig.privileges.super'))) {
+        if (($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || ($imageFound->album->id == $albumFound->id && auth()->user()->type == config('myconfig.privileges.super'))) {
 
             $productImage = str_replace('/storage', '', $imageFound->url);
 
