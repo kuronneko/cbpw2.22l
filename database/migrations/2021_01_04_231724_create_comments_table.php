@@ -19,6 +19,9 @@ class CreateCommentsTable extends Migration
             $table->unsignedBigInteger('album_id'); // Relación con albums
             $table->foreign('album_id')->references('id')->on('albums'); // clave foranea
 
+            $table->unsignedBigInteger('user_id'); // Relación con usuarios
+            $table->foreign('user_id')->references('id')->on('users'); // clave foranea
+
             $table->string('name');
             $table->string('text');
             $table->string('ip');
