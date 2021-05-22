@@ -36,12 +36,12 @@ Route::get('admin/album/{id}/showComment', 'admin\CommentController@showComment'
 
 Route::get('admin/album/{id}/showTag', 'admin\TagController@showTag')->name('admin.tag.showTag');
 
-Route::resource("comment", "PublicCommentController");
+//Route::resource("comment", "PublicCommentController");
 Route::resource("/", "PublicAlbumController");
 Route::get('album/{id}/content', 'PublicImageController@showContent')->name('image.content');
-Route::post('content/reloadComments', 'PublicCommentController@reloadComments')->name('comment.reloadComments');
-Route::post('content/commentAjaxLoad', 'PublicCommentController@commentAjaxLoad')->name('comment.commentAjaxLoad');
-Route::post('content/getTotalComments', 'PublicCommentController@getTotalComments')->name('comment.getTotalComments');
+//Route::post('content/reloadComments', 'PublicCommentController@reloadComments')->name('comment.reloadComments');
+//Route::post('content/commentAjaxLoad', 'PublicCommentController@commentAjaxLoad')->name('comment.commentAjaxLoad');
+//Route::post('content/getTotalComments', 'PublicCommentController@getTotalComments')->name('comment.getTotalComments');
 
 //Route::get('/getAjaxAlbums', 'PublicAlbumController@getAjaxAlbums')->name('album.getAjaxAlbums');
 

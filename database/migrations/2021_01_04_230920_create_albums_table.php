@@ -20,7 +20,7 @@ class CreateAlbumsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users'); // clave foranea
 
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->integer('visibility');
             $table->integer('view');
             $table->timestamps();

@@ -33,6 +33,7 @@
                     <input
                       type="text"
                       name="name"
+                      maxlength="20"
                       placeholder="Name"
                       value="{{ old('name') }}"
                       class="form-control mb-3"
@@ -40,6 +41,7 @@
                     <input
                     type="text"
                     name="description"
+                    maxlength="40"
                     placeholder="Description"
                     value="{{ old('description') }}"
                     class="form-control mb-3"

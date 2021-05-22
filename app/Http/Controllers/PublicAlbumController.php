@@ -22,13 +22,8 @@ class PublicAlbumController extends Controller
     {
         //fail test of bump albums    $albums = Album::where('visibility', 1)->whereHas('images', 'albums.id', '=', 'images.album_id')->orderBy('images.updated_at', 'desc')->paginate(5);
 //SELECT DISTINCT ALBUMS.name from albums, images WHERE (albums.visibility=1) AND (albums.id=images.album_id) ORDER BY (images.updated_at) DESC
-        $images = Image::all()->sortByDesc("id");
-        $comments = Comment::all()->sortByDesc("id");
-        $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->paginate(6);
-        //abort_if($albums->isEmpty(), 204);
-        $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
-        $stats = $this->getCompleteStatistics($images, $albumsFull, $comments);
-        return view('welcome',compact('albums','images','stats','comments'));
+        $stats = $this->getCompleteStatistics();
+        return view('welcome',compact('stats'));
     }
 
 
@@ -47,17 +42,21 @@ class PublicAlbumController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getCompleteStatistics($images, $albumsFull, $comments) //needs all images desc, with visibility filtered albums no paginate, and all comments desc
+    public function getCompleteStatistics() //needs all images desc, with visibility filtered albums no paginate, and all comments desc
     {
+        $imagesFull = Image::all()->sortByDesc("id");
+        $commentsFull = Comment::all()->sortByDesc("id");
+        $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
+
         $totalPublicVideos = 0;$totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;$lastUpdateAlbum = 0;$totalPublicViews = 0;
         foreach ($albumsFull as $album) {
             $totalPublicViews = $totalPublicViews + $album->view;
-            foreach ($comments as $comment) {
+            foreach ($commentsFull as $comment) {
                 if($comment->album->id == $album->id){
                     $totalPublicComments++;
                 }
            }
-            foreach ($images as $image) {
+            foreach ($imagesFull as $image) {
                 if($image->album->id == $album->id){
                    $totalAlbumSize = $totalAlbumSize + $image->size;
                    if($image->ext == "mp4" || $image->ext == "webm"){

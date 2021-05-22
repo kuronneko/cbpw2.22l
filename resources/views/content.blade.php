@@ -11,7 +11,7 @@
                        @if ($album->visibility == 0)
                     <strong><span class="text-danger">Private Album: {{$album->name}}</span></strong>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
-                    <div class="button-grup">
+                    <div class="button-group">
                         <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                         <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
                         <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
@@ -20,7 +20,7 @@
                        @else
                     <strong><span class="text-danger upperCaseTittles">Album: {{$album->name}}</span></strong>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
-                    <div class="button-grup">
+                    <div class="button-group">
                         <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                         <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
                         <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
@@ -78,13 +78,9 @@
                       <hr>
                 {{-- fin card body --}}
                 <div class="px-4 text-center" id="tags">
-                    @foreach ($tags as $tag)
                     @foreach ($album->tags as $albumtags)
-                        @if($albumtags->pivot->album_id == $album->id && $albumtags->pivot->tag_id == $tag->id)
-                           <span class="badge badge-danger"><i class="fas fa-tag"></i><span class="badge badge-danger">{{$tag->name}}</span></span>
-                        @endif
+                    <span class="badge badge-danger"><i class="fas fa-tag"></i><span class="badge badge-danger">{{$albumtags->name}}</span></span>
                     @endforeach
-                 @endforeach
                 </div>
                 @endif
                 </div>

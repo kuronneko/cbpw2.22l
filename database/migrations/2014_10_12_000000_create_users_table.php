@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar');
             $table->rememberToken();
 
-            $table->string('last_login_ip');
+            $table->ipAddress('last_login_ip');
             $table->string('last_login_at');
 
             $table->timestamps();

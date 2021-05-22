@@ -48,11 +48,9 @@ class LoadMoreComment extends Component
 
     public function store(){
         if(Auth::check()){
-            $this->name = auth()->user()->name;
-        }else{
-            $this->name = "Anonymous";
-        }
-        $this->validate(['name' => 'required', 'text' => 'required']);
+
+        $this->name = auth()->user()->name;
+        $this->validate(['name' => 'required', 'text' => 'required|min:6:max:1000']);
 
         $comment = new Comment();
         $comment->album_id = $this->albumId;
@@ -63,5 +61,6 @@ class LoadMoreComment extends Component
         $comment->save();
         $this->name = "";$this->text= "";
         session()->flash('message', 'Post sent successfully');
+    }
     }
 }

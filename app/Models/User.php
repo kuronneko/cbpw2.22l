@@ -11,6 +11,11 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+
+    public function messages(){
+        return $this->belongsToMany(Message::class)->withPivot('sender', 'receiver');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

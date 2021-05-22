@@ -49,17 +49,14 @@
                 <span class="badge badge-Light"><i class="fas fa-eye"></i><span class="badge badge-Light"><?php echo $view;?></span></span>
                 <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
                 </div>
+
+
             {{-- fin card body --}}
             </div>
             <div class="card-footer">
-                @foreach ($tags as $tag)
                 @foreach ($album->tags as $albumtags)
-                   @if($albumtags->pivot->album_id == $album->id && $albumtags->pivot->tag_id == $tag->id)
-                   <span class="badge badge-danger"><i class="fas fa-tag"></i><span class="badge badge-danger">{{$tag->name}}</span></span>
-                   @endif
-                   @endforeach
-                   @endforeach
-
+                   <span class="badge badge-danger"><i class="fas fa-tag"></i><span class="badge badge-danger">{{$albumtags->name}}</span></span>
+                @endforeach
                 <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
             </div>
         </div>

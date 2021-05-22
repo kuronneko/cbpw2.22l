@@ -92,7 +92,7 @@ class PublicImageController extends Controller
         abort_if($images->isEmpty(), 204); // if images object is empty redirect to 204 error
 
         $imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
-        $commentsType = app('App\Http\Controllers\PublicCommentController')->showComment($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
+        $commentsType = app('App\Http\Controllers\PublicCommentController')->getCommentType($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
         $tags = Tag::all()->sortByDesc('id');
         $stats = $this->getAlbumStats($imagesFull, $album, $commentsType);
         $comments = $commentsType['comment'];

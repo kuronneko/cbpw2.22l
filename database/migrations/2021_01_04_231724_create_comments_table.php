@@ -23,8 +23,8 @@ class CreateCommentsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users'); // clave foranea
 
             $table->string('name');
-            $table->string('text');
-            $table->string('ip');
+            $table->text('text');
+            $table->ipAddress('ip');
             $table->timestamps();
         });
     }

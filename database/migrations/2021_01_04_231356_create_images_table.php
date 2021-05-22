@@ -23,7 +23,7 @@ class CreateImagesTable extends Migration
             $table->string('ext');
             $table->integer('size');
             $table->string('basename');
-            $table->string('ip');
+            $table->ipAddress('ip');
             $table->string('tag');
             $table->timestamps();
         });

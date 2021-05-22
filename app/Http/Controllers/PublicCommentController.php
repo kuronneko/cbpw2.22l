@@ -37,7 +37,8 @@ class PublicCommentController extends Controller
      */
     public function store(Request $request)
     {
-
+        abort(404);
+/*
         $request->validate([
             'name' => 'required',
             'text' => 'required'
@@ -60,6 +61,7 @@ class PublicCommentController extends Controller
 
          return response()->json(['message' => $message]);
         }
+*/
 
     }
 
@@ -72,6 +74,8 @@ class PublicCommentController extends Controller
     public function reloadComments(Request $request)
 
     {
+        abort(404);
+/*
         $id = $request->albumId;
         $output = "";
         if($request->ajax()){
@@ -104,7 +108,7 @@ class PublicCommentController extends Controller
          //return response()->json(['response' => $response]);
         }
 
-
+*/
     }
 
     /**
@@ -116,7 +120,9 @@ class PublicCommentController extends Controller
     public function getTotalComments(Request $request)
 
     {
-        $id = $request->albumId;
+        abort(404);
+        /*
+                $id = $request->albumId;
         if($request->ajax()){
          $album = Album::findOrFail($id);
          $comments = Comment::where('album_id', $album->id)->orderBy('id','desc')->get();
@@ -124,6 +130,7 @@ class PublicCommentController extends Controller
          return response()->json(['getTotalComments' => count($comments)]);
          //return response()->json(['response' => $response]);
         }
+        */
 
     }
 
@@ -136,8 +143,9 @@ class PublicCommentController extends Controller
     public function commentAjaxLoad(Request $request)
 
     {
-
-        $row = $request->row;
+        abort(404);
+      /*
+              $row = $request->row;
         $id = $request->albumId;
         $output = "";
         if($request->ajax()){
@@ -167,6 +175,8 @@ class PublicCommentController extends Controller
          return response()->json(['output' => $output]);
          //return response()->json(['response' => $response]);
         }
+
+      */
     }
 
         /**
@@ -175,9 +185,10 @@ class PublicCommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showComment($id)
+    public function getCommentType($id)
 
     {
+
         $album = Album::findOrFail($id);
         $comment = Comment::where('album_id', $album->id)->orderBy('id','desc')->offset(0)->limit(3)->get();
         $commentFull = Comment::where('album_id', $album->id)->orderBy('id','desc')->get();
@@ -188,6 +199,8 @@ class PublicCommentController extends Controller
         return $commentType;
         //return view('content',compact('comment','album'));
         //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);
+
+
     }
 
     /**

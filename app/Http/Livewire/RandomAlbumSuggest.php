@@ -22,7 +22,7 @@ class RandomAlbumSuggest extends Component
 
         $comments = Comment::where('album_id' , $album->id)->orderBy('id','desc')->get();
 
-        $commentsType = app('App\Http\Controllers\PublicCommentController')->showComment($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
+        $commentsType = app('App\Http\Controllers\PublicCommentController')->getCommentType($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
         $imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
         $stats = app('App\Http\Controllers\PublicImageController')->getAlbumStats($imagesFull, $album, $commentsType);
 

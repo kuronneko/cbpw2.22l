@@ -29,7 +29,6 @@ class UserGestor extends Component
         $this->dispatchBrowserEvent('show-modal');
     }
 
-
     public function premiumUser($userId){
         $user = User::findOrFail($userId);
         if(auth()->user()->type == config('myconfig.privileges.super')){
@@ -67,10 +66,7 @@ class UserGestor extends Component
     }
 
     public function deleteUser($userId){
-
         if(auth()->user()->type == config('myconfig.privileges.super')){
-
-
                 $albumIdList = array();
                 $albumIdList = Album::where('user_id', $userId);
                 dd($albumIdList->id);

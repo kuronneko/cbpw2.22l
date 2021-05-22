@@ -25,7 +25,9 @@ class UserGestorTable extends Component
             'users' => User::paginate(10),
         ]);
     }
+
     public function userEdit($userId){
         $this->emit('listenerUserId', $userId);
     }
+
 }

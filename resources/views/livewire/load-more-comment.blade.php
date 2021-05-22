@@ -14,12 +14,6 @@ swal('{!! Session::get('message')!!}')
         </div>
         <div class="col-11 col-md-11">
         <div id="comments">
-            @if (count($comments) == 0)
-            <div class="text-center mt-4 mb-4">
-                <i class="fas fa-exclamation-triangle text-white"></i>
-                <p class="text-secondary">No comments found</p>
-            </div>
-            @endif
             @foreach ($comments as $comment)
             <div class="row bg-comments mb-1">
 
