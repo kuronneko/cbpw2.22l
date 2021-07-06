@@ -41,11 +41,11 @@ class LoginController extends Controller
     }
 
     function authenticated(Request $request, $user)
-{
+    {
     $user->update([
         'last_login_at' => new DateTime,
         'last_login_ip' => $request->getClientIp()
     ]);
-}
+    }
 
 }

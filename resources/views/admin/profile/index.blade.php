@@ -30,6 +30,8 @@
                                     <p class="text-info">Status: Premium User</p>
                                     @elseif (auth()->user()->type == config('myconfig.privileges.admin+++'))
                                     <p class="text-success">Status: Premium User+</p>
+                                    @elseif (auth()->user()->type == config('myconfig.privileges.user'))
+                                    <p class="text-primary">Status: Normal User+</p>
                                     @endif
                                 </li>
                                 <li class="list-group-item">
@@ -68,7 +70,8 @@
     </div>
         </div>
     </div>
-
+     @if(Auth::user()->type != config('myconfig.privileges.user'))
     <livewire:admin.album-gestor/>
+     @endif
 </div>
 @endsection

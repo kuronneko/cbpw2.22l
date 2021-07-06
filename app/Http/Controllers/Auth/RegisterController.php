@@ -55,6 +55,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'userType' => ['required'],
         ]);
     }
 
@@ -66,11 +67,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'type' => 2, //premium user [normal functions, except change album visibility]
+            'type' => $data['userType'],
             'avatar' => config('myconfig.img.avatar'),
             'password' => Hash::make($data['password']),
             'last_login_ip' => request()->ip(),

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Album;
 use App\Models\Image;
 use App\Models\Tag;
+use App\Models\Like;
 
 class PublicImageController extends Controller
 {
@@ -94,6 +95,7 @@ class PublicImageController extends Controller
         $imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
         $commentsType = app('App\Http\Controllers\PublicCommentController')->getCommentType($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
         $tags = Tag::all()->sortByDesc('id');
+
         $stats = $this->getAlbumStats($imagesFull, $album, $commentsType);
         $comments = $commentsType['comment'];
 
@@ -102,7 +104,6 @@ class PublicImageController extends Controller
         }else{
             $userId = "";
         }
-
         return view('content',compact('images','album','stats','comments','tags','userId'));
         //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);
 

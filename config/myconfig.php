@@ -1,5 +1,6 @@
 <?php
 
+
 return [
     'patch-pre-ffmpeg' =>
         [       // turn off ffmpeg set 9999999 and false
@@ -19,10 +20,11 @@ return [
         ],
     'privileges' =>
         [
-            'admin' => 1, // restricted user
-            'admin++' => 2, // premium user
-            'admin+++' => 3, // premium user+
-            'super' => 5, // super admin can manager normal users
+            'admin' => 1, // restricted user  (banned user)
+            'admin++' => 2, // premium user++   (profile edit, but no visibility status)
+            'admin+++' => 3, // premium user+++ (full and can change visibility status)
+            'user' => 4,
+            'super' => 5, // super admin can manager normal users (admin)
         ],
 ];
 

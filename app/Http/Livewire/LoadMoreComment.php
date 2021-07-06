@@ -20,7 +20,6 @@ class LoadMoreComment extends Component
 
     public function render()
     {
-
         return view('livewire.load-more-comment',[
             'comments' => Comment::take($this->amount)->where('album_id', $this->albumId)->orderBy('updated_at','desc')->get(),
             'commentCheck' => $this->commentCheck(),
@@ -45,12 +44,11 @@ class LoadMoreComment extends Component
         }
     }
 
-
     public function store(){
         if(Auth::check()){
 
         $this->name = auth()->user()->name;
-        $this->validate(['name' => 'required', 'text' => 'required|min:6:max:1000']);
+        $this->validate(['name' => 'required', 'text' => 'required|min:6|max:1000']);
 
         $comment = new Comment();
         $comment->album_id = $this->albumId;

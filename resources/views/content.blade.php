@@ -11,20 +11,26 @@
                        @if ($album->visibility == 0)
                     <strong><span class="text-danger">Private Album: {{$album->name}}</span></strong>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
-                    <div class="button-group">
+                    <div class="btn-group">
+                        <livewire:like-dislike :albumId="$album->id"/>
                         <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                         <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
                         <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
                     </div>
+                    @else
+                    <livewire:like-dislike :albumId="$album->id"/>
                     @endif
                        @else
                     <strong><span class="text-danger upperCaseTittles">Album: {{$album->name}}</span></strong>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
-                    <div class="button-group">
+                    <div class="btn-group">
+                        <livewire:like-dislike :albumId="$album->id"/>
                         <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                         <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
                         <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
                     </div>
+                    @else
+                    <livewire:like-dislike :albumId="$album->id"/>
                     @endif
                        @endif
                     @else
@@ -84,7 +90,6 @@
                 </div>
                 @endif
                 </div>
-
             </div>
             <div class="mb-4">
                 <livewire:load-more-comment :albumId="$album->id"/>

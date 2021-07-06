@@ -77,8 +77,8 @@ class AlbumController extends Controller
 
             $userId = auth()->user()->id;
             $request->validate([
-                'name' => 'required|min:2:max:40',
-                'description' => 'required|min:2:max:40',
+                'name' => 'required|min:2|max:40',
+                'description' => 'required|min:2|max:40',
                 'visibility' => 'required'
             ]);
 
@@ -150,8 +150,8 @@ class AlbumController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|min:2:max:40',
-            'description' => 'required|min:2:max:40',
+            'name' => 'required|min:2|max:40',
+            'description' => 'required|min:2|max:40',
             'visibility' => 'required'
         ]);
 
