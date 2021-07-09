@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\APP;
 use Intervention\Image\ImageManagerStatic;
 
 /*
@@ -14,6 +16,10 @@ use Intervention\Image\ImageManagerStatic;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+if (App::environment('production')) {
+    URL::forceScheme('https');
+}
 
 Route::get('/', function () {
     return view('welcome');
