@@ -53,7 +53,7 @@ return [
     |
     */
 
-    'asset_url' => "/public",
+    'asset_url' => "https://cbpw-2-22-l-b6bj9.ondigitalocean.app/public",
 
     /*
     |--------------------------------------------------------------------------
