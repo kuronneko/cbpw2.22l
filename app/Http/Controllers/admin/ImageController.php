@@ -148,8 +148,8 @@ class ImageController extends Controller
             $filePath = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
             if (!file_exists($filePath)) {             //check if physical file exist
 
-                $request->file('file')->storeAs(public_path('/storage/images/') . 'profile_'.$userId.'/'. $albumFound->id, $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
-                $url = Storage::url(public_path('/storage/images/') . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename); //url without extension
+                $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
+                $url = Storage::url('public/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename); //url without extension
 
                 if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm") {
                     //generate video thumbnail with Lakshmaji video thumbnail library

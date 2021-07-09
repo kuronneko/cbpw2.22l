@@ -50,10 +50,10 @@ return [
     | will load its JavaScript assets from the app's "relative root".
     |
     | Examples: "/assets", "myurl.com/app".
-    |
+    | http://localhost/cbpw2.22l/public
     */
 
-    'asset_url' => "https://cbpw-2-22-l-b6bj9.ondigitalocean.app/public",
+    'asset_url' => "/public",
 
     /*
     |--------------------------------------------------------------------------
