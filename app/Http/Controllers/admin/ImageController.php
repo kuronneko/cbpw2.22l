@@ -173,8 +173,8 @@ class ImageController extends Controller
                     }
 
                 } else {
-                    $thumbTarget = ('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
-                    ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200, null, function ($constraint) {
+                    $thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
+                    ImageManagerStatic::make($url.'/'.$document->getClientOriginalExtension())->resize(200, null, function ($constraint) {
                         $constraint->aspectRatio();
                     })->resizeCanvas(200, null)->save($thumbTarget, 80);
                 }
