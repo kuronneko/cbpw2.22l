@@ -49,8 +49,7 @@ return [
     | your app's domain root is not the correct path. By default, Livewire
     | will load its JavaScript assets from the app's "relative root".
     |
-    | Examples: "/assets", "myurl.com/app".
-    | http://localhost/cbpw2.22l/public
+    | Examples: "/assets", "myurl.com/app", "http://localhost/cbpw2.22l/public", "/public".
     */
 
     'asset_url' => null,
