@@ -173,9 +173,9 @@ class ImageController extends Controller
                     }
 
                 } else {
-                    $thumbTarget = Storage::url('images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension());
-                    //$thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
-                    ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200, null, function ($constraint) {
+                    //$thumbTarget = Storage::url('images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension());
+                    $thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
+                    ImageManagerStatic::make($filePath)->resize(200, null, function ($constraint) {
                         $constraint->aspectRatio();
                     })->resizeCanvas(200, null)->save($thumbTarget, 80);
                 }
