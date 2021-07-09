@@ -34,7 +34,7 @@ class LikeDislike extends Component
         $like = new like();
         $like->user_id = auth()->user()->id;
         $like->album_id = $this->albumId;
-        $like->status = 1;
+        //$like->status = 1;
         $like->save();
         session()->flash('message', 'You added this album to your favorites.');
        }else{

@@ -23,7 +23,7 @@ class CreateLikesTable extends Migration
             $table->unsignedBigInteger('user_id'); // Relación con usuarios
             $table->foreign('user_id')->references('id')->on('users'); // clave foranea
 
-            $table->integer('status');
+            //$table->integer('status');
         });
     }
 
