@@ -52,7 +52,7 @@ return [
     | Examples: "/assets", "myurl.com/app", "http://localhost/cbpw2.22l/public", "/public".
     */
 
-    'asset_url' => null,
+    'asset_url' => "http://localhost/cbpw2.22l/public",
 
     /*
     |--------------------------------------------------------------------------
