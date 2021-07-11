@@ -39,7 +39,7 @@
                 </div>
                 <div class="card-body contentCardBodyStyle">
                     <div class="text-center">
-                        <img src="{{ config("myconfig.img.url") }}{{'storage/images/loading.gif'}}" class="img-responsive loadingGif">
+                        <img src="{{ config("myconfig.img.url") }}{{'/img/loading.gif'}}" class="img-responsive loadingGif">
                     </div>
                     @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <div class="grid">
@@ -47,7 +47,7 @@
                         @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
                         <div class="grid-item" >
                             <a data-fancybox="images" href="{{ config("myconfig.img.url") }}{{ $image->url }}.{{$image->ext}}">
-                                <img src="{{ config("myconfig.img.url") }}{{'storage/images/videothumb.png'}}"  data-was-processed='true'>
+                                <img src="{{ config("myconfig.img.url") }}{{'/img/videothumb.png'}}"  data-was-processed='true'>
                              </a>
                            </div>
                         @elseif ($image->ext == "mp4" || $image->ext == "webm")

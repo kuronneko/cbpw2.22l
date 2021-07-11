@@ -45,7 +45,7 @@
                                 </td>
                                 <td>
                                     @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                                    <a data-fancybox="images" class="" href="{{ config("myconfig.img.url") }}{{ $image->url }}.{{$image->ext}}"><img src="{{ config("myconfig.img.url") }}{{'storage/images/videothumb.png'}}" class="imgThumb" data-was-processed='true'></a>
+                                    <a data-fancybox="images" class="" href="{{ config("myconfig.img.url") }}{{ $image->url }}.{{$image->ext}}"><img src="{{ config("myconfig.img.url") }}{{'/img/videothumb.png'}}" class="imgThumb" data-was-processed='true'></a>
                                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
                                     <a data-fancybox="images" class="" href="{{ config("myconfig.img.url") }}{{ $image->url }}.{{$image->ext}}"><img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.jpg" class="imgThumb" data-was-processed='true'></a>
                                     @else

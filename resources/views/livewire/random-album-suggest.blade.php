@@ -46,7 +46,7 @@
                 @foreach ($images as $i => $image)
                     @if ($i < 3)
                 @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                <img src="{{config("myconfig.img.url")}}{{'storage/images/videothumb.png'}}" data-was-processed='true'>
+                <img src="{{config("myconfig.img.url")}}{{'/img/videothumb.png'}}" data-was-processed='true'>
                 @elseif ($image->ext == "mp4" || $image->ext == "webm")
                 <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                 @else
@@ -61,7 +61,7 @@
                     @foreach ($images2 as $i => $image)
                         @if ($i < 3)
                     @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                    <img src="{{config("myconfig.img.url")}}{{'storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{config("myconfig.img.url")}}{{'/img/videothumb.png'}}" data-was-processed='true'>
                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
                     <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                     @else
@@ -76,7 +76,7 @@
                     @foreach ($images3 as $i => $image)
                     @if ($i < 3)
                     @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                    <img src="{{config("myconfig.img.url")}}{{'storage/images/videothumb.png'}}" data-was-processed='true'>
+                    <img src="{{config("myconfig.img.url")}}{{'/img/videothumb.png'}}" data-was-processed='true'>
                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
                     <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
                     @else

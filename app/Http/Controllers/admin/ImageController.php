@@ -181,7 +181,7 @@ class ImageController extends Controller
             }
 
 
-            if (Image::find($url)) { //check if image exist in DB based by URL parameters old method [[$image = Image::where('url',$url)->first();if($image){return $image;}]]
+            if (Image::where('url', $url)->where('album_id', $albumId)->first()) {  //check if image exist in DB based by URL parameters old method [[$image = Image::where('url',$url)->first();if($image){return $image;}]]
 
             } else {
                 $image = new Image();

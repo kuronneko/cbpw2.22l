@@ -9,7 +9,7 @@ return [
             'ffmpeg-status' => false,
         ],
     'img' =>
-        [   'avatar' => '/storage/images/avatar.png',
+        [   'avatar' => '/img/avatar.png',
             'url' => '/cbpw2.22l/public/',  // /cbpw2.22l/public/ is the htdocs proyect folder // in production you can delete it and just write /public/
         ],
     'engine' =>
