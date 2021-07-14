@@ -1,9 +1,20 @@
-<div>
-
-        <div class="row" id="albumsBox">
-
+<div wire:init="initOne">
+@if (empty($albums))
+<div class="text-center">
+    <div class="page-load-status mt-4 mb-4">
+        <div class="loader-ellips infinite-scroll-request">
+          <span class="loader-ellips__dot"></span>
+          <span class="loader-ellips__dot"></span>
+          <span class="loader-ellips__dot"></span>
+          <span class="loader-ellips__dot"></span>
+        </div>
+      </div>
+</div>
+    @else
+    <div class="row" id="albumsBox">
         @foreach ($albums as $album)
-        <?php $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;$albumSize = 0;$commentCountperAlbum = 0;$view = $album->view;?>
+        <?php $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;
+        $albumSize = 0;$commentCountperAlbum = 0;$view = $album->view;$likesCountperAlbum = 0;?>
             <div class="col-12 col-sm-4">
         <div class="card text-white indexCard mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -20,6 +31,11 @@
                     @if ($comment->album->id == $album->id)
                     <?php $commentCountperAlbum++; ?>
                     @endif
+                @endforeach
+                @foreach ($likes as $like)
+                @if ($like->album->id == $album->id)
+                <?php $likesCountperAlbum++; ?>
+                @endif
                 @endforeach
                 @foreach ($images as $image)
                 @if($image->album->id == $album->id)
@@ -47,6 +63,7 @@
                 <span class="badge badge-Light"><i class="fas fa-film"></i><span class="badge badge-Light"><?php echo $videoCountperAlbum;?></span></span>
                 <span class="badge badge-Light"><i class="fas fa-comments"></i><span class="badge badge-Light"><?php echo $commentCountperAlbum;?></span></span>
                 <span class="badge badge-Light"><i class="fas fa-eye"></i><span class="badge badge-Light"><?php echo $view;?></span></span>
+                <span class="badge badge-Light"><i class="fas fa-heart"></i><span class="badge badge-Light"><?php echo $likesCountperAlbum;?></span></span>
                 <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
                 </div>
 
@@ -85,7 +102,6 @@ Load more
 
 @endif
 
-
-
-
+@endif
 </div>
+

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -46,9 +47,10 @@ class PublicAlbumController extends Controller
     {
         $imagesFull = Image::all()->sortByDesc("id");
         $commentsFull = Comment::all()->sortByDesc("id");
+        $likesFull = Like::all()->sortByDesc("id");
         $albumsFull = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
 
-        $totalPublicVideos = 0;$totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;$lastUpdateAlbum = 0;$totalPublicViews = 0;
+        $totalPublicVideos = 0;$totalPublicImages = 0;$totalAlbumSize = 0;$totalPublicComments = 0;$lastUpdateAlbum = 0;$totalPublicViews = 0;$totalPublicLikes = 0;
         foreach ($albumsFull as $album) {
             $totalPublicViews = $totalPublicViews + $album->view;
             foreach ($commentsFull as $comment) {
@@ -56,6 +58,11 @@ class PublicAlbumController extends Controller
                     $totalPublicComments++;
                 }
            }
+           foreach ($likesFull as $like) {
+            if($like->album->id == $album->id){
+                $totalPublicLikes++;
+            }
+       }
             foreach ($imagesFull as $image) {
                 if($image->album->id == $album->id){
                    $totalAlbumSize = $totalAlbumSize + $image->size;
@@ -77,6 +84,7 @@ class PublicAlbumController extends Controller
             'totalAlbumSize' => app('App\Http\Controllers\PublicImageController')->formatSizeUnits($totalAlbumSize),
             'lastUpdateAlbum' => $lastUpdateAlbum,
             'totalPublicViews' => $totalPublicViews,
+            'totalPublicLikes' => $totalPublicLikes
         );
 
         return $stats;

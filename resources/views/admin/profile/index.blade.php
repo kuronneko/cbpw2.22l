@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+
 <div class="row justify-content-center">
         <div class="col-md-4 mb-4">
             <div class="card text-white">
@@ -46,27 +47,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 mb-4">
+           <div class="card text-white">
+               <div class="card-header">
+                   <small><span> Activity</span></small>
+               </div>
+               <div class="card-body">
 
-    <div class="alert alert-success alert-dismissible mb-4">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Success!</strong> This alert box could indicate a successful or positive action.
-    </div>
-    <div class="alert alert-success alert-dismissible mb-4">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Success!</strong> This alert box could indicate a successful or positive action.
-    </div>
-    <div class="alert alert-success alert-dismissible mb-4">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Success!</strong> This alert box could indicate a successful or positive action.
-    </div>
-    <div class="alert alert-success alert-dismissible mb-4">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Success!</strong> This alert box could indicate a successful or positive action.
-    </div>
-    <div class="alert alert-success alert-dismissible mb-4">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Success!</strong> This alert box could indicate a successful or positive action.
+               </div>
+           </div>
+        </div>
+        <div class="col-md-12">
+            <div class="btn-group btn-block mb-4">
+                <a wire:click="changeSex('Mujer')" class="btn btn-dark " href="#"><i class="fas fa-venus"></i> Albums</a>
+                <a wire:click="changeSex('Mujer')" class="btn btn-dark " href="#"><i class="fas fa-venus"></i> Mesages</a>
+                <a wire:click="changeSex('Transexual')" class="btn btn-dark" href="#"><i class="fas fa-transgender-alt"></i> Likes</a>
     </div>
         </div>
     </div>

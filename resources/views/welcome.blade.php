@@ -57,6 +57,10 @@
                             <span class="badge badge-dark"><i class="fas fa-comments"></i></i><span class="badge badge-dark">{{$stats['totalPublicComments']}}</span></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center text-white">
+                            Total Public Likes
+                            <span class="badge badge-dark"><i class="fas fa-heart"></i></i><span class="badge badge-dark">{{$stats['totalPublicLikes']}}</span></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center text-white">
                             Total Views
                             <span class="badge badge-dark"><i class="fas fa-eye"></i><span class="badge badge-dark">{{$stats['totalPublicViews']}}</span></span>
                           </li>
@@ -97,9 +101,8 @@
       </script>
 <script>
     $(document).ready(function(){
-      masonryStart();
-
-      document.addEventListener("scroll", function(){
+         masonryStart();
+        document.addEventListener("scroll", function(){
          masonryStart();
         });
         document.addEventListener("click", function(){
@@ -114,37 +117,26 @@
         });
     });
     </script>
-<script>
-    function randomColors() {
-  return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
-function randomize() {
-  document.getElementById('livewireAjaxLoadMore').style.backgroundColor = randomColors();
-}
-</script>
     <script>
-            function masonryStart(){
+    function masonryStart(){
         var $grid = $('.photos').masonry({
-    itemSelector: '.masonry',
-    // use element for option
-    //  columnWidth: '.masonry',
-    FitWidth: true,
-    percentPosition: true,
-    transitionDuration: 0
-    });
+        itemSelector: '.masonry',
+        // use element for option
+        //  columnWidth: '.masonry',
+        FitWidth: true,
+        percentPosition: true,
+        transitionDuration: 0
+        });
     // layout Masonry after each image loads
     //$grid.imagesLoaded().progress( function() {
     //$(".progress-bar").css({"width": "100%"});
-
-    $grid.imagesLoaded( function() {
-    //$(".progress").hide();
-    //$(".photos").show();
-    $grid.masonry('layout');
-    });
-
+        $grid.imagesLoaded( function() {
+        //$(".progress").hide();
+        //$(".photos").show();
+        $grid.masonry('layout');
+        });
     }
     </script>
-
 
 @endsection
 
