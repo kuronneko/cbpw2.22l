@@ -15,8 +15,8 @@ return [
     'engine' =>
         [
             'name' => 'Cyberpunkwaifus',
-            'version' => '2.22080',
-            'date' => '7/6/2021',
+            'version' => '2.22100',
+            'date' => '7/15/2021',
         ],
     'privileges' =>
         [
