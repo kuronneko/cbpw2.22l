@@ -24,7 +24,7 @@ class UploadAvatar extends Component
     public function store()
     {
         $this->validate([
-            'photo' => 'image|max:1024', // 1MB Max
+            'photo' => 'required|mimes:gif,png,jpg,jpeg|max:10000'
         ]);
 
         if(auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++') || auth()->user()->type == config('myconfig.privileges.super')){

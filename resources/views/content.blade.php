@@ -9,25 +9,29 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                        @if ($album->visibility == 0)
-                    <strong><span class="text-danger">Private Album: {{$album->name}}</span></strong>
+                    <small><strong><span class="text-danger">Private Album: {{$album->name}}</span></strong></small>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <div class="btn-group">
                         <livewire:like-dislike :albumId="$album->id"/>
                         <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                         <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
                         <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
+                        <a class="btn btn-dark btn-sm" href="{{route("admin.album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
+                        <a href="{{route('admin.tag.showTag', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a>
                     </div>
                     @else
                     <livewire:like-dislike :albumId="$album->id"/>
                     @endif
                        @else
-                    <strong><span class="text-danger upperCaseTittles">Album: {{$album->name}}</span></strong>
+                    <small><strong><span class="text-danger upperCaseTittles">{{$album->name}}</span></strong></small>
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <div class="btn-group">
                         <livewire:like-dislike :albumId="$album->id"/>
                         <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
                         <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
                         <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
+                        <a class="btn btn-dark btn-sm" href="{{route("admin.album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
+                        <a href="{{route('admin.tag.showTag', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a>
                     </div>
                     @else
                     <livewire:like-dislike :albumId="$album->id"/>
@@ -99,7 +103,7 @@
         <div class="col-md-4">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <strong><span class="text-danger">Album details</span></strong>
+                    <small><strong><span class="text-danger">Album details</span></strong></small>
                 </div>
                 <div class="card-body contentCardBodyStyleSide">
                     <div>

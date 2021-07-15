@@ -48,25 +48,10 @@
             </div>
         </div>
         <div class="col-md-8 mb-4">
-           <div class="card text-white">
-               <div class="card-header">
-                   <small><span> Activity</span></small>
-               </div>
-               <div class="card-body">
+                <livewire:admin.user-menu/>
+        </div>
+    </div>
 
-               </div>
-           </div>
-        </div>
-        <div class="col-md-12">
-            <div class="btn-group btn-block mb-4">
-                <a wire:click="changeSex('Mujer')" class="btn btn-dark " href="#"><i class="fas fa-venus"></i> Albums</a>
-                <a wire:click="changeSex('Mujer')" class="btn btn-dark " href="#"><i class="fas fa-venus"></i> Mesages</a>
-                <a wire:click="changeSex('Transexual')" class="btn btn-dark" href="#"><i class="fas fa-transgender-alt"></i> Likes</a>
-    </div>
-        </div>
-    </div>
-     @if(Auth::user()->type != config('myconfig.privileges.user'))
-    <livewire:admin.album-gestor/>
-     @endif
+
 </div>
 @endsection

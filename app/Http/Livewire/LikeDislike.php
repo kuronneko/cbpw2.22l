@@ -45,7 +45,7 @@ class LikeDislike extends Component
     public function dislike(){
         $like = Like::where('album_id', $this->albumId)->where('user_id', $this->userSessionId);
         $like->delete();
-        session()->flash('message', 'You removed this album to your favorites.');
+        session()->flash('message', 'You removed this album from your favorites.');
     }
 
 }

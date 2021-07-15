@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Public Album List</span>
+                    <small><span>Public Album List</span></small>
                     <div class="group-buttons">
                         <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#stats">
                             <i class="fas fa-chart-bar"></i>

@@ -13,7 +13,7 @@ class LoadMoreAlbum extends Component
 {
 
     public $amount = 6;
-    public $readyToLoad;
+    public $readyToLoad = false;
     public function render()
     {
            if($this->readyToLoad){
