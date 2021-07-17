@@ -89,7 +89,7 @@
                 {{-- fin card body --}}
                 <div class="px-4 text-center" id="tags">
                     @foreach ($album->tags as $albumtags)
-                    <span class="badge badge-danger"><i class="fas fa-tag"></i><span class="badge badge-danger">{{$albumtags->name}}</span></span>
+                    <span class="badge badge-danger"><i class="fas fa-tag"></i><span class="badge badge-danger" alt="#{{$albumtags->name}}">{{$albumtags->name}}</span></span>
                     @endforeach
                 </div>
                 @endif

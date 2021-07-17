@@ -171,6 +171,7 @@
     border-color: #2d3338!important;
     background-color: #1A1A1A!important;
 }
+
 .cardAlbumDetails{
     margin-bottom: 0px;
     margin-top: 0px;
@@ -629,9 +630,15 @@ word-break: break-all;
 
 
         }
-        .mainLogo .container{
-
+        .searchBarIndexContainer{
+            opacity: 0.6;
+            filter: alpha(opacity=60);
         }
+        .searchBarIndexContainer:hover{
+            opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
         @media only screen and (max-width: 600px) {
             .mainLogo {
                 background-position: top -260px right !important;
