@@ -21,9 +21,11 @@ class UserGestorTable extends Component
 
     public function render()
     {
-        return view('super.user.livewire.user-gestor-table',[
-            'users' => User::paginate(10),
-        ]);
+        if(auth()->user()->type == config('myconfig.privileges.super')){
+            return view('super.user.livewire.user-gestor-table',[
+                'users' => User::paginate(10),
+            ]);
+        }
     }
 
     public function userEdit($userId){

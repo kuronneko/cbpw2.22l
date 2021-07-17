@@ -16,13 +16,13 @@ swal('{!! Session::get('message')!!}')
                  <i class="fas fa-camera avatarIcon btn-file"> <input type="file" wire:model="photo"  accept="image/*"></i>
                   @endif
                   <div>
-                      <button  wire:loading.remove type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-sm" style="position: absolute; left: 20%; top: 25%;">Save</button>
-                      <button  wire:loading type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-file btn-sm" style="position: absolute; left: 20%; top: 25%;" disabled><span class="spinner-border spinner-border-sm"></span></button>
+                      <button  wire:loading.remove type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-sm saveProfilePhotoBtn" >Save</button>
+                      <button  wire:loading type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-file btn-sm saveProfilePhotoBtn" disabled><span class="spinner-border spinner-border-sm"></span></button>
                   </div>
             </form>
             <div>
-                <button  wire:loading.remove wire:click="destroy({{$user->id}})" id="removeBtn" name="removeBtn" class="btn btn-danger btn-sm" style="position: absolute; left: 20%; top: 35%;">Remove</button>
-                <button  wire:loading wire:click="destroy({{$user->id}})" id="removeBtn" name="removeBtn" class="btn btn-danger btn-sm" style="position: absolute; left: 20%; top: 35%;" disabled><span class="spinner-border spinner-border-sm"></span></button>
+                <button  wire:loading.remove wire:click="destroy({{$user->id}})" id="removeBtn" name="removeBtn" class="btn btn-danger btn-sm removeProfilePhotoBtn">Remove</button>
+                <button  wire:loading wire:click="destroy({{$user->id}})" id="removeBtn" name="removeBtn" class="btn btn-danger btn-sm removeProfilePhotoBtn" disabled><span class="spinner-border spinner-border-sm"></span></button>
             </div>
     </div>
 

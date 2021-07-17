@@ -23,8 +23,11 @@ class PublicAlbumController extends Controller
     {
         //fail test of bump albums    $albums = Album::where('visibility', 1)->whereHas('images', 'albums.id', '=', 'images.album_id')->orderBy('images.updated_at', 'desc')->paginate(5);
 //SELECT DISTINCT ALBUMS.name from albums, images WHERE (albums.visibility=1) AND (albums.id=images.album_id) ORDER BY (images.updated_at) DESC
-        $stats = $this->getCompleteStatistics();
-        return view('welcome',compact('stats'));
+
+
+        //$stats = $this->getCompleteStatistics();
+       // return view('welcome',compact('stats'));
+       return view('welcome');
     }
 
 

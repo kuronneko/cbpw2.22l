@@ -1,4 +1,9 @@
 <div>
+    @if (session()->has('message'))
+    <script>
+      swal('{!! Session::get('message')!!}')
+    </script>
+    @endif
     @include('super.tag.livewire.tag-form')
     <div id="tagsComponent">
         @foreach ($tags as $tag)

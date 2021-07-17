@@ -18,10 +18,21 @@
 
     border-radius: 0%;
     object-fit: cover !important;
-    width: 75px;
-    height: 75px;
+    width: 70px;
+    height: 70px;
     opacity: 0.6;
     filter: alpha(opacity=60);
+}
+
+@media only screen and (max-width: 600px) {
+    .imgThumbPublicIndex {
+        border-radius: 0%;
+        object-fit: cover !important;
+        width: 66px;
+        height: 66px;
+        opacity: 0.6;
+        filter: alpha(opacity=60);
+    }
 }
 
 .imgThumbRandomSuggest{ /* suggest Album preview*/
@@ -133,6 +144,13 @@
     padding-bottom: 0px!important;
 
 }
+.blackBtn{
+    background-color: #1A1A1A!important;
+}
+.blackBtn:hover{
+   background-color: #1A1A1A!important;
+}
+
 .modal-content{
     background-color: #1A1A1A!important;
 }
@@ -555,4 +573,72 @@ word-break: break-all;
         background-color: #ef3343!important;
         border: 2px solid #ef3343;
     }
+
+
+
+    /* Album Content IMAGE SIZE */
+@media only screen and (max-width: 600px) { /* responsive size*/
+    .removeProfilePhotoBtn{
+        position: absolute;
+        left: 20%;
+        top: 40%;
+    }
+
+    .saveProfilePhotoBtn{
+        position: absolute;
+        left: 20%;
+        top: 20%;
+    }
+}
+
+@media (min-width: 576px) {  /* desktop size */
+    .removeProfilePhotoBtn{
+        position: absolute;
+        left: -4%;
+        top: 40%;
+    }
+
+    .saveProfilePhotoBtn{
+        position: absolute;
+        left: -4%;
+        top: 20%;
+    }
+}
+    @media only screen and (max-width: 600px) { /* responsive size*/
+        .userMenuBtn {
+            font-size: 0px!important;
+        }
+        .userMenuBtn i {
+          font-size: 18px!important;
+        }
+      }
+
+        .filterBar {
+
+         border-bottom: 1px solid #373940;
+         border-top: 1px solid #373940;
+        }
+
+        .mainLogo {                                                               /* INDEX IMAGE BACKGROUND */
+            background-image: url(/cbpw2.22l/public/img/backgroundLogo.gif) !important;
+            background-size: 80% !important;
+            background-position: top -300px right !important;
+            padding-top: 130px!important;
+            padding-bottom: 130px!important;
+            background-color: #15161A !important; /* NAVBAR */
+
+
+        }
+        .mainLogo .container{
+
+        }
+        @media only screen and (max-width: 600px) {
+            .mainLogo {
+                background-position: top -260px right !important;
+                background-size: 100% !important;
+                padding-top: 50px!important;
+                padding-bottom: 50px!important;
+            }
+        }
+
 

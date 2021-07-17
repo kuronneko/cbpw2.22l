@@ -25,6 +25,7 @@ class TagGestor extends Component
             $tag = Tag::find($id);
             $tag->albums()->detach();
             $tag->delete();
+            session()->flash('message', 'You removed a tag successfully.');
         }
     }
 
@@ -35,6 +36,7 @@ class TagGestor extends Component
                 'name' => $this->name,
             ]);
             $this->name = "";
+            session()->flash('message', 'Add a tag successfully.');
         }
     }
 }

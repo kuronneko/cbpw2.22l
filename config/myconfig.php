@@ -10,6 +10,7 @@ return [
         ],
     'img' =>
         [   'avatar' => '/img/avatar.png',
+            'backgroundLogo' => '/img/backgroundLogo.jpg',
             'url' => '/cbpw2.22l/public/',  // /cbpw2.22l/public/ is the htdocs proyect folder // in production you can delete it and just write /public/
         ],
     'engine' =>

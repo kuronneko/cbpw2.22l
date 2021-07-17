@@ -20,7 +20,9 @@ class UserGestor extends Component
 
     public function render()
     {
-        return view('super.user.livewire.user-gestor');
+        if(auth()->user()->type == config('myconfig.privileges.super')){
+            return view('super.user.livewire.user-gestor');
+        }
     }
 
     public function listenerUserId($userId){
