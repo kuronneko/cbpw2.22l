@@ -94,7 +94,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="mb-4">
             @yield('content')
         </main>
 

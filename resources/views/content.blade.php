@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container ">
+<div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <livewire:search-dropdown />
+            <div class="searchBarContentContainer">
+                <livewire:search-dropdown />
+            </div>
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))

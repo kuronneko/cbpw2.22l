@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
         <section class="mainLogo">
             <div class="container">
                 <div class="searchBarIndexContainer">

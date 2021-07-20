@@ -51,7 +51,7 @@
                   </div>
 
                   <div class="mt-4">
-                    <small><p>Cyberpunkwaifus gallery engine is developed based on laravel and livewire technology</p></small>
+                    <small><p>Cyberpunkwaifus gallery engine developed based on Laravel8+Livewire+Bootstrap4 technology</p></small>
                   </div>
         </div>
         <!-- Modal footer -->
