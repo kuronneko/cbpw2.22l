@@ -13,12 +13,12 @@
             @error('text') <small><span class="text-danger"> {{$message}} </span></small> @enderror
             @error('name') <small><span class="text-danger"> {{$message}} </span></small> @enderror
             <input type="hidden" wire:model="name" />
-            <textarea rows="1" placeholder="Maximum length: 1000 characters" maxlength="1000" type="text" class="form-control bg-comments text-white border-dark" wire:model="text"></textarea>
+            <textarea rows="2" placeholder="Maximum length: 1000 characters" maxlength="1000" type="text" class="form-control bg-comments text-white border-dark" wire:model="text"></textarea>
             </div>
            @else
            <div class="form-group">
             <input type="hidden" />
-            <textarea rows="1" placeholder="Only registered users can post" maxlength="1000" type="text" class="form-control bg-comments text-white border-dark" disabled></textarea>
+            <textarea rows="2" placeholder="Only registered users can post" maxlength="1000" type="text" class="form-control bg-comments text-white border-dark" disabled></textarea>
             </div>
            @endif
         </div>

@@ -130,6 +130,7 @@ class ImageController extends Controller
         $albumId = $request->input('albumId');
         $userId = $request->input('userId');
         $albumFound = Album::findOrFail($albumId);
+        $websiteTag = config('myconfig.engine.nameext').'_';
 
         if (($albumFound->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')) {
             $newFilename = md5($document->getClientOriginalName());  //rename filename
@@ -145,23 +146,23 @@ class ImageController extends Controller
                 mkdir($albumFolderPath, 0755, true);
             }
 
-            $filePath = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
+            $filePath = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
             if (!file_exists($filePath)) {             //check if physical file exist
 
                 // 'public/images/' required in test, and 'images/' for production
-                $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
-                $url = Storage::url('public/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename); //url without extension
+                $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
+                $url = Storage::url('public/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename); //url without extension
 
                 if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm") {
                     //generate video thumbnail with Lakshmaji video thumbnail library
                     if(config('myconfig.patch-pre-ffmpeg.ffmpeg-status') == true){
-                        $videoPath       = public_path('/storage/images/' .'profile_'.$userId.'/'.  $albumFound->id . '/' . $newFilename . '.' . $document->getClientOriginalExtension());
+                        $videoPath       = public_path('/storage/images/' .'profile_'.$userId.'/'.  $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
                         $thumbnailPath   = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/');
-                        $thumbnailImageName  = $newFilename . '_thumb.jpg';
+                        $thumbnailImageName  = $websiteTag . $newFilename . '_thumb.jpg';
                         $timeToImage =  2;
                         Thumbnail::getThumbnail($videoPath,$thumbnailPath,$thumbnailImageName,$timeToImage); //generate default size thumbnail from video with Lakshmaji library (watermark settings OFF)
 
-                        $thumbnailPathResize = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.jpg');
+                        $thumbnailPathResize = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.jpg');
                         $waterMarkPath = public_path('/storage/images/videoplay4.png');
 
                             ImageManagerStatic::make($thumbnailPathResize)->resize(200, null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
@@ -173,7 +174,7 @@ class ImageController extends Controller
                     }
 
                 } else {
-                    $thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
+                    $thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
                     ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200, null, function ($constraint) {
                         $constraint->aspectRatio();
                     })->resizeCanvas(200, null)->save($thumbTarget, 80);

@@ -15,6 +15,7 @@ return [
         ],
     'engine' =>
         [
+            'nameext' => 'cyberpunkwaifus.xyz',
             'name' => 'Cyberpunkwaifus',
             'version' => '2.22110',
             'date' => '7/19/2021',
