@@ -20,6 +20,7 @@ class LoadMoreAlbum extends Component
     protected $queryString = [
         'sortBy' => ['except' => ''],
    ];
+
     public function render()
     {
            if($this->readyToLoad){

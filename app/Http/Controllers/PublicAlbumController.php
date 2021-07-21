@@ -42,7 +42,25 @@ class PublicAlbumController extends Controller
 
     }
 
+    public function getCompleteStatistics2(){
 
+        $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
+        $albumPlucked = $albums->pluck('id');
+        $stats =  Stat::whereIn('album_id', $albumPlucked->all())->get();
+
+        $stats = array(
+            'totalPublicAlbums' => count($stats),
+            'totalPublicImages' => $stats->sum('qimages'),
+            'totalPublicVideos' => $stats->sum('qvideos'),
+            'totalPublicComments' => $stats->sum('qcomments'),
+            'totalAlbumSize' => app('App\Http\Controllers\PublicImageController')->formatSizeUnits($stats->sum('size')),
+            'lastUpdateAlbum' => $albums->first()->updated_at,
+            'totalPublicViews' => $stats->sum('view'),
+            'totalPublicLikes' => $stats->sum('like')
+        );
+
+        return $stats;
+    }
     /**
      * Show the form for creating a new resource.
      *
