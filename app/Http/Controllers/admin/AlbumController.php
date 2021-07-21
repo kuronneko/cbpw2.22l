@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\Like;
+use App\Models\Stat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -207,6 +208,8 @@ class AlbumController extends Controller
         $comments->delete();
         $likes = Like::where('album_id', $foundAlbum->id);
         $likes->delete();
+        $stat = Stat::where('album_id', $foundAlbum->id);
+        $stat->delete();
         $foundAlbum->tags()->detach();
 
         $folderPath = 'public/images/' . 'profile_'.$userId.'/'. $foundAlbum->id;

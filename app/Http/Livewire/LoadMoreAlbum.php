@@ -7,6 +7,7 @@ use App\Models\Album;
 use App\Models\Image;
 use App\Models\Tag;
 use App\Models\Like;
+use App\Models\Stat;
 use App\Models\Comment;
 
 class LoadMoreAlbum extends Component
@@ -22,41 +23,43 @@ class LoadMoreAlbum extends Component
     public function render()
     {
            if($this->readyToLoad){
+
               if($this->sortBy == 'random'){
+                $albums = Album::take($this->amount)->where('visibility', 1)->inRandomOrder()->get();
+                $albumPlucked = $albums->pluck('id');
                 return view('livewire.load-more-album', [
-                    'albums' => Album::take($this->amount)->where('visibility', 1)->inRandomOrder()->get(),
-                    'images' => Image::all()->sortByDesc("id"),
-                    'comments' => Comment::all()->sortByDesc("id"),
-                    'tags' => Tag::all()->sortByDesc("id"),
-                    'likes' => Like::all()->sortByDesc("id"),
-                    'albumMax' => $this->albumMax(),
-                    'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
+                    'albums' => $albums,
+                    'images' => Image::whereIn('album_id', $albumPlucked->all())->get(),
+                    'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
+                    'albumMax' => $this->albumMax()
+                    //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                 ]);
               }else if($this->sortBy == 'view'){
+                $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('view','desc')->get();
+                $albumPlucked = $albums->pluck('id');
                 return view('livewire.load-more-album', [
-                    'albums' => Album::take($this->amount)->where('visibility', 1)->orderBy('view','desc')->get(),
-                    'images' => Image::all()->sortByDesc("id"),
-                    'comments' => Comment::all()->sortByDesc("id"),
-                    'tags' => Tag::all()->sortByDesc("id"),
-                    'likes' => Like::all()->sortByDesc("id"),
-                    'albumMax' => $this->albumMax(),
-                    'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
+                    'albums' => $albums,
+                    'images' => Image::whereIn('album_id', $albumPlucked->all())->get(),
+                    'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
+                    'albumMax' => $this->albumMax()
+                    //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                 ]);
               }else{
+                $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get();
+                $albumPlucked = $albums->pluck('id');
                 return view('livewire.load-more-album', [
-                    'albums' => Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get(),
-                    'images' => Image::all()->sortByDesc("id"),
-                    'comments' => Comment::all()->sortByDesc("id"),
-                    'tags' => Tag::all()->sortByDesc("id"),
-                    'likes' => Like::all()->sortByDesc("id"),
-                    'albumMax' => $this->albumMax(),
-                    'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
+                    'albums' => $albums,
+                    'images' => Image::whereIn('album_id', $albumPlucked->all())->get(),
+                    'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
+                    'albumMax' => $this->albumMax()
+                    //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                 ]);
               }
            }else{
             return view('livewire.load-more-album');
            }
     }
+
 
     public function sortBy($name){
          $this->sortBy = $name;

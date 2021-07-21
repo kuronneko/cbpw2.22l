@@ -1,5 +1,8 @@
-<!-- The Modal -->
- <div class="modal fade" id="stats">
+<div>
+
+@if ($stats)
+        <!-- The Modal -->
+<div class="modal fade" id="stats">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content text-white">
 
@@ -51,7 +54,7 @@
                   </div>
 
                   <div class="mt-4">
-                    <small><p>Cyberpunkwaifus gallery engine developed based on Laravel8+Livewire+Bootstrap4 technology</p></small>
+                    <small><p>Cyberpunkwaifus gallery engine is a LAMP STACk DEMO developed with Laravel8+Livewire+Bootstrap4 technology</p></small>
                   </div>
         </div>
         <!-- Modal footer -->
@@ -61,4 +64,8 @@
 
       </div>
     </div>
-  </div>
+    </div>
+@endif
+</div>
+
+

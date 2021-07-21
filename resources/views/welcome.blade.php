@@ -11,7 +11,13 @@
         </section>
 
     <livewire:load-more-album />
+    <livewire:modal-stats />
 
+    <script>
+        window.addEventListener('show-modal-stats', event =>{
+            $('#stats').modal('show')
+            });
+    </script>
       <script type="text/javascript">
        $(document).ready(function() {
            if ($.cookie('pop') == null) {

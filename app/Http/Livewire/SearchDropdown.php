@@ -14,11 +14,12 @@ class SearchDropdown extends Component
     public function render()
     {
 
-
         if(strlen($this->search) > 2){
+            $albums = Album::where('visibility', 1)->where('name', 'like', '%'.$this->search.'%')->orderBy('updated_at','desc')->get()->take(7);
+            $albumPlucked = $albums->pluck('id');
         return view('livewire.search-dropdown', [
-            'albums' => Album::where('visibility', 1)->where('name', 'like', '%'.$this->search.'%')->orderBy('updated_at','desc')->get()->take(7),
-            'images' => $images = Image::all()->sortByDesc("id"),
+            'albums' => $albums,
+            'images' => Image::whereIn('album_id', $albumPlucked->all())->get(),
         ]);
     }else{
         return view('livewire.search-dropdown', [

@@ -67,19 +67,21 @@
                                         @endif
                                 </td>
                                 <td>{{ $album->created_at}}</td>
-                                @foreach ($images as $image)
-                                @if (($image->album->id == $album->id && $album->user->id == auth()->user()->id) || ($image->album->id == $album->id && auth()->user()->type == config('myconfig.privileges.super')))
-                                <?php $albumSize = $albumSize + $image->size;?>
+                                @foreach ($stats as $stat)
+                                @if (($stat->album->id == $album->id && $album->user->id == auth()->user()->id) || ($stat->album->id == $album->id && auth()->user()->type == config('myconfig.privileges.super')))
+                                <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($stat->size) }}</td>
                                 @endif
                                 @endforeach
-                                <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>
+
                                 <td>{{ $album->view}}</td>
                                 <td>
                                     <div>
                                         @if ($album->visibility == 1)
-                                        <a wire:click='changeVisibility({{$album->id}})' class="btn btn-success" role="button" type="button"><i class="fas fa-lock-open"></i></a>
+                                        <a wire:loading.remove wire:target='changeVisibility({{$album->id}})' wire:click='changeVisibility({{$album->id}})' class="btn btn-success" role="button" type="button"><i class="fas fa-lock-open"></i></a>
+                                        <a wire:loading wire:target='changeVisibility({{$album->id}})' class="btn btn-success" role="button" type="button"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
                                         @else
-                                        <a wire:click='changeVisibility({{$album->id}})' class="btn btn-dark" role="button" type="button"><i class="fas fa-lock"></i></a>
+                                        <a  wire:loading.remove wire:target='changeVisibility({{$album->id}})' wire:click='changeVisibility({{$album->id}})' class="btn btn-dark" role="button" type="button"><i class="fas fa-lock"></i></a>
+                                        <a wire:loading wire:target='changeVisibility({{$album->id}})' class="btn btn-dark" role="button" type="button"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
                                         @endif
                                     </div>
                                 </td>

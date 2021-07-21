@@ -112,12 +112,12 @@
                         <ul class="list-group">
                         <li class="list-group-item mx-4 text-white customGroupItem upperCaseTittles"><i class="fas fa-book text-white customStatIcons text-center"></i> <strong>{{$album->name}}</strong></li>
                         <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-user text-white customStatIcons text-center"></i> {{$album->user->name}}</li>
-                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-images text-white customStatIcons text-center"></i> {{$stats['imageCountperAlbum']}}</li>
-                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-film text-white customStatIcons text-center"></i> {{$stats['videoCountperAlbum']}}</li>
-                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-comments text-white customStatIcons text-center"></i> {{$stats['commentCountperAlbum']}}</li>
-                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-eye text-white customStatIcons text-center"></i> {{$stats['viewCountperAlbum']}}</li>
-                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-hdd text-white customStatIcons text-center"></i> {{$stats['albumSize']}}</li>
-                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-redo-alt text-white customStatIcons text-center"></i> {{$stats['updated_at']}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-images text-white customStatIcons text-center"></i> {{$stat->qimage}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-film text-white customStatIcons text-center"></i> {{$stat->qvideo}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-comments text-white customStatIcons text-center"></i> {{$stat->qcomment}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-eye text-white customStatIcons text-center"></i> {{$stat->view}}</li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-hdd text-white customStatIcons text-center"></i> <?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($stat->size);?></li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-redo-alt text-white customStatIcons text-center"></i> {{$album->updated_at}}</li>
                         </ul>
                       </div>
                 </div>

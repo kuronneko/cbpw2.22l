@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
+use App\Models\Stat;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
@@ -194,7 +195,36 @@ class ImageController extends Controller
                 $image->ip = $request->ip();
                 $image->tag = "";
                 $image->save();
-                $albumFound->touch();
+
+                $stat = Stat::where('album_id', $albumFound->id)->first();
+                if($stat){
+                    $stat->size = $stat->size + $document->getSize();
+                    if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
+                        $stat->qvideo = $stat->qvideo + 1;
+                    }else{
+                        $stat->qimage = $stat->qimage + 1;
+                    }
+                    $stat->save();
+                    $albumFound->touch();
+                }else{
+                    $stat = new Stat();
+                    $stat->album_id = $albumFound->id;
+                    $stat->size = $document->getSize();
+                    if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
+                        $stat->qvideo = 1;
+                        $stat->qimage = 0;
+                    }else{
+                        $stat->qimage = 1;
+                        $stat->qvideo = 0;
+                    }
+                    $stat->qcomment = 0;
+                    $stat->qlike = 0;
+                    $stat->view = 0;
+                    $stat->save();
+                    $albumFound->touch();
+                }
+
+
             }
 
             //dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
@@ -277,14 +307,24 @@ class ImageController extends Controller
     public function destroy(Request $request, $imageId)
     {
 
+
         $albumId = $request->input('albumId');
         $userId = auth()->user()->id;
         $albumFound = Album::findOrFail($albumId);
         $imageFound = Image::findOrFail($imageId);
+        $statFound = Stat::where('album_id', $albumFound->id)->first();
 
         if (($imageFound->album->id == $albumFound->id && $albumFound->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || ($imageFound->album->id == $albumFound->id && auth()->user()->type == config('myconfig.privileges.super'))) {
 
             $productImage = str_replace('/storage', '', $imageFound->url);
+
+            if ($imageFound->ext == "mp4" || $imageFound->ext == "webm"){
+                $statFound->qvideo = $statFound->qvideo - 1;
+            }else{
+                $statFound->qimage = $statFound->qimage - 1;
+            }
+            $statFound->size = $statFound->size - $imageFound->size;
+            $statFound->save();
 
             Storage::delete('/public' . $productImage . '.' . $imageFound->ext);
             Storage::delete('/public' . $productImage . '_thumb.' . $imageFound->ext);

@@ -7,6 +7,7 @@ use App\Models\Album;
 use App\Models\Image;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Stat;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Else_;
@@ -57,6 +58,25 @@ class LoadMoreComment extends Component
         $comment->text = $this->text;
         $comment->ip = request()->ip();
         $comment->save();
+
+        $stat = Stat::where('album_id', $this->albumId)->first();
+        if($stat){
+            $stat->qcomment = $stat->qcomment + 1;
+            $stat->save();
+            Album::findOrFail($this->albumId)->touch();
+        }else{
+            $stat = new Stat();
+            $stat->album_id = $this->albumId;
+            $stat->size = 0;
+            $stat->qcomment = 1;
+            $stat->qvideo = 0;
+            $stat->qimage = 0;
+            $stat->qlike = 0;
+            $stat->view = 0;
+            $stat->save();
+            Album::findOrFail($this->albumId)->touch();
+        }
+
         $this->name = "";$this->text= "";
         session()->flash('message', 'Post sent successfully');
     }

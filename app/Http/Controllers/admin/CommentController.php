@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Album;
+use App\Models\Stat;
 use App\Models\Comment;
 
 use Illuminate\Http\Request;
@@ -119,9 +120,11 @@ class CommentController extends Controller
         $userId = auth()->user()->id;
         $albumFound = Album::findOrFail($albumId);
         $commentFound = Comment::findOrFail($commentId);
+        $statFound = Stat::where('album_id', $albumFound->id)->first();
 
         if(($commentFound->album->id == $albumFound->id && $albumFound->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || ($commentFound->album->id == $albumFound->id && auth()->user()->type == config('myconfig.privileges.super'))){
-
+            $statFound->qcomment = $statFound->qcomment - 1;
+            $statFound->save();
             $commentFound->delete();
 
             return redirect()->route('admin.comment.showComment', $albumFound->id);

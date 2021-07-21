@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Image;
+use App\Models\Stat;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\User;
@@ -40,6 +41,7 @@ class PublicAlbumController extends Controller
     {
 
     }
+
 
     /**
      * Show the form for creating a new resource.

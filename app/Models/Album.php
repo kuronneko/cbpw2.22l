@@ -14,4 +14,8 @@ class Album extends Model
     public function tags(){
         return $this->belongsToMany(Tag::class)->withPivot('album_id', 'tag_id');
     }
+
+    public function stat(){ //$comment->album->id
+        return $this->hasOne(Stat::class); //Pertenece a un album.
+    }
 }

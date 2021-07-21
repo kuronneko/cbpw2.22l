@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Album;
 use App\Models\Image;
 use App\Models\User;
+use App\Models\Stat;
 use Livewire\WithPagination;
 
 class AlbumGestor extends Component
@@ -20,15 +21,19 @@ class AlbumGestor extends Component
         $userId = auth()->user()->id;
 
         if(auth()->user()->type == config('myconfig.privileges.super')){
+            $albums = Album::orderBy('id', 'desc')->paginate(50);
+            $albumPlucked = $albums->pluck('id');
             return view('admin.album.livewire.album-gestor', [
-                'albums' => Album::orderBy('id', 'desc')->paginate(50),
-                'images' => Image::all(),
+                'albums' => $albums,
+                'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
 
             ]);
         }else{
+            $albums = Album::where('user_id', $userId)->orderBy('id','desc')->paginate(50);
+            $albumPlucked = $albums->pluck('id');
             return view('admin.album.livewire.album-gestor', [
-                'albums' => Album::where('user_id', $userId)->orderBy('id','desc')->paginate(50),
-                'images' => Image::all(),
+                'albums' => $albums,
+                'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
 
             ]);
         }

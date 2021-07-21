@@ -23,6 +23,13 @@ class CreateAlbumsTable extends Migration
             $table->text('description');
             $table->integer('visibility');
             $table->integer('view');
+
+            $table->integer('size');
+            $table->integer('qcomments');
+            $table->integer('qlikes');
+            $table->integer('qimages');
+            $table->integer('qvideos');
+
             $table->timestamps();
         });
     }

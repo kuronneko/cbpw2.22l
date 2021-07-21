@@ -15,15 +15,13 @@
             @else
             <nav class="navbar navbar-expand-lg navbar-dark filterBar mb-4">
               <div class="container">
-                  <div class="btn-group btn-block">
+                  <div class="btn-group btn-block text-center">
                       <a wire:loading.remove wire:target="sortBy('view')" wire:click="sortBy('view')" class="btn blackBtn btn-sm userMenuBtn text-white" href="#"><i class="fas fa-redo"></i> Sort by Views</a>
                       <a wire:loading wire:target="sortBy('view')" class="btn blackBtn btn-sm userMenuBtn text-white" href="#"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i> Sort by Views</a>
                       <a wire:loading.remove wire:target="sortBy('random')" wire:click="sortBy('random')" class="btn blackBtn btn-sm userMenuBtn text-white" href="#"><i class="fas fa-dice"></i> Sort by Random</a>
                       <a wire:loading wire:target="sortBy('random')" class="btn blackBtn btn-sm userMenuBtn text-white" href="#"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i> Sort by Random</a>
-
-                      <button type="button" class="btn blackBtn btn-sm text-white userMenuBtn" data-toggle="modal" data-target="#stats">
-                          <i class="fas fa-chart-bar"></i> Stats
-                      </button>
+                      <a wire:loading.remove wire:target="$emit('showModal')" wire:click="$emit('showModal')" type="button" class="btn blackBtn btn-sm text-white userMenuBtn"><i class="fas fa-chart-bar"></i> Stats</a>
+                      <a wire:loading wire:target="$emit('showModal')" type="button" class="btn blackBtn btn-sm text-white userMenuBtn"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i> Stats</a>
                   </div>
               </div>
           </nav>
@@ -32,39 +30,24 @@
               <div class="col-md-12">
             <div class="row" id="albumsBox">
                 @foreach ($albums as $album)
-                <?php $videoCountperAlbum = 0;$imageLimitperAlbum = 0;$imageCountperAlbum = 0;$updated_at = $album->updated_at;
-                $albumSize = 0;$commentCountperAlbum = 0;$view = $album->view;$likesCountperAlbum = 0;?>
+                <?php $imageLimitperAlbum = 0;?>
+
                     <div class="col-12 col-sm-4">
                 <div class="card text-white indexCard mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                     <small><strong><p class="cardAlbumTittle upperCaseTittles text-danger" alt="{{$album->name}}">{{$album->name}}</p></strong></small><small><p class="cardAlbumTittle lowerCaseTittles text-secondary">By: {{$album->user->name}}</p></small>
                     </div>
                     <div class="card-body cardIndexBodyPadding">
-                        <p class="text-secondary dateIndexCard"><?php echo $updated_at;?></p>
+                        <p class="text-secondary dateIndexCard">{{$album->updated_at;}}</p>
                         @if ( session('message') )
                         <div class="alert alert-success">{{ session('message') }}</div>
                       @endif
                       <p class="cardAlbumDescription" alt="{{$album->description}}">Description: {{$album->description}}</p>
 
                     <div class="text-center">
-                        @foreach ($comments as $comment)
-                            @if ($comment->album->id == $album->id)
-                            <?php $commentCountperAlbum++; ?>
-                            @endif
-                        @endforeach
-                        @foreach ($likes as $like)
-                        @if ($like->album->id == $album->id)
-                        <?php $likesCountperAlbum++; ?>
-                        @endif
-                        @endforeach
+
                         @foreach ($images as $image)
                         @if($image->album->id == $album->id)
-                        <?php $albumSize = $albumSize + $image->size;?>
-                        @if ($image->ext == "mp4" || $image->ext == "webm")
-                        <?php $videoCountperAlbum++; ?>
-                        @else
-                        <?php $imageCountperAlbum++; ?>
-                        @endif
                         @if($imageLimitperAlbum != 4)
                         <?php $imageLimitperAlbum++; ?>
                         @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
@@ -79,14 +62,17 @@
                         @endforeach
                     </div>
                         <div>
-                        <span class="badge badge-Light"><i class="fas fa-images"></i><span class="badge badge-Light"><?php echo $imageCountperAlbum;?></span></span>
-                        <span class="badge badge-Light"><i class="fas fa-film"></i><span class="badge badge-Light"><?php echo $videoCountperAlbum;?></span></span>
-                        <span class="badge badge-Light"><i class="fas fa-comments"></i><span class="badge badge-Light"><?php echo $commentCountperAlbum;?></span></span>
-                        <span class="badge badge-Light"><i class="fas fa-eye"></i><span class="badge badge-Light"><?php echo $view;?></span></span>
-                        <span class="badge badge-Light"><i class="fas fa-heart"></i><span class="badge badge-Light"><?php echo $likesCountperAlbum;?></span></span>
-                        <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($albumSize);?></span></span>
+                            @foreach ($stats as $stat)
+                            @if($stat->album->id == $album->id)
+                            <span class="badge badge-Light"><i class="fas fa-images"></i><span class="badge badge-Light">{{$stat->qimage}}</span></span>
+                            <span class="badge badge-Light"><i class="fas fa-film"></i><span class="badge badge-Light">{{$stat->qvideo}}</span></span>
+                            <span class="badge badge-Light"><i class="fas fa-comments"></i><span class="badge badge-Light">{{$stat->qcomment}}</span></span>
+                            <span class="badge badge-Light"><i class="fas fa-eye"></i><span class="badge badge-Light">{{$stat->view}}</span></span>
+                            <span class="badge badge-Light"><i class="fas fa-heart"></i><span class="badge badge-Light">{{$stat->qlike}}</span></span>
+                            <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($stat->size);?></span></span>
+                            @endif
+                            @endforeach
                         </div>
-
 
                     {{-- fin card body --}}
                     </div>
@@ -106,10 +92,10 @@
             @if ($albumMax == 0)
 
         @else
-        <button wire:click='load' wire:loading.remove class="btn loadBtn btn-sm btn-block text-white mb-2">
-        Load more
-        </button>
-        <button wire:loading class="btn loadBtn btn-sm btn-block mb-2">
+        <button wire:loading.remove wire:target='load' wire:click='load' class="btn loadBtn btn-sm btn-block text-white mb-2">
+            Load more
+            </button>
+        <button wire:loading wire:target='load' wire:loading class="btn loadBtn btn-sm btn-block mb-2">
             <div class="page-load-status">
                 <div class="loader-ellips infinite-scroll-request">
                   <span class="loader-ellips__dot"></span>
@@ -126,7 +112,7 @@
       </div>
    </div>
 </div>
-@include('stats-info')
+
 @endif
 
 </div>
