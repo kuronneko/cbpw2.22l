@@ -50,13 +50,13 @@ class PublicAlbumController extends Controller
 
         $stats = array(
             'totalPublicAlbums' => count($stats),
-            'totalPublicImages' => $stats->sum('qimages'),
-            'totalPublicVideos' => $stats->sum('qvideos'),
-            'totalPublicComments' => $stats->sum('qcomments'),
+            'totalPublicImages' => $stats->sum('qimage'),
+            'totalPublicVideos' => $stats->sum('qvideo'),
+            'totalPublicComments' => $stats->sum('qcomment'),
             'totalAlbumSize' => app('App\Http\Controllers\PublicImageController')->formatSizeUnits($stats->sum('size')),
             'lastUpdateAlbum' => $albums->first()->updated_at,
             'totalPublicViews' => $stats->sum('view'),
-            'totalPublicLikes' => $stats->sum('like')
+            'totalPublicLikes' => $stats->sum('qlike')
         );
 
         return $stats;

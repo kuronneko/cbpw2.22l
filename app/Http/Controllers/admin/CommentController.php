@@ -123,8 +123,14 @@ class CommentController extends Controller
         $statFound = Stat::where('album_id', $albumFound->id)->first();
 
         if(($commentFound->album->id == $albumFound->id && $albumFound->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || ($commentFound->album->id == $albumFound->id && auth()->user()->type == config('myconfig.privileges.super'))){
-            $statFound->qcomment = $statFound->qcomment - 1;
-            $statFound->save();
+
+            if($statFound->qcomment == 0){
+
+            }else{
+                $statFound->qcomment = $statFound->qcomment - 1;
+                $statFound->save();
+            }
+
             $commentFound->delete();
 
             return redirect()->route('admin.comment.showComment', $albumFound->id);

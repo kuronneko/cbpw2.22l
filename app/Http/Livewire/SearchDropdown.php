@@ -16,10 +16,14 @@ class SearchDropdown extends Component
 
         if(strlen($this->search) > 2){
             $albums = Album::where('visibility', 1)->where('name', 'like', '%'.$this->search.'%')->orderBy('updated_at','desc')->get()->take(7);
-            $albumPlucked = $albums->pluck('id');
+            //$albumPlucked = $albums->pluck('id');
+            $images = collect();
+            foreach ($albums as $album) {
+                $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->first());
+            }
         return view('livewire.search-dropdown', [
             'albums' => $albums,
-            'images' => Image::whereIn('album_id', $albumPlucked->all())->get(),
+            'images' => $images
         ]);
     }else{
         return view('livewire.search-dropdown', [
@@ -28,4 +32,5 @@ class SearchDropdown extends Component
         ]);
     }
  }
+
 }

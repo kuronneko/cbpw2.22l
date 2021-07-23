@@ -70,10 +70,9 @@
                                 @foreach ($stats as $stat)
                                 @if (($stat->album->id == $album->id && $album->user->id == auth()->user()->id) || ($stat->album->id == $album->id && auth()->user()->type == config('myconfig.privileges.super')))
                                 <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($stat->size) }}</td>
+                                <td>{{ $stat->view}}</td>
                                 @endif
                                 @endforeach
-
-                                <td>{{ $album->view}}</td>
                                 <td>
                                     <div>
                                         @if ($album->visibility == 1)

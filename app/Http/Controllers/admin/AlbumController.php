@@ -97,6 +97,16 @@ class AlbumController extends Controller
             $album->view = 0;
             $album->save();
 
+            $stat = new Stat();
+            $stat->album_id = $album->id;
+            $stat->view = 0;
+            $stat->size = 0;
+            $stat->qcomment = 0;
+            $stat->qlike = 0;
+            $stat->qimage = 0;
+            $stat->qvideo = 0;
+            $stat->save();
+
             $albumFolderPath = public_path('/storage/images/' . 'profile_'.$userId.'/'.$album->id);
             if (!file_exists($albumFolderPath)) {       //check if folder exist
 

@@ -27,30 +27,54 @@ class LoadMoreAlbum extends Component
 
               if($this->sortBy == 'random'){
                 $albums = Album::take($this->amount)->where('visibility', 1)->inRandomOrder()->get();
+                $images = collect();
+                foreach ($albums as $album) {
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(1)->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(2)->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(3)->first());
+                }
+                //dd($images);
                 $albumPlucked = $albums->pluck('id');
                 return view('livewire.load-more-album', [
                     'albums' => $albums,
-                    'images' => Image::whereIn('album_id', $albumPlucked->all())->get(),
+                    'images' => $images,
                     'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
                     'albumMax' => $this->albumMax()
                     //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                 ]);
               }else if($this->sortBy == 'view'){
                 $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('view','desc')->get();
+                $images = collect();
+                foreach ($albums as $album) {
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(1)->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(2)->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(3)->first());
+                }
+                //dd($images);
                 $albumPlucked = $albums->pluck('id');
                 return view('livewire.load-more-album', [
                     'albums' => $albums,
-                    'images' => Image::whereIn('album_id', $albumPlucked->all())->get(),
+                    'images' => $images,
                     'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
                     'albumMax' => $this->albumMax()
                     //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                 ]);
               }else{
                 $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get();
+                $images = collect();
+                foreach ($albums as $album) {
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(1)->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(2)->first());
+                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(3)->first());
+                }
+                //dd($images);
                 $albumPlucked = $albums->pluck('id');
                 return view('livewire.load-more-album', [
                     'albums' => $albums,
-                    'images' => Image::whereIn('album_id', $albumPlucked->all())->get(),
+                    'images' => $images,
                     'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
                     'albumMax' => $this->albumMax()
                     //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()

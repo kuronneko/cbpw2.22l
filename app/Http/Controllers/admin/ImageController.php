@@ -164,7 +164,7 @@ class ImageController extends Controller
                         Thumbnail::getThumbnail($videoPath,$thumbnailPath,$thumbnailImageName,$timeToImage); //generate default size thumbnail from video with Lakshmaji library (watermark settings OFF)
 
                         $thumbnailPathResize = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.jpg');
-                        $waterMarkPath = public_path('/storage/images/videoplay4.png');
+                        $waterMarkPath = public_path('/img/videoplay4.png'); //remember check this url
 
                             ImageManagerStatic::make($thumbnailPathResize)->resize(200, null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
                             $constraint->aspectRatio();
@@ -183,7 +183,7 @@ class ImageController extends Controller
             }
 
 
-            if (Image::where('url', $url)->where('album_id', $albumId)->first()) {  //check if image exist in DB based by URL parameters old method [[$image = Image::where('url',$url)->first();if($image){return $image;}]]
+            if (Image::where('url', $url)->where('album_id', $albumFound->id)->first()) {  //check if image exist in DB based by URL parameters old method [[$image = Image::where('url',$url)->first();if($image){return $image;}]]
 
             } else {
                 $image = new Image();
@@ -319,9 +319,17 @@ class ImageController extends Controller
             $productImage = str_replace('/storage', '', $imageFound->url);
 
             if ($imageFound->ext == "mp4" || $imageFound->ext == "webm"){
-                $statFound->qvideo = $statFound->qvideo - 1;
+                if($statFound->qvideo == 0){
+
+                }else{
+                    $statFound->qvideo = $statFound->qvideo - 1;
+                }
             }else{
-                $statFound->qimage = $statFound->qimage - 1;
+                if($statFound->qimage == 0){
+
+                }else{
+                    $statFound->qimage = $statFound->qimage - 1;
+                }
             }
             $statFound->size = $statFound->size - $imageFound->size;
             $statFound->save();

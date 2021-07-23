@@ -47,17 +47,20 @@
                     <div class="text-center">
 
                         @foreach ($images as $image)
-                        @if($image->album->id == $album->id)
-                        @if($imageLimitperAlbum != 4)
-                        <?php $imageLimitperAlbum++; ?>
-                        @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
-                        <img src="{{ config("myconfig.img.url") }}{{'/img/videothumb.png'}}" class="imgThumbPublicIndex " data-was-processed='true'>
-                        @elseif ($image->ext == "mp4" || $image->ext == "webm")
-                        <img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.jpg" class="imgThumbPublicIndex " data-was-processed='true'>
-                        @else
-                        <img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumbPublicIndex " data-was-processed='true'>
-                        @endif
-                        @endif
+                        @if (empty($image->album_id))
+                            @else
+                            @if($image->album_id == $album->id)
+                            @if($imageLimitperAlbum != 4)
+                            <?php $imageLimitperAlbum++; ?>
+                            @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                            <img src="{{ config("myconfig.img.url") }}{{'/img/videothumb.png'}}" class="imgThumbPublicIndex " data-was-processed='true'>
+                            @elseif ($image->ext == "mp4" || $image->ext == "webm")
+                            <img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.jpg" class="imgThumbPublicIndex " data-was-processed='true'>
+                            @else
+                            <img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.{{$image->ext}}" class="imgThumbPublicIndex " data-was-processed='true'>
+                            @endif
+                            @endif
+                            @endif
                         @endif
                         @endforeach
                     </div>

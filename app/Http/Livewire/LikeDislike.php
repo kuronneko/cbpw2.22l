@@ -66,8 +66,12 @@ class LikeDislike extends Component
         $like = Like::where('album_id', $this->albumId)->where('user_id', $this->userSessionId);
         $like->delete();
         $statFound = Stat::where('album_id', $this->albumId)->first();
-        $statFound->qlike = $statFound->qlike - 1;
-        $statFound->save();
+        if($statFound->qlike == 0){
+
+        }else{
+            $statFound->qlike = $statFound->qlike - 1;
+            $statFound->save();
+        }
         session()->flash('message', 'You removed this album from your favorites.');
     }
 
