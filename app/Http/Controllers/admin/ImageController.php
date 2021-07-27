@@ -26,6 +26,7 @@ class ImageController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        //ImageManagerStatic::configure(array('driver' => 'imagick'));
     }
 
     /*
@@ -115,7 +116,8 @@ class ImageController extends Controller
             return back()->with('message', 'Album ' . $album->id . ' not found or cannot be accessed');
         }
     }
-    /**
+
+        /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -123,8 +125,9 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
-            'file' => 'required|mimes:mp4,webm,gif,png,jpg,jpeg|max:1000000'
+            'file' => 'required|mimes:mp4,webm,gif,png,jpg,jpeg|max:10000000'
         ]);
 
         $document = $request->file('file');
@@ -132,101 +135,87 @@ class ImageController extends Controller
         $userId = $request->input('userId');
         $albumFound = Album::findOrFail($albumId);
         $websiteTag = config('myconfig.engine.nameext').'_';
+        $newFilename = md5($document->getClientOriginalName());  //rename filename
+        $url = Storage::url('public/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename); //url without extension
 
         if (($albumFound->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')) {
-            $newFilename = md5($document->getClientOriginalName());  //rename filename
 
-            $userFolderPath = public_path('/storage/images/' . 'profile_'.$userId);
-            if (!file_exists($userFolderPath)) {       //check if folder exist
-
-                mkdir($userFolderPath, 0755, true);
-            }
-            $albumFolderPath = public_path('/storage/images/' . 'profile_'.$userId.'/'.$albumFound->id);
-            if (!file_exists($albumFolderPath)) {       //check if folder exist
-
-                mkdir($albumFolderPath, 0755, true);
+            if (!file_exists(public_path('/storage/images/' . 'profile_'.$userId.'/'.$albumFound->id))) {       //check if folder exist
+                mkdir(public_path('/storage/images/' . 'profile_'.$userId.'/'.$albumFound->id), 0755, true);
             }
 
-            $filePath = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
-            if (!file_exists($filePath)) {             //check if physical file exist
-
+            if (!file_exists(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension())) && !Image::where('url', $url)->where('album_id', $albumFound->id)->first()) {             //check if physical file exist
                 // 'public/images/' required in test, and 'images/' for production
-                $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
-                $url = Storage::url('public/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename); //url without extension
 
-                if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm") {
-                    //generate video thumbnail with Lakshmaji video thumbnail library
-                    if(config('myconfig.patch-pre-ffmpeg.ffmpeg-status') == true){
-                        $videoPath       = public_path('/storage/images/' .'profile_'.$userId.'/'.  $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
-                        $thumbnailPath   = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/');
+                $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
+
+                //thumbnails
+                if($document->getClientOriginalExtension() != "mp4" && $document->getClientOriginalExtension() != "webm"){ //normal image format
+                    $thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
+
+                        //big image files require imagick drive to resize it, because GD drivers need a lot of ram to do it.
+                        ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                        })->resizeCanvas(200, null)->save($thumbTarget, 80);
+
+
+                //video thubms
+                }else if(($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm") && config('myconfig.patch-pre-ffmpeg.ffmpeg-status') == true){
+                        //generate video thumbnail with Lakshmaji video thumbnail library
+                        $videoPath = public_path('/storage/images/' .'profile_'.$userId.'/'.  $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
+                        $thumbnailPath = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/');
                         $thumbnailImageName  = $websiteTag . $newFilename . '_thumb.jpg';
-                        $timeToImage =  2;
+                        $timeToImage = 2;
                         Thumbnail::getThumbnail($videoPath,$thumbnailPath,$thumbnailImageName,$timeToImage); //generate default size thumbnail from video with Lakshmaji library (watermark settings OFF)
 
                         $thumbnailPathResize = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.jpg');
-                        $waterMarkPath = public_path('/img/videoplay4.png'); //remember check this url
-
-                            ImageManagerStatic::make($thumbnailPathResize)->resize(200, null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
-                            $constraint->aspectRatio();
-                        })->resizeCanvas(200, null)->insert($waterMarkPath, 'center')->save($thumbnailPathResize, 80); //->insert($waterMarkPath, 'bottom-left', 5, 5);
-
-                    }else{
-
-                    }
-
-                } else {
-                    $thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
-                    ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200, null, function ($constraint) {
+                        $waterMarkPath = public_path('/img/videoplay4.png'); //remeber check this url
+                        ImageManagerStatic::make($thumbnailPathResize)->resize(200, null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
                         $constraint->aspectRatio();
-                    })->resizeCanvas(200, null)->save($thumbTarget, 80);
-                }
-            }
-
-
-            if (Image::where('url', $url)->where('album_id', $albumFound->id)->first()) {  //check if image exist in DB based by URL parameters old method [[$image = Image::where('url',$url)->first();if($image){return $image;}]]
-
-            } else {
-                $image = new Image();
-                $image->album_id = $albumFound->id;
-                $image->url = $url;
-                $image->ext = $document->getClientOriginalExtension();
-                $image->size = $document->getSize();
-                $image->basename = $document->getClientOriginalName();
-                $image->ip = $request->ip();
-                $image->tag = "";
-                $image->save();
-
-                $stat = Stat::where('album_id', $albumFound->id)->first();
-                if($stat){
-                    $stat->size = $stat->size + $document->getSize();
-                    if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
-                        $stat->qvideo = $stat->qvideo + 1;
-                    }else{
-                        $stat->qimage = $stat->qimage + 1;
-                    }
-                    $stat->save();
-                    $albumFound->touch();
+                        })->resizeCanvas(200, null)->insert($waterMarkPath, 'center')->save($thumbnailPathResize, 80); //->insert($waterMarkPath, 'bottom-left', 5, 5);
                 }else{
-                    $stat = new Stat();
-                    $stat->album_id = $albumFound->id;
-                    $stat->size = $document->getSize();
-                    if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
-                        $stat->qvideo = 1;
-                        $stat->qimage = 0;
-                    }else{
-                        $stat->qimage = 1;
-                        $stat->qvideo = 0;
-                    }
-                    $stat->qcomment = 0;
-                    $stat->qlike = 0;
-                    $stat->view = 0;
-                    $stat->save();
-                    $albumFound->touch();
+                    //dont generate videothumbnail
                 }
 
+                    $image = new Image();
+                    $image->album_id = $albumFound->id;
+                    $image->url = $url;
+                    $image->ext = $document->getClientOriginalExtension();
+                    $image->size = $document->getSize();
+                    $image->basename = $document->getClientOriginalName();
+                    $image->ip = $request->ip();
+                    $image->tag = "";
+                    $image->save();
+
+                    $stat = Stat::where('album_id', $albumFound->id)->first();
+                    if($stat){
+                        $stat->size = $stat->size + $document->getSize();
+                        if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
+                            $stat->qvideo = $stat->qvideo + 1;
+                        }else{
+                            $stat->qimage = $stat->qimage + 1;
+                        }
+                        $stat->save();
+                        $albumFound->touch();
+                    }else{
+                        $stat = new Stat();
+                        $stat->album_id = $albumFound->id;
+                        $stat->size = $document->getSize();
+                        if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
+                            $stat->qvideo = 1;
+                            $stat->qimage = 0;
+                        }else{
+                            $stat->qimage = 1;
+                            $stat->qvideo = 0;
+                        }
+                        $stat->qcomment = 0;
+                        $stat->qlike = 0;
+                        $stat->view = 0;
+                        $stat->save();
+                        $albumFound->touch();
+                    }
 
             }
-
             //dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
             //dump($imageFiles); //"public/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
         } else {

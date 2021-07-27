@@ -97,9 +97,11 @@
                 @endif
                 </div>
             </div>
-            <div class="mb-4">
-                <livewire:load-more-comment :albumId="$album->id"/>
-            </div>
+            @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
+                <div class="mb-4">
+                    <livewire:load-more-comment :albumId="$album->id"/>
+                </div>
+            @endif
         </div>
         @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
         <div class="col-md-4">
