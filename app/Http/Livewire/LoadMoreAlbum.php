@@ -8,7 +8,9 @@ use App\Models\Image;
 use App\Models\Tag;
 use App\Models\Like;
 use App\Models\Stat;
+use App\Models\DB;
 use App\Models\Comment;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class LoadMoreAlbum extends Component
 {
@@ -44,7 +46,11 @@ class LoadMoreAlbum extends Component
                     //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                 ]);
               }else if($this->sortBy == 'view'){
-                $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('view','desc')->get();
+                //dd($images);
+                $stats = Stat::take($this->amount)->orderBy('view', 'desc')->get();
+                $albums = Album::whereIn('id', $stats->pluck('album_id'))->orderByRaw('FIELD(id,'.implode(',', $stats->pluck('album_id')->toArray()).')')->get();
+                //$albums = Album::whereIn('id', $statsPlucked->all())->get();
+                //dd($albums);
                 $images = collect();
                 foreach ($albums as $album) {
                     $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->first());
@@ -52,12 +58,10 @@ class LoadMoreAlbum extends Component
                     $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(2)->first());
                     $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(3)->first());
                 }
-                //dd($images);
-                $albumPlucked = $albums->pluck('id');
                 return view('livewire.load-more-album', [
                     'albums' => $albums,
                     'images' => $images,
-                    'stats' => Stat::whereIn('album_id', $albumPlucked->all())->get(),
+                    'stats' =>  $stats,
                     'albumMax' => $this->albumMax()
                     //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                 ]);
