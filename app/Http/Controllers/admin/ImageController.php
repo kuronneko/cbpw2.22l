@@ -147,7 +147,47 @@ class ImageController extends Controller
             if (!file_exists(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension())) && !Image::where('url', $url)->where('album_id', $albumFound->id)->first()) {             //check if physical file exist
                 // 'public/images/' required in test, and 'images/' for production
 
+                //main file upload
                 $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
+
+                //database insert
+                $image = new Image();
+                $image->album_id = $albumFound->id;
+                $image->url = $url;
+                $image->ext = $document->getClientOriginalExtension();
+                $image->size = $document->getSize();
+                $image->basename = $document->getClientOriginalName();
+                $image->ip = $request->ip();
+                $image->tag = "";
+                $image->save();
+
+                $stat = Stat::where('album_id', $albumFound->id)->first();
+                if($stat){
+                    $stat->size = $stat->size + $document->getSize();
+                    if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
+                        $stat->qvideo = $stat->qvideo + 1;
+                    }else{
+                        $stat->qimage = $stat->qimage + 1;
+                    }
+                    $stat->save();
+                    $albumFound->touch();
+                }else{
+                    $stat = new Stat();
+                    $stat->album_id = $albumFound->id;
+                    $stat->size = $document->getSize();
+                    if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
+                        $stat->qvideo = 1;
+                        $stat->qimage = 0;
+                    }else{
+                        $stat->qimage = 1;
+                        $stat->qvideo = 0;
+                    }
+                    $stat->qcomment = 0;
+                    $stat->qlike = 0;
+                    $stat->view = 0;
+                    $stat->save();
+                    $albumFound->touch();
+                }
 
                 //thumbnails
                 if($document->getClientOriginalExtension() != "mp4" && $document->getClientOriginalExtension() != "webm"){ //normal image format
@@ -177,44 +217,8 @@ class ImageController extends Controller
                     //dont generate videothumbnail
                 }
 
-                    $image = new Image();
-                    $image->album_id = $albumFound->id;
-                    $image->url = $url;
-                    $image->ext = $document->getClientOriginalExtension();
-                    $image->size = $document->getSize();
-                    $image->basename = $document->getClientOriginalName();
-                    $image->ip = $request->ip();
-                    $image->tag = "";
-                    $image->save();
-
-                    $stat = Stat::where('album_id', $albumFound->id)->first();
-                    if($stat){
-                        $stat->size = $stat->size + $document->getSize();
-                        if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
-                            $stat->qvideo = $stat->qvideo + 1;
-                        }else{
-                            $stat->qimage = $stat->qimage + 1;
-                        }
-                        $stat->save();
-                        $albumFound->touch();
-                    }else{
-                        $stat = new Stat();
-                        $stat->album_id = $albumFound->id;
-                        $stat->size = $document->getSize();
-                        if ($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm"){
-                            $stat->qvideo = 1;
-                            $stat->qimage = 0;
-                        }else{
-                            $stat->qimage = 1;
-                            $stat->qvideo = 0;
-                        }
-                        $stat->qcomment = 0;
-                        $stat->qlike = 0;
-                        $stat->view = 0;
-                        $stat->save();
-                        $albumFound->touch();
-                    }
-
+            }else{
+                //duplicate file message
             }
             //dump($url); //"/storage/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
             //dump($imageFiles); //"public/images/nULq23739EEZlKhwjUwDmad7fzasjZ7P5uxk3uaz.jpg"
