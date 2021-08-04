@@ -5,13 +5,10 @@
         <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <span>Users List</span>
+                    <small>Users Gestor</small>
                     <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
-                <div class="card-body">
                     <livewire:super.user-gestor-table />
-                {{-- fin card body --}}
-                </div>
             </div>
         </div>
     </div>

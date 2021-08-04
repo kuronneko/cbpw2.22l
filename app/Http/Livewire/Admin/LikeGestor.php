@@ -4,13 +4,18 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Like;
 use App\Models\Stat;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class LikeGestor extends Component
 {
+
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public function render()
     {
         return view('admin.like.livewire.like-gestor', [
-            'likes' => Like::where('user_id', auth()->user()->id)->orderBy('id','desc')->get(),
+            'likes' => Like::where('user_id', auth()->user()->id)->orderBy('id','desc')->paginate(50),
         ]);
     }
 

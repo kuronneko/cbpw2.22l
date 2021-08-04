@@ -14,7 +14,7 @@ class AttachTag extends Component
 
     public function render()
     {
-        return view('admin.album.livewire.attach-tag', [
+        return view('admin.tag.livewire.attach-tag', [
             'tags' => Tag::all(),
             'album' => Album::find($this->albumId),
         ]);

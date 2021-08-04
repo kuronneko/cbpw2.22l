@@ -1,14 +1,12 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container mt-4">
+<div>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <small><span>[Album:{{$album->name}}] Comments List</span></small>
                     <div class="btn-group">
-                        <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a wire:loading.remove wire:target="$emit('refreshAlbumCleneaded')" wire:click="$emit('refreshAlbumCleneaded')" type="button" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a wire:loading wire:target="$emit('refreshAlbumCleneaded')" class="btn btn-dark btn-sm" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
                         <a href="{{route('image.content', $album->id)}}" class="btn btn-dark btn-sm"><i class="fas fa-expand-arrows-alt"></i></a>
                     </div>
                 </div>
@@ -33,12 +31,8 @@
                             <tr>
                                 <th scope="row">{{ $comment->id }}</th>
                                 <td>
-                                    <form action="{{route('admin.comment.destroy', $comment->id)}}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
-                                        <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
+                                    <a wire:loading.remove wire:target="deleteComment({{$comment->id}})" wire:click="deleteComment({{$comment->id}})" class="btn btn-danger" role="button" type="button"><i class="fas fa-trash-alt"></i></a>
+                                    <a wire:loading wire:target="deleteComment({{$comment->id}})" class="btn btn-danger" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
                                 </td>
                                 <td>{{ $comment->name }}</td>
                                 <td>{{ $comment->text }}</td>
@@ -49,11 +43,10 @@
                         </tbody>
                     </table>
                 </div>
-                   {{$comments->links("pagination::bootstrap-4")}}
+                   {{$comments->links()}}
                 {{-- fin card body --}}
                 </div>
             </div>
         </div>
     </div>
 </div>
-@endsection

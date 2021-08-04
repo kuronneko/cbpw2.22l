@@ -23,7 +23,7 @@ class UserGestorTable extends Component
     {
         if(auth()->user()->type == config('myconfig.privileges.super')){
             return view('super.user.livewire.user-gestor-table',[
-                'users' => User::paginate(10),
+                'users' => User::paginate(50),
             ]);
         }
     }

@@ -1,14 +1,13 @@
-@extends('layouts.app')
+<div>
 
-@section('content')
-<div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <small><span>[Album:{{$album->name}}] Image List </span></small>
                     <div class="btn-group">
-                        <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a wire:loading.remove wire:target="$emit('refreshAlbumCleneaded')" wire:click="$emit('refreshAlbumCleneaded')" type="button" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a wire:loading wire:target="$emit('refreshAlbumCleneaded')" class="btn btn-dark btn-sm" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
                         <a href="{{route('image.content', $album->id)}}" class="btn btn-dark btn-sm"><i class="fas fa-expand-arrows-alt"></i></a>
                     </div>
                 </div>
@@ -36,12 +35,8 @@
                             <tr>
                                 <th scope="row">{{ $image->id }}</th>
                                 <td>
-                                    <form action="{{route('admin.image.destroy', $image->id)}}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <input type="hidden" name="albumId" id="albumId" value="{{$album->id}}"/>
-                                        <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
-                                    </form>
+                                    <a wire:loading.remove wire:target="deleteImage({{$image->id}})" wire:click="deleteImage({{$image->id}})" class="btn btn-danger" role="button" type="button"><i class="fas fa-trash-alt"></i></a>
+                                    <a wire:loading wire:target="deleteImage({{$image->id}})" class="btn btn-danger" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
                                 </td>
                                 <td>
                                     @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
@@ -63,11 +58,11 @@
                         </tbody>
                     </table>
                 </div>
-                   {{$images->links("pagination::bootstrap-4")}}
+                   {{$images->links()}}
                 {{-- fin card body --}}
                 </div>
             </div>
         </div>
     </div>
+
 </div>
-@endsection

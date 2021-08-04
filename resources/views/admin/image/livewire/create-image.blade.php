@@ -1,14 +1,12 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container mt-4">
+<div>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="text-white card-header d-flex justify-content-between align-items-center">
                     <small><span>[Album:{{$album->name}}] Image Uploader</span></small>
                     <div class="btn-group">
-                        <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a wire:loading.remove wire:target="$emit('refreshAlbumCleneaded')" wire:click="$emit('refreshAlbumCleneaded')" type="button" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a wire:loading wire:target="$emit('refreshAlbumCleneaded')" class="btn btn-dark btn-sm" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
                         <a href="{{route('image.content', $album->id)}}" class="btn btn-dark btn-sm"><i class="fas fa-expand-arrows-alt"></i></a>
                     </div>
                 </div>
@@ -46,9 +44,28 @@
             </div>
         </div>
     </div>
-</div>
-<script>
-    var errors = false;
+    <script>
+        $(document).ready(function(){
+            dropzoneStart();
+
+          document.addEventListener("scroll", function(){
+            dropzoneStart();
+            });
+            document.addEventListener("click", function(){
+                dropzoneStart();
+            });
+            document.addEventListener("mouseover", function(){
+                dropzoneStart();
+             //randomize();
+            });
+            document.addEventListener("mouseout", function(){
+                dropzoneStart();
+            });
+        });
+        </script>
+    <script>
+        function dropzoneStart(){
+            var errors = false;
     Dropzone.options.mydropzone = {
         headers:{
             'X-CSRF-TOKEN' : "{{csrf_token()}}"
@@ -86,5 +103,10 @@
     */
     }
     };
+}
 </script>
-@endsection
+
+</div>
+
+
+

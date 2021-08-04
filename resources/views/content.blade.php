@@ -107,7 +107,7 @@
         <div class="col-md-4">
             <div class="card text-white mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <small><strong><span class="text-danger">Album details</span></strong></small>
+                    <small><strong><span class="text-danger">DETAILS</span></strong></small>
                 </div>
                 <div class="card-body contentCardBodyStyleSide">
                     <div>

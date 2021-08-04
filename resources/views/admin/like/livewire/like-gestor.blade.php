@@ -31,6 +31,7 @@
                     </tbody>
                 </table>
             </div>
+            {{$likes->links()}}
         </div>
     </div>
 </div>

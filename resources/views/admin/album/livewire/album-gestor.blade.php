@@ -1,11 +1,20 @@
 <div>
-
+@if ($subOptionId && $subOption == "showImageGestor")
+<livewire:admin.image-gestor :albumId="$subOptionId"/>
+@elseif ($subOptionId && $subOption == "showCommentGestor")
+<livewire:admin.comment-gestor :albumId="$subOptionId"/>
+@elseif ($subOptionId && $subOption == "showCreateImage")
+<livewire:admin.image-gestor :albumId="$subOptionId" :createImage="true"/>
+@elseif ($subOptionId && $subOption == "showTagGestorAtt")
+<livewire:admin.attach-tag :albumId="$subOptionId"/>
+    @else
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <small><span>[User:{{auth()->user()->name}}] Album List</span></small>
-                    <a href="{{route('admin.album.create')}}" class="btn btn-dark btn-sm">New Album</a>
+                    <a wire:loading.remove wire:target="createAlbumModal" wire:click="createAlbumModal" class="btn btn-dark btn-sm" role="button" type="button"> New Album</a>
+                    <a wire:loading wire:target="createAlbumModal" class="btn btn-dark btn-sm" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i> New Album</a>
                 </div>
                 <div class="card-body">
                     @if ( session('message') )
@@ -33,11 +42,14 @@
                             <tr>
                                 <td>
                                     <div class="btn-group">
-                                    <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
-                                    <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark" role="button" type="button"><i class="fas fa-comments"></i></i></a>
-                                    <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-info" ro
+                                    <a wire:loading.remove wire:target="showImageGestor({{$album->id}})" wire:click="showImageGestor({{$album->id}})" class="btn btn-warning" role="button" type="button"><i class="fas fa-eye"></i></a>
+                                    <a wire:loading wire:target="showImageGestor({{$album->id}})" class="btn btn-warning" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
 
-                                        le="button" type="button"><i class="fas fa-plus"></i></a>
+                                    <a wire:loading.remove wire:target="showCommentGestor({{$album->id}})" wire:click="showCommentGestor({{$album->id}})" class="btn btn-dark" role="button" type="button"><i class="fas fa-comments"></i></a>
+                                    <a wire:loading wire:target="showCommentGestor({{$album->id}})" class="btn btn-dark" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
+
+                                    <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-info" role="button" type="button"><i class="fas fa-plus"></i></a>
+
                                 </div>
                                 </td>
                                 <th scope="row">{{ $album->id }}</th>
@@ -86,9 +98,14 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="#" name="getAlbumData" value="{{ $album->id }}" class="btn btn-danger getAlbumData" id="{{ $album->id }}"><i class="fas fa-trash-alt"></i></a>
-                                        <a class="btn btn-info" href="{{route("admin.album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
-                                        <a href="{{route('admin.tag.showTag', $album->id)}}" class="btn btn-warning" role="button" type="button"><i class="fas fa-tags"></i></a>
+                                        <a wire:loading.remove wire:target="deleteAlbumModal({{$album->id}})" wire:click="deleteAlbumModal({{$album->id}})" class="btn btn-danger" role="button" type="button"><i class="fas fa-trash-alt"></i></a>
+                                        <a wire:loading wire:target="deleteAlbumModal({{$album->id}})" class="btn btn-danger" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
+
+                                        <a wire:loading.remove wire:target="modifyAlbumModal({{$album->id}})" wire:click="modifyAlbumModal({{$album->id}})" class="btn btn-info" role="button" type="button"><i class="fas fa-edit"></i></a>
+                                        <a wire:loading wire:target="modifyAlbumModal({{$album->id}})" class="btn btn-info" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
+
+                                        <a wire:loading.remove wire:target="showTagGestorAtt({{$album->id}})" wire:click="showTagGestorAtt({{$album->id}})" class="btn btn-warning" role="button" type="button"><i class="fas fa-tags"></i></a>
+                                        <a wire:loading wire:target="showTagGestorAtt({{$album->id}})" class="btn btn-warning" href="#content"><i class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -104,62 +121,17 @@
         </div>
     </div>
 
-      <!-- The Modal -->
-  <div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content text-white">
-
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Are you sure you want delete this<p id="albumName">AlbumName</p></h4>
-          <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-        </div>
-
-        <!-- Modal body -->
-        <div class="modal-body">
-            <form action="{{route('admin.album.destroy', "deleteAlbum")}}" method="POST" id="deleteAlbum">
-                @method('DELETE')
-                @csrf
-                <input type="hidden" name="albumId" id="albumId" value=""/>
-                <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i> Permanently delete album with all its content</button>
-            </form>
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
+  <livewire:admin.delete-album-modal/>
+  <livewire:admin.create-modify-album-modal/>
+  @if(Auth::user()->type == config('myconfig.privileges.super'))
   <livewire:super.user-gestor/>
+  @endif
   @push('scripts')
   <script>
       Livewire.restart();
   </script>
 @endpush
-<script>
-    $(document).ready(function(){
-$(document).on('click', '.getAlbumData', function(){
-var albumId = $(this).attr("id");
-$.ajax({
-    headers:{
-    'X-CSRF-TOKEN' : "{{csrf_token()}}"
-},
-url:"{{ route('admin.album.fetchAlbum') }}",
-method:"POST",
-data:{albumId:albumId},
-dataType:"json",
-success:function(data){
-$('#albumId').val(data.id);
-//$('#deleteAlbum').attr('action', controllerPath);
-$('#albumName').text('[Album:'+data.name+']');
-$('#myModal').modal('show');
-}
-});
-});
-});
-</script>
+
+@endif
 
 </div>

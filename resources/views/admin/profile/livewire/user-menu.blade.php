@@ -92,25 +92,10 @@
     @elseif ($option == 'likes')
     <livewire:admin.like-gestor/>
     @elseif ($option == 'tags')
-    <div class="card text-white">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <i>Tag Gestor</i>
-        </div>
-        <div class="card-body">
-            <livewire:super.tag-gestor />
-        </div>
-    </div>
+    <livewire:super.tag-gestor />
     @elseif ($option == 'users')
-    <div class="card text-white">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <i>Users Gestor</i>
-        </div>
-        <div class="card-body">
-            <livewire:super.user-gestor-table />
-            <livewire:super.user-gestor/>
-        {{-- fin card body --}}
-        </div>
-    </div>
+    <livewire:super.user-gestor-table />
+    <livewire:super.user-gestor/>
     @elseif ($option == 'messages')
     <i class="text-white">Under Construnction</i>
     @elseif ($option == 'activity')

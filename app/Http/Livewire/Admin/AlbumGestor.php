@@ -11,9 +11,16 @@ use Livewire\WithPagination;
 
 class AlbumGestor extends Component
 {
-    protected $listeners = ['refreshAlbum' => 'render'];
+    protected $listeners = ['refreshAlbum' => 'render', 'refreshAlbumCleneaded'];
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+    public $subOption;
+    public $subOptionId;
+
+    public function refreshAlbumCleneaded(){
+        $this->subOption = "";
+        $this->subOptionId = "";
+    }
 
     public function render()
     {
@@ -38,6 +45,38 @@ class AlbumGestor extends Component
             ]);
         }
 
+    }
+
+    public function createAlbumModal(){
+        $this->emit('createAlbumModal');
+    }
+
+    public function modifyAlbumModal($albumId){
+        $this->emit('modifyAlbumModal', $albumId);
+    }
+
+    public function deleteAlbumModal($albumId){
+        $this->emit('deleteAlbumModal', $albumId);
+    }
+
+    public function showTagGestorAtt($albumId){
+        $this->subOptionId = $albumId;
+        $this->subOption = "showTagGestorAtt";
+    }
+
+    public function showCreateImage($albumId){
+        $this->subOptionId = $albumId;
+        $this->subOption = "showCreateImage";
+    }
+
+    public function showCommentGestor($albumId){
+        $this->subOptionId = $albumId;
+        $this->subOption = "showCommentGestor";
+    }
+
+    public function showImageGestor($albumId){
+    $this->subOptionId = $albumId;
+    $this->subOption = "showImageGestor";
     }
 
     public function userEdit($userId){

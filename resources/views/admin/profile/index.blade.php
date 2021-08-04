@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container mt-4">
-
 <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card bg-transparent border-0 text-white">
@@ -45,16 +44,12 @@
                             </small>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
         <div class="col-md-12">
                 <livewire:admin.user-menu/>
         </div>
     </div>
-
-
 </div>
 @endsection
