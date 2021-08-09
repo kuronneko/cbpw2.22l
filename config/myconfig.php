@@ -17,7 +17,7 @@ return [
         [
             'nameext' => 'cyberpunkwaifus.xyz',
             'name' => 'Cyberpunkwaifus',
-            'version' => '2.22120',
+            'version' => '2.22150',
             'date' => '8/04/2021',
         ],
     'privileges' =>

@@ -15,19 +15,9 @@
                         <div class="col-md-6">
                             <div class="form-check-inline">
                                 <label class="form-check-label" for="userType">
-                                <input type="radio" class="form-check-input" id="userType" name="userType" value="{{config('myconfig.privileges.admin+++')}}">Premium User
+                                <input type="radio" class="form-check-input" id="userType" name="userType" value="{{config('myconfig.privileges.admin+++')}}"> User+++
                                 </label>
                             </div>
-                            <div class="form-check-inline">
-                                <label class="form-check-label" for="userType">
-                                <input type="radio" class="form-check-input" id="userType" name="userType" value="{{config('myconfig.privileges.user')}}">Normal User
-                                </label>
-                            </div>
-                            @error('userType')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
                         </div>
                     </div>
                         <div class="form-group row">

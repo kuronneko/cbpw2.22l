@@ -20,6 +20,7 @@
     <script type="text/javascript" src="{{asset('js/jquery.cookie.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/infinite-scroll.pkgd.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js')}}"></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -80,8 +81,10 @@
                                  </a>
                                     @if(Auth::user()->type == config('myconfig.privileges.super'))
                                     <div class="hr-sect">Options</div>
-                                    <a href="{{ url('super/tag') }}" class="dropdown-item">Tags</a>
-                                    <a href="{{ url('super/user') }}" class="dropdown-item">Users</a>
+                                    <a href="{{ url('/admin/profile?option=albums#content') }}" class="dropdown-item">Albums</a>
+                                    <a href="{{ url('/admin/profile?option=likes#content') }}" class="dropdown-item">Likes</a>
+                                    <a href="{{ url('/admin/profile?option=tags#content') }}" class="dropdown-item">Tags</a>
+                                    <a href="{{ url('/admin/profile?option=users#content') }}" class="dropdown-item">Users</a>
                                     @endif
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

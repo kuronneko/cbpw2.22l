@@ -22,7 +22,7 @@ class LikeGestor extends Component
     public function dislike($albumId){
         $like = Like::where('album_id', $albumId)->where('user_id', auth()->user()->id);
         $like->delete();
-        $statFound = Stat::where('album_id', $this->albumId)->first();
+        $statFound = Stat::where('album_id', $albumId)->first();
         if($statFound->qlike == 0){
 
         }else{

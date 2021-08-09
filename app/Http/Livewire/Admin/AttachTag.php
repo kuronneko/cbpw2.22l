@@ -11,7 +11,11 @@ class AttachTag extends Component
 {
 
     public $albumId;
+    public $trigger = "false";
 
+    public function mount(){
+        $this->trigger = "render";
+    }
     public function render()
     {
         return view('admin.tag.livewire.attach-tag', [

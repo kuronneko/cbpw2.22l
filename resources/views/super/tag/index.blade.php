@@ -6,7 +6,7 @@
                 <div class="card text-white">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <small>Tag Gestor</small>
-                        <a href="{{route('admin.profile.index')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                        <a href="{{url('/admin/profile?option=albums')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                     </div>
                     <livewire:super.tag-gestor />
                 </div>
