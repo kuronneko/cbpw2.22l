@@ -9,6 +9,18 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <meta name="author" content="CYBERPUNKWAIFUS">
+    <meta name="description" content="CYBERPUNKWAIFUS Demo">
+    <meta name="keywords" content="waifus, cute girls, loli, art, images, photos, instagramcuties, instagram, lolis, jb, jailbait, teen, teens, dance, leggings, yoga, model, models, site rip, engine, tiktok, reels">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="CYBERPUNKWAIFUS Demo">
+    <meta property="og:image" content="{{asset('img/previewLogo.gif')}}" />
+    <meta property="og:title" content="CYBERPUNKWAIFUS - Demo">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cyberpunkwaifus.xyz/">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('img/icon.png')}}" />
+    <meta name="evenads" content="5f4e66b6a86b0ae7098d0d373d482330" />
+
     <!-- Scripts -->
     <!-- <script src="{asset('js/app.js')}" defer></script> -->
     <script type="text/javascript" src="{{asset('js/jquery-3.5.1.min.js')}}"></script>

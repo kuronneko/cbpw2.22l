@@ -11,6 +11,7 @@ use App\Models\Stat;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Else_;
+use Lukeraymonddowning\Honey\Traits\WithRecaptcha; //Trait
 
 class LoadMoreComment extends Component
 {
@@ -18,7 +19,7 @@ class LoadMoreComment extends Component
     public $albumId;
     public $name;
     public $text;
-
+    use WithRecaptcha; //Usar Trait
     public function render()
     {
         return view('livewire.load-more-comment',[
@@ -46,39 +47,44 @@ class LoadMoreComment extends Component
     }
 
     public function store(){
-        if(Auth::check()){
+                 //Verificar si pasa el Captcha
+                 if(!($this->recaptchaPasses())){
+                    session()->flash("error", __("Error Recaptcha Invalid"));
+                }else{
+                    if(Auth::check()){
 
-        $this->name = auth()->user()->name;
-        $this->validate(['name' => 'required', 'text' => 'required|min:6|max:1000']);
+                        $this->name = auth()->user()->name;
+                        $this->validate(['name' => 'required', 'text' => 'required|min:6|max:1000']);
 
-        $comment = new Comment();
-        $comment->album_id = $this->albumId;
-        $comment->user_id = auth()->user()->id;
-        $comment->name = $this->name;
-        $comment->text = $this->text;
-        $comment->ip = request()->ip();
-        $comment->save();
+                        $comment = new Comment();
+                        $comment->album_id = $this->albumId;
+                        $comment->user_id = auth()->user()->id;
+                        $comment->name = $this->name;
+                        $comment->text = $this->text;
+                        $comment->ip = request()->ip();
+                        $comment->save();
 
-        $stat = Stat::where('album_id', $this->albumId)->first();
-        if($stat){
-            $stat->qcomment = $stat->qcomment + 1;
-            $stat->save();
-            Album::findOrFail($this->albumId)->touch();
-        }else{
-            $stat = new Stat();
-            $stat->album_id = $this->albumId;
-            $stat->size = 0;
-            $stat->qcomment = 1;
-            $stat->qvideo = 0;
-            $stat->qimage = 0;
-            $stat->qlike = 0;
-            $stat->view = 0;
-            $stat->save();
-            Album::findOrFail($this->albumId)->touch();
-        }
+                        $stat = Stat::where('album_id', $this->albumId)->first();
+                        if($stat){
+                            $stat->qcomment = $stat->qcomment + 1;
+                            $stat->save();
+                            Album::findOrFail($this->albumId)->touch();
+                        }else{
+                            $stat = new Stat();
+                            $stat->album_id = $this->albumId;
+                            $stat->size = 0;
+                            $stat->qcomment = 1;
+                            $stat->qvideo = 0;
+                            $stat->qimage = 0;
+                            $stat->qlike = 0;
+                            $stat->view = 0;
+                            $stat->save();
+                            Album::findOrFail($this->albumId)->touch();
+                        }
 
-        $this->name = "";$this->text= "";
-        session()->flash('message', 'Post sent successfully');
-    }
+                        $this->name = "";$this->text= "";
+                        session()->flash('message', 'Post sent successfully');
+                    }
+                }
     }
 }

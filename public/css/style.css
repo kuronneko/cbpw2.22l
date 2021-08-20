@@ -612,7 +612,7 @@ word-break: break-all;
         }
 
         .mainLogo {                                                               /* INDEX IMAGE BACKGROUND */
-            background-image: url(/cbpw2.22l/public/img/backgroundLogo.gif) !important;
+            background-image: url('../img/backgroundLogo.gif') !important;
             background-size: 80% !important;
             background-position: top -300px right !important;
             padding-top: 130px!important;

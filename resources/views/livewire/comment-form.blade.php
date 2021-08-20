@@ -24,7 +24,7 @@
         </div>
     </div>
       @if(Auth::check())
-              <button wire:click="store" wire:loading.remove class="btn loadBtn btn-sm text-white float-right">
+        <button wire:click="store" wire:loading.remove class="btn loadBtn btn-sm text-white float-right">
             Send Post  <i class="fas fa-paper-plane"></i>
         </button>
         <button wire:loading wire:target="store" class="btn loadBtn btn-sm text-white float-right">
@@ -37,6 +37,7 @@
                 </div>
               </div>
         </button>
+        <x-honey-recaptcha/>
       @else
       <button class="btn loadBtn btn-sm text-white float-right disabled">
         Send Post  <i class="fas fa-paper-plane"></i>

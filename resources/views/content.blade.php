@@ -128,7 +128,17 @@
         @endif
     </div>
 </div>
-
+<script>
+$('[data-fancybox="images"]').fancybox({
+  buttons : [
+    'slideShow',
+    'download',
+    'share',
+    'thumbs',
+    'close'
+  ]
+});
+</script>
   <script>
 $(document).ready(function(){
     var $grid = $('.grid').masonry({

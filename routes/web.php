@@ -40,7 +40,7 @@ Route::get('admin/album/{id}/showTag', 'admin\TagController@showTag')->name('adm
 
 //Route::resource("comment", "PublicCommentController");
 Route::resource("/", "PublicAlbumController");
-Route::get('folder/{id}/', 'PublicImageController@showContent')->name('image.content');
+Route::get('album/{id}/', 'PublicImageController@showContent')->name('image.content');
 //Route::post('content/reloadComments', 'PublicCommentController@reloadComments')->name('comment.reloadComments');
 //Route::post('content/commentAjaxLoad', 'PublicCommentController@commentAjaxLoad')->name('comment.commentAjaxLoad');
 //Route::post('content/getTotalComments', 'PublicCommentController@getTotalComments')->name('comment.getTotalComments');
