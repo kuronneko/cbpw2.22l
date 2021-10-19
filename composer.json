@@ -19,7 +19,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "livewire/livewire": "^2.3",
-        "lukeraymonddowning/honey": "^0.3.4"
+        "lukeraymonddowning/honey": "^0.3.4",
+        "pbmedia/laravel-ffmpeg": "^7.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -19,7 +19,8 @@ return array(
     | binary paths set to the below 'env' varibales.
     |
     | NOTE: FFMpeg will autodetect ffmpeg and ffprobe binaries.
-    |
+    |        'ffmpeg'  => env('FFMPEG_PATH', '/usr/bin/ffmpeg'),
+            'ffprobe' => env('FFPROBE_PATH', '/usr/bin/ffprobe'),
     */
 
     'binaries' => [

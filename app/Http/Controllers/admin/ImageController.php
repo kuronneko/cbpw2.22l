@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic;
 use SebastianBergmann\Environment\Console;
 use Illuminate\Support\Facades\DB;
-
+use ProtoneMedia\LaravelFFMpeg\Filters\WatermarkFactory;
 use Lakshmaji\Thumbnail\Facade\Thumbnail;
 use Carbon;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 
 class ImageController extends Controller
@@ -26,7 +27,9 @@ class ImageController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        //ImageManagerStatic::configure(array('driver' => 'imagick'));
+        if(config('myconfig.img.driver') == 'imagick'){
+        ImageManagerStatic::configure(array('driver' => 'imagick'));
+        }
     }
 
     /*
@@ -117,7 +120,7 @@ class ImageController extends Controller
         }
     }
 
-        /**
+            /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -127,7 +130,7 @@ class ImageController extends Controller
     {
 
         $request->validate([
-            'file' => 'required|mimes:mp4,webm,gif,png,jpg,jpeg|max:10000000'
+            'file' => 'required|mimes:mp4,webm,gif,png,jpg,jpeg|max:10240' //10 mb max filesize
         ]);
 
         $document = $request->file('file');
@@ -137,6 +140,7 @@ class ImageController extends Controller
         $websiteTag = config('myconfig.engine.nameext').'_';
         $newFilename = md5($document->getClientOriginalName());  //rename filename
         $url = Storage::url('public/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename); //url without extension
+        $imgWaterMarkPath = config('myconfig.img.watermarkUrl');//public_path('/img/watermark.png'); //remeber check this url
 
         if (($albumFound->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')) {
 
@@ -146,9 +150,6 @@ class ImageController extends Controller
 
             if (!file_exists(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension())) && !Image::where('url', $url)->where('album_id', $albumFound->id)->first()) {             //check if physical file exist
                 // 'public/images/' required in test, and 'images/' for production
-
-                //main file upload
-                $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension()); //upload main file
 
                 //database insert
                 $image = new Image();
@@ -189,19 +190,37 @@ class ImageController extends Controller
                     $albumFound->touch();
                 }
 
-                //thumbnails
-                if($document->getClientOriginalExtension() != "mp4" && $document->getClientOriginalExtension() != "webm"){ //normal image format
-                    $thumbTarget = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.' . $document->getClientOriginalExtension()); //generate thumbnail with intervention image library
 
-                        //big image files require imagick drive to resize it, because GD drivers need a lot of ram to do it.
-                        ImageManagerStatic::make($request->file('file')->getRealPath())->resize(200, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                        })->resizeCanvas(200, null)->save($thumbTarget, 80);
+                if(($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm")){
+                //main file upload
+                    if(config('myconfig.patch-pre-ffmpeg.ffmpeg-watermark') == true){
+                //upload main file
+                        $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension());
+                        if($document->getClientOriginalExtension() == "mp4"){ //check video format to encode
+                            $format = new \FFMpeg\Format\Video\X264;
+                        }else{
+                            $format = new \FFMpeg\Format\Video\WebM;
+                        }
+                        FFMpeg::fromDisk('public') //uses ffmpeg laravel to insert watermark on video
+                        ->open('/images/' . 'profile_'.$userId.'/'.  $albumFound->id . '/' . $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension())
+                        ->addWatermark(function(WatermarkFactory $watermark) {
+                            $watermark->fromDisk('assets')
+                            ->open(config('myconfig.patch-pre-ffmpeg.videoWaterMarkName'))
+                            ->horizontalAlignment(WatermarkFactory::CENTER)
+                            ->verticalAlignment(WatermarkFactory::CENTER);
+                        })
+                        ->export()
+                        ->toDisk('public')
+                        ->inFormat($format)
+                        ->save('/images/' . 'profile_'.$userId.'/'.  $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
+                        //delete temp main video file
+                        Storage::disk('public')->delete('/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension());
+                    }else{
+                        $request->file('file')->storeAs('public/images/' . 'profile_'.$userId.'/'. $albumFound->id, $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
+                    }
 
-
-                //video thubms
-                }else if(($document->getClientOriginalExtension() == "mp4" || $document->getClientOriginalExtension() == "webm") && config('myconfig.patch-pre-ffmpeg.ffmpeg-status') == true){
-                        //generate video thumbnail with Lakshmaji video thumbnail library
+                    if(config('myconfig.patch-pre-ffmpeg.ffmpeg-status') == true){
+                      //generate video thumbnail with Lakshmaji video thumbnail library
                         $videoPath = public_path('/storage/images/' .'profile_'.$userId.'/'.  $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
                         $thumbnailPath = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/');
                         $thumbnailImageName  = $websiteTag . $newFilename . '_thumb.jpg';
@@ -209,12 +228,43 @@ class ImageController extends Controller
                         Thumbnail::getThumbnail($videoPath,$thumbnailPath,$thumbnailImageName,$timeToImage); //generate default size thumbnail from video with Lakshmaji library (watermark settings OFF)
 
                         $thumbnailPathResize = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.jpg');
-                        $waterMarkPath = public_path('/img/videoplay4.png'); //remeber check this url
-                        ImageManagerStatic::make($thumbnailPathResize)->resize(200, null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
+                        $videoWaterMarkPath = config('myconfig.patch-pre-ffmpeg.videoPlayWatermarkUrl'); //remeber check this url
+                        ImageManagerStatic::make($thumbnailPathResize)->resize(config('myconfig.img.thumbnailsAlbumSize'), null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
                         $constraint->aspectRatio();
-                        })->resizeCanvas(200, null)->insert($waterMarkPath, 'center')->save($thumbnailPathResize, 80); //->insert($waterMarkPath, 'bottom-left', 5, 5);
+                        })->resizeCanvas(config('myconfig.img.thumbnailsAlbumSize'), null)->insert($videoWaterMarkPath, 'center')->save($thumbnailPathResize, config('myconfig.img.thumbnailsAlbumQuality')); //->insert($waterMarkPath, 'bottom-left', 5, 5);
+                    }
+
                 }else{
-                    //dont generate videothumbnail
+
+
+                    if(config('myconfig.img.resize') == true){
+                        if(ImageManagerStatic::make($request->file('file')->getRealPath())->width() > ImageManagerStatic::make($request->file('file')->getRealPath())->height()){ //check dimension of image
+                            $imgResized = ImageManagerStatic::make($request->file('file')->getRealPath())->resize(config('myconfig.img.resizeWidth'), null, function ($constraint) { //resize image based on width
+                                $constraint->aspectRatio();
+                            })->resizeCanvas(config('myconfig.img.resizeWidth'), null);
+                        }else{
+                            $imgResized = ImageManagerStatic::make($request->file('file')->getRealPath())->resize(null, config('myconfig.img.resizeHeight'), function ($constraint) { //Resize image based on height
+                                $constraint->aspectRatio();
+                            })->resizeCanvas(null, config('myconfig.img.resizeHeight'));
+                        }
+                    }else{
+                        //upload image with no resize it
+                        $imgResized = ImageManagerStatic::make($request->file('file')->getRealPath());
+                    }
+
+                     if(config('myconfig.img.watermark') == true){
+                        $imgResized->insert(ImageManagerStatic::make($imgWaterMarkPath)->resize(round($imgResized->width()/2), null, function ($constraint) { //insert and resize watermark based on imageresize width
+                            $constraint->aspectRatio();
+                        })->resizeCanvas(round($imgResized->width()/2), null)->opacity(50), 'center')->save(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension()), 100); //inser resize watermark on resize image
+                     }else{
+                        $imgResized->save(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension()), 100);
+                     }
+                            //imageThumbnails
+                            //big image files require imagick drive to resize it, because GD drivers need a lot of ram to do it.
+                            ImageManagerStatic::make($imgResized)->resize(config('myconfig.img.thumbnailsAlbumSize'), null, function ($constraint) {  //generate thumbnail from imgResized with watermark included, you can change it by $request->file('file')->getRealPath() without watermark
+                                $constraint->aspectRatio();
+                            })->resizeCanvas(config('myconfig.img.thumbnailsAlbumSize'), null)->save(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.' . $document->getClientOriginalExtension()), config('myconfig.img.thumbnailsAlbumQuality'));
+
                 }
 
             }else{
@@ -328,7 +378,13 @@ class ImageController extends Controller
             $statFound->save();
 
             Storage::delete('/public' . $productImage . '.' . $imageFound->ext);
-            Storage::delete('/public' . $productImage . '_thumb.' . $imageFound->ext);
+
+            if($imageFound->ext == "mp4" || $imageFound->ext == "webm"){ //fix video thumbnail delete
+                Storage::delete('/public' . $productImage . '_thumb.jpg');
+            }else{
+                Storage::delete('/public' . $productImage . '_thumb.' . $imageFound->ext);
+            }
+
 
             $imageFound->delete();
 

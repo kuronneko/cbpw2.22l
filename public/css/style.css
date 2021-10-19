@@ -554,6 +554,34 @@ word-break: break-all;
     cursor: inherit;
     display: block;
   }
+
+  .btn-save{
+    position: absolute;
+    left: -4%;
+    top: 20%;
+  }
+
+  .btn-remove{
+    position: absolute;
+    left: -4%;
+    top: 40%;
+  }
+
+@media only screen and (max-width: 600px) { /* responsive size*/
+    .btn-remove{ /* public content images grid center*/
+        position: absolute;
+        left: -4%;
+        top: 43%;
+    }
+    .btn-save{ /* public content images grid center*/
+        position: absolute;
+        left: -4%;
+        top: 30%;
+    }
+
+}
+
+
     .swal-modal {
         background-color: #1A1A1A!important;
     }
@@ -567,35 +595,6 @@ word-break: break-all;
     }
 
 
-
-    /* Album Content IMAGE SIZE */
-@media only screen and (max-width: 600px) { /* responsive size*/
-    .removeProfilePhotoBtn{
-        position: absolute;
-        left: 20%;
-        top: 40%;
-    }
-
-    .saveProfilePhotoBtn{
-        position: absolute;
-        left: 20%;
-        top: 20%;
-    }
-}
-
-@media (min-width: 576px) {  /* desktop size */
-    .removeProfilePhotoBtn{
-        position: absolute;
-        left: -4%;
-        top: 40%;
-    }
-
-    .saveProfilePhotoBtn{
-        position: absolute;
-        left: -4%;
-        top: 20%;
-    }
-}
     @media only screen and (max-width: 600px) { /* responsive size*/
         .userMenuBtn {
             font-size: 0px!important;

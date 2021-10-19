@@ -23,7 +23,7 @@ class ImageGestor extends Component
         $album = Album::findOrFail($this->albumId);
         if (($album->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')) {
             if($this->createImage == "true"){
-                $this->dispatchBrowserEvent('loadDropzone');
+                //$this->dispatchBrowserEvent('loadDropzone');
                 return view('admin.image.livewire.create-image',[
                     'album' => $album,
 
@@ -66,7 +66,11 @@ class ImageGestor extends Component
             $statFound->save();
 
             Storage::delete('/public' . $productImage . '.' . $imageFound->ext);
-            Storage::delete('/public' . $productImage . '_thumb.' . $imageFound->ext);
+            if($imageFound->ext == "mp4" || $imageFound->ext == "webm"){  //fix video thumbnail delete
+                Storage::delete('/public' . $productImage . '_thumb.jpg');
+            }else{
+                Storage::delete('/public' . $productImage . '_thumb.' . $imageFound->ext);
+            }
 
             $imageFound->delete();
 
