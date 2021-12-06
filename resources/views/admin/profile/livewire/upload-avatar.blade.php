@@ -17,13 +17,13 @@ swal('{!! Session::get('message')!!}')
                   @endif
                   <div>
                       <button  wire:loading.remove type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-sm btn-save" >Save </button>
-                      <button  wire:loading type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-file btn-sm btn-save" disabled><span class="spinner-border spinner-border-sm"></span></button>
+                      <button  wire:loading type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-sm btn-save disabled"><span class="spinner-border spinner-border-sm"></span></button>
                   </div>
             </form>
             <form wire:submit.prevent="destroy">
                 <div>
-                    <button  wire:loading.remove wire:target="destroy" wire:click="destroy" id="removeBtn" name="removeBtn" type="submit" class="btn btn-danger btn-remove btn-sm">Remove </button>
-                    <button  wire:loading wire:target="destroy" id="removeBtn" name="removeBtn" type="submit" class="btn btn-danger btn-remove btn-sm disabled"><span class="spinner-border spinner-border-sm"></span></button>
+                    <button  wire:loading.remove wire:target="destroy" wire:click="destroy" id="removeBtn" name="removeBtn" type="submit" class="btn btn-danger btn-sm btn-remove">Remove </button>
+                    <button  wire:loading wire:target="destroy" id="removeBtn" name="removeBtn" type="submit" class="btn btn-danger btn-sm btn-remove disabled"><span class="spinner-border spinner-border-sm"></span></button>
                 </div>
             </form>
     </div>

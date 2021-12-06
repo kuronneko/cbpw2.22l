@@ -568,15 +568,15 @@ word-break: break-all;
   }
 
 @media only screen and (max-width: 600px) { /* responsive size*/
-    .btn-remove{ /* public content images grid center*/
-        position: absolute;
-        left: -4%;
-        top: 43%;
-    }
     .btn-save{ /* public content images grid center*/
         position: absolute;
-        left: -4%;
-        top: 30%;
+        left: 25%;
+        top: 20%;
+    }
+    .btn-remove{ /* public content images grid center*/
+        position: absolute;
+        left: 25%;
+        top: 40%;
     }
 
 }
