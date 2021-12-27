@@ -101,7 +101,7 @@
         //dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
         acceptedFiles: ".png, .jpeg, .jpg, .gif, .mp4, .webm",
         //acceptedFiles: "image/*",
-        maxFilesize: 1000,
+        maxFilesize: 20000,
         maxFiles: 100,
         timeout: 0,
         //addRemoveLinks: true,

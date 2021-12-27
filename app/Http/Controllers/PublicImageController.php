@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Album;
 use App\Models\Image;
 use App\Models\Comment;
+use App\Models\EmbedVideo;
 use App\Models\Stat;
 use App\Models\Tag;
 use App\Models\Like;
@@ -86,6 +87,9 @@ class PublicImageController extends Controller
     {
 
         $album = Album::findOrFail($id);
+        if($album->type == config('myconfig.albumType.embedvideo')){
+        $embedvideo = EmbedVideo::where('album_id', $album->id)->first();
+        }
         $stat = Stat::where('album_id', $album->id)->first();
 
         if($stat){
@@ -108,7 +112,7 @@ class PublicImageController extends Controller
         //$album->update();
 
         $images = Image::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
-        abort_if($images->isEmpty(), 204); // if images object is empty redirect to 204 error
+        //abort_if($images->isEmpty(), 204); // if images object is empty redirect to 204 error
         //$imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
         //$commentFull = Comment::where('album_id', $album->id)->orderBy('id','desc')->get();
         //$commentsType = app('App\Http\Controllers\PublicCommentController')->getCommentType($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
@@ -120,7 +124,12 @@ class PublicImageController extends Controller
         }else{
             $userId = "";
         }
-        return view('content',compact('images','album','stat','userId'));
+
+        if($album->type == config('myconfig.albumType.embedvideo')){
+            return view('content-e',compact('images','album','stat','userId','embedvideo'));
+        }else{
+            return view('content',compact('images','album','stat','userId'));
+        }
         //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);
 
     }

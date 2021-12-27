@@ -75,9 +75,15 @@ class UploadAvatar extends Component
 
                          //imageThumbnails
                             //big image files require imagick drive to resize it, because GD drivers need a lot of ram to do it.
-                            ImageManagerStatic::make($this->photo->getRealPath())->resize(config('myconfig.img.thumbnailsAvatarSize'), null, function ($constraint) {  //generate thumbnail from imgResized with watermark included, you can change it by $request->file('file')->getRealPath() without watermark
-                                $constraint->aspectRatio();
-                            })->resizeCanvas(config('myconfig.img.thumbnailsAvatarSize'), null)->save(public_path('/storage/images/' . 'profile_'.$user->id.'/' . $websiteTag . $newFilename . '_thumb.' . $this->photo->getClientOriginalExtension()), config('myconfig.img.thumbnailsAvatarQuality'));
+                            if(config('myconfig.img.thumbnailsAvatarFit') == true){
+                                ImageManagerStatic::make($this->photo->getRealPath())->fit(config('myconfig.img.thumbnailsAvatarWidth'),config('myconfig.img.thumbnailsAvatarHeight'))->save(public_path('/storage/images/' . 'profile_'.$user->id.'/' . $websiteTag . $newFilename . '_thumb.' . $this->photo->getClientOriginalExtension()), config('myconfig.img.thumbnailsAvatarQuality'));
+                                ImageManagerStatic::make($this->photo->getRealPath())->fit(config('myconfig.img.thumbnailsAvatarWidth-b'),config('myconfig.img.thumbnailsAvatarHeight-b'))->save(public_path('/storage/images/' . 'profile_'.$user->id.'/' . $websiteTag . $newFilename . '_thumb-b.' . $this->photo->getClientOriginalExtension()), config('myconfig.img.thumbnailsAvatarQuality'));
+                            }else{
+                                ImageManagerStatic::make($this->photo->getRealPath())->resize(config('myconfig.img.thumbnailsAvatarSize'), null, function ($constraint) {  //generate thumbnail from imgResized with watermark included, you can change it by $request->file('file')->getRealPath() without watermark
+                                    $constraint->aspectRatio();
+                                })->resizeCanvas(config('myconfig.img.thumbnailsAvatarSize'), null)->save(public_path('/storage/images/' . 'profile_'.$user->id.'/' . $websiteTag . $newFilename . '_thumb.' . $this->photo->getClientOriginalExtension()), config('myconfig.img.thumbnailsAvatarQuality'));
+                            }
+
 
                 }else{
 

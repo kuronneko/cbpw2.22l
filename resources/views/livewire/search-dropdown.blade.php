@@ -1,5 +1,5 @@
 
-<div class="relativeContainer mb-4">
+<div class="relativeContainer">
 
     <div class="input-group">
         <div class="input-group-append">

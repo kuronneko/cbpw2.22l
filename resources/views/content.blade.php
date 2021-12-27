@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="searchBarContentContainer">
+            <div class="searchBarContentContainer mb-4">
                 <livewire:search-dropdown />
             </div>
             <div class="card text-white mb-4">

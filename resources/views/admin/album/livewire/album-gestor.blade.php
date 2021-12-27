@@ -32,6 +32,7 @@
                             <th scope="col">Created</th>
                             <th scope="col">Size</th>
                             <th scope="col">View</th>
+                            <th scope="col">Type</th>
                             <th scope="col">Visible</th>
                             <th scope="col">Options</th>
                             </tr>
@@ -85,6 +86,13 @@
                                 <td>{{ $stat->view}}</td>
                                 @endif
                                 @endforeach
+                                <td>
+                                    @if ($album->type == config('myconfig.albumType.embedvideo'))
+                                        <span><i class="fas fa-link"></i></span>
+                                        @elseif($album->type == config('myconfig.albumType.media'))
+                                        <span><i class="fas fa-images"></i></span>
+                                    @endif
+                                </td>
                                 <td>
                                     <div>
                                         @if ($album->visibility == 1)

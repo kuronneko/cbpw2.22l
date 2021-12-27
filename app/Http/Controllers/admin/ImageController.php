@@ -229,9 +229,14 @@ class ImageController extends Controller
 
                         $thumbnailPathResize = public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.jpg');
                         $videoWaterMarkPath = config('myconfig.patch-pre-ffmpeg.videoPlayWatermarkUrl'); //remeber check this url
-                        ImageManagerStatic::make($thumbnailPathResize)->resize(config('myconfig.img.thumbnailsAlbumSize'), null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
-                        $constraint->aspectRatio();
-                        })->resizeCanvas(config('myconfig.img.thumbnailsAlbumSize'), null)->insert($videoWaterMarkPath, 'center')->save($thumbnailPathResize, config('myconfig.img.thumbnailsAlbumQuality')); //->insert($waterMarkPath, 'bottom-left', 5, 5);
+                        if(config('myconfig.img.thumbnailsAlbumsFit') == true){
+                            ImageManagerStatic::make($thumbnailPathResize)->fit(config('myconfig.img.thumbnailsAlbumSizeWidth'),config('myconfig.img.thumbnailsAlbumSizeHeight'))->insert($videoWaterMarkPath, 'center')->save($thumbnailPathResize, config('myconfig.img.thumbnailsAlbumQuality')); //->insert($waterMarkPath, 'bottom-left', 5, 5);
+                        }else{
+                            ImageManagerStatic::make($thumbnailPathResize)->resize(config('myconfig.img.thumbnailsAlbumSize'), null, function ($constraint) { //resize Lakshmaji thumbnail with intervention image library and INSERT watermark with the same library
+                                $constraint->aspectRatio();
+                                })->resizeCanvas(config('myconfig.img.thumbnailsAlbumSize'), null)->insert($videoWaterMarkPath, 'center')->save($thumbnailPathResize, config('myconfig.img.thumbnailsAlbumQuality')); //->insert($waterMarkPath, 'bottom-left', 5, 5);
+                        }
+
                     }
 
                 }else{
@@ -261,10 +266,13 @@ class ImageController extends Controller
                      }
                             //imageThumbnails
                             //big image files require imagick drive to resize it, because GD drivers need a lot of ram to do it.
-                            ImageManagerStatic::make($imgResized)->resize(config('myconfig.img.thumbnailsAlbumSize'), null, function ($constraint) {  //generate thumbnail from imgResized with watermark included, you can change it by $request->file('file')->getRealPath() without watermark
-                                $constraint->aspectRatio();
-                            })->resizeCanvas(config('myconfig.img.thumbnailsAlbumSize'), null)->save(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.' . $document->getClientOriginalExtension()), config('myconfig.img.thumbnailsAlbumQuality'));
-
+                            if(config('myconfig.img.thumbnailsAlbumsFit') == true){
+                                ImageManagerStatic::make($imgResized)->fit(config('myconfig.img.thumbnailsAlbumSizeWidth'), config('myconfig.img.thumbnailsAlbumSizeHeight'))->save(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.' . $document->getClientOriginalExtension()), config('myconfig.img.thumbnailsAlbumQuality'));
+                            }else{
+                                ImageManagerStatic::make($imgResized)->resize(config('myconfig.img.thumbnailsAlbumSize'), null, function ($constraint) {  //generate thumbnail from imgResized with watermark included, you can change it by $request->file('file')->getRealPath() without watermark
+                                    $constraint->aspectRatio();
+                                })->resizeCanvas(config('myconfig.img.thumbnailsAlbumSize'), null)->save(public_path('/storage/images/' . 'profile_'.$userId.'/'. $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.' . $document->getClientOriginalExtension()), config('myconfig.img.thumbnailsAlbumQuality'));
+                            }
                 }
 
             }else{

@@ -9,10 +9,8 @@
                 </div>
             </div>
         </section>
-
     <livewire:load-more-album />
     <livewire:modal-stats />
-
     <script>
         window.addEventListener('show-modal-stats', event =>{
             $('#stats').modal('show')

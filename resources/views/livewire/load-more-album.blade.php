@@ -35,7 +35,12 @@
                     <div class="col-12 col-sm-4">
                 <div class="card text-white indexCard mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                    <small><strong><p class="cardAlbumTittle upperCaseTittles text-danger" alt="{{$album->name}}">{{$album->name}}</p></strong></small><small><p class="cardAlbumTittle lowerCaseTittles text-secondary">By: {{$album->user->name}}</p></small>
+                    @if ($album->type == config('myconfig.albumType.embedvideo'))
+                    <small><strong><p class="cardAlbumTittle upperCaseTittles text-info" alt="{{$album->name}}">{{$album->name}}</p></strong></small>
+                        @else
+                        <small><strong><p class="cardAlbumTittle upperCaseTittles text-danger" alt="{{$album->name}}">{{$album->name}}</p></strong></small>
+                    @endif
+                    <small><p class="cardAlbumTittle lowerCaseTittles text-secondary">By: {{$album->user->name}}</p></small>
                     </div>
                     <div class="card-body cardIndexBodyPadding">
                         <p class="text-secondary dateIndexCard">{{$album->updated_at;}}</p>
@@ -81,9 +86,17 @@
                     </div>
                     <div class="card-footer">
                         @foreach ($album->tags as $albumtags)
-                           <span class="badge badge-danger"><i class="fas fa-tag"></i><span alt="#{{$albumtags->name}}" class="badge badge-danger">{{$albumtags->name}}</span></span>
+                        @if ($album->type == config('myconfig.albumType.embedvideo'))
+                        <span class="badge badge-danger"><i class="fas fa-tag"></i><span alt="#{{$albumtags->name}}" class="badge badge-danger">{{$albumtags->name}}</span></span>
+                        @else
+                        <span class="badge badge-danger"><i class="fas fa-tag"></i><span alt="#{{$albumtags->name}}" class="badge badge-danger">{{$albumtags->name}}</span></span>
+                        @endif
                         @endforeach
-                        <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
+                        @if ($album->type == config('myconfig.albumType.embedvideo'))
+                        <a href="{{route('image.content-e', $album->id)}}" class="stretched-link"></a>
+                            @else
+                            <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
+                        @endif
                     </div>
                 </div>
             </div>

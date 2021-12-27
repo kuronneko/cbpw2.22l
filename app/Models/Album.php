@@ -18,4 +18,8 @@ class Album extends Model
     public function stat(){ //$comment->album->id
         return $this->hasOne(Stat::class); //Pertenece a un album.
     }
+
+    public function embedvideo(){ //$comment->album->id
+        return $this->hasOne(Stat::class); //Pertenece a un album.
+    }
 }
