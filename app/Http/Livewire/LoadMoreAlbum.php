@@ -10,6 +10,7 @@ use App\Models\Like;
 use App\Models\Stat;
 use App\Models\DB;
 use App\Models\Comment;
+use App\Models\EmbedVideo;
 use Illuminate\Support\Facades\DB as FacadesDB;
 
 class LoadMoreAlbum extends Component
@@ -30,6 +31,7 @@ class LoadMoreAlbum extends Component
              if($this->sortBy == 'random'){
                $albums = Album::take($this->amount)->where('visibility', 1)->inRandomOrder()->get();
                $stats = Stat::whereIn('album_id', $albums->pluck('id'))->get();
+               $embedvideos = EmbedVideo::whereIn('album_id', $albums->pluck('id'))->get();
                $images = collect();
                foreach ($albums as $album) {
                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->first());
@@ -37,12 +39,14 @@ class LoadMoreAlbum extends Component
                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(2)->first());
                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->skip(3)->first());
                }
+
                //dd($images);
                return view('livewire.load-more-album', [
                    'albums' => $albums,
                    'images' => $images,
                    'stats' => $stats,
-                   'albumMax' => $this->albumMax()
+                   'albumMax' => $this->albumMax(),
+                   'embedvideos' => $embedvideos,
                ]);
              }else if($this->sortBy == 'view'){
                 //dd($images);
@@ -50,6 +54,7 @@ class LoadMoreAlbum extends Component
                 //dd($albums);
                 $stats = Stat::whereIn('album_id', Album::where('visibility', 1)->get()->pluck('id'))->orderBy('view', 'desc')->get();
                 $albums = Album::take($this->amount)->whereIn('id', $stats->pluck('album_id'))->orderByRaw('FIELD(id,'.implode(',', $stats->pluck('album_id')->toArray()).')')->get();
+                $embedvideos = EmbedVideo::whereIn('album_id', $albums->pluck('id'))->get();
                 $images = collect();
                 foreach ($albums as $album) {
                     $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->first());
@@ -61,11 +66,13 @@ class LoadMoreAlbum extends Component
                     'albums' => $albums,
                     'images' => $images,
                     'stats' =>  $stats,
-                    'albumMax' => $this->albumMax()
+                    'albumMax' => $this->albumMax(),
+                    'embedvideos' => $embedvideos,
                 ]);
               }else{
                $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get();
                $stats = Stat::whereIn('album_id', $albums->pluck('id'))->get();
+               $embedvideos = EmbedVideo::whereIn('album_id', $albums->pluck('id'))->get();
                $images = collect();
                foreach ($albums as $album) {
                    $images->add(Image::where('album_id', $album->id)->orderBy('id', 'desc')->first());
@@ -78,7 +85,8 @@ class LoadMoreAlbum extends Component
                    'albums' => $albums,
                    'images' => $images,
                    'stats' => $stats,
-                   'albumMax' => $this->albumMax()
+                   'albumMax' => $this->albumMax(),
+                   'embedvideos' => $embedvideos,
                    //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                ]);
              }

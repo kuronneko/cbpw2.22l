@@ -43,14 +43,28 @@
                     <small><p class="cardAlbumTittle lowerCaseTittles text-secondary">By: {{$album->user->name}}</p></small>
                     </div>
                     <div class="card-body cardIndexBodyPadding">
-                        <p class="text-secondary dateIndexCard">{{$album->updated_at;}}</p>
+                        <p class="text-secondary dateIndexCard">{{$album->created_at;}}</p>
                         @if ( session('message') )
                         <div class="alert alert-success">{{ session('message') }}</div>
                       @endif
-                      <p class="cardAlbumDescription" alt="{{$album->description}}">Description: {{$album->description}}</p>
-
-                    <div class="text-center">
-
+                      @if ($album->type == config('myconfig.albumType.media'))
+                      <p class="cardAlbumDescription" alt="{{$album->description}}">{{$album->description}}</p>
+                      @endif
+                      @if ($album->type == config('myconfig.albumType.embedvideo'))
+                        <div class="row">
+                        @foreach ($embedvideos as $embedvideo)
+                        @if ($embedvideo->album_id == $album->id)
+                        <div class="col-md-3 col-3">
+                            <img src="{{ config("myconfig.img.url") }}{{ $embedvideo->preview }}" class="imgThumbPublicIndex " data-was-processed='true'>
+                        </div>
+                        <div class="col-md-6 col-6">
+                        <p class="cardAlbumDescription" alt="{{$album->description}}">{{$album->description}}</p>
+                        </div>
+                        @endif
+                        @endforeach
+                        </div>
+                      @else
+                      <div class="text-center">
                         @foreach ($images as $image)
                         @if (empty($image->album_id))
                             @else
@@ -69,6 +83,7 @@
                         @endif
                         @endforeach
                     </div>
+                      @endif
                         <div>
                             @foreach ($stats as $stat)
                             @if($stat->album->id == $album->id)
