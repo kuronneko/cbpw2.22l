@@ -68,7 +68,7 @@ class CreateModifyAlbumModal extends Component
         if($this->trigger == "modify"){
             if( (auth()->user()->id == $this->album->user->id && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')){
                 $this->validate(['name' => 'required|min:2|max:40', 'description' => 'required|min:2|max:40',
-                'visibility' => 'required|integer', 'type' => 'required|integer', 'url' => 'required|min:10|max:200']);
+                'visibility' => 'required|integer', 'type' => 'required|integer']);
                 $this->album->name = $this->name;
                 $this->album->description = $this->description;
                 $this->album->visibility = $this->visibility;
@@ -92,9 +92,11 @@ class CreateModifyAlbumModal extends Component
             }
         }elseif($this->trigger = "create"){
             if( (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++')) || auth()->user()->type == config('myconfig.privileges.super')){
+
                 $userId = auth()->user()->id;
+
                 $this->validate(['name' => 'required|min:2|max:40', 'description' => 'required|min:2|max:40', 'visibility' => 'required|integer',
-                'type' => 'required|integer', 'url' => 'required|min:10|max:200']);
+                'type' => 'required|integer']);
 
                 if (!file_exists(public_path('/storage/images/' . 'profile_'.$userId))) {       //check if folder exist
                     mkdir(public_path('/storage/images/' . 'profile_'.$userId), 0755, true);

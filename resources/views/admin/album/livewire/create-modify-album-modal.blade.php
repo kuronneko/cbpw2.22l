@@ -50,18 +50,19 @@
                 <div class="form-group">
                     <label for="type">Type:</label>
                     <select class="form-control" id="type" name="type" wire:model="type">
-                          @if ($album)
-                          @if ($album->type == config('myconfig.albumType.media'))
-                          <option disabled value="0">Media</option>
-                          <option disabled value="1">EmbedVideo</option>
-                              @else
-                              <option disabled value="1">EmbedVideo</option>
-                              <option disabled value="0">Media</option>
-                          @endif
-                          @else
-                          <option value="0">Media</option>
-                          <option value="1">EmbedVideo</option>
-                          @endif
+                        @if ($album)
+                                @if ($album->type == config('myconfig.albumType.media') && Auth::check() && Auth::user()->type == 5)
+                                <option value="0">Media</option>
+                                <option value="1">EmbedVideo</option>
+                                    @else
+                                    <option value="0">Media</option>
+                                @endif
+                        @else
+                                <option value="0">Media</option>
+                                @if (Auth::check() && Auth::user()->type == 5)
+                                <option value="1">EmbedVideo</option>
+                                @endif
+                        @endif
                     </select>
                     @error('type') <span class="text-danger"> {{$message}} </span> @enderror
                 </div>

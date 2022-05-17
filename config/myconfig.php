@@ -16,8 +16,8 @@ return [
         [   'avatar' => '/img/avatar.png', //default avatar url location
             'backgroundLogo' => '/img/backgroundLogo.jpg',
             'logoIcon' => '/img/logoIcon.png', //default icon location
-            'url' => '/cbpw2.22l/public/',  //   /cbpw2.22l/public/ is the htdocs proyect folder // in production you can delete it and just write /public/
-            'driver' => 'gd', //imagick or default gd
+            'url' => '',  //   /cbpw2.22l/public/ is the htdocs proyect folder // in production you can delete it and just write /public/
+            'driver' => 'imagick', //imagick or default gd
 
             'resize' => false,  //resize image (if false image upload at original size)
             'resizeWidth' => 720,
