@@ -118,7 +118,7 @@
 }
 @media (min-width: 576px) {  /* desktop size */
     .grid .grid-item{ /* public content images grid center*/
-        width: 20%!important; /* 20% original */
+        width: 10%!important; /* 20% original */
     }
     .grid-item>a img{ /* public images/div thumbs resize */
         width: 100%;
