@@ -11,7 +11,7 @@
 
     <meta name="author" content="CYBERPUNKWAIFUS">
     <meta name="description" content="CYBERPUNKWAIFUS Demo">
-    <meta name="keywords" content="waifus, cute girls, loli, art, images, photos, instagramcuties, instagram, lolis, jb, jailbait, teen, teens, dance, leggings, yoga, model, models, site rip, engine, tiktok, reels">
+    <meta name="keywords" content="waifus, cute girls, art, images, photos, instagramcuties, instagram, teen, teens, dance, leggings, yoga, model, models, site rip, engine, tiktok, reels">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:description" content="CYBERPUNKWAIFUS Demo">
     <meta property="og:image" content="{{asset('img/previewLogo.gif')}}" />
@@ -19,19 +19,6 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://cyberpunkwaifus.xyz/">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('img/icon.png')}}" />
-    <meta name="evenads" content="5f4e66b6a86b0ae7098d0d373d482330" />
-
-    <!-- Scripts -->
-    <!-- <script src="{asset('js/app.js')}" defer></script> -->
-    <script type="text/javascript" src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/jquery.fancybox.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/masonry.pkgd.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/jquery.cookie.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/infinite-scroll.pkgd.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js')}}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -40,10 +27,10 @@
 
     <!-- Styles -->
     <!-- <link href="{asset('css/app.css')}" rel="stylesheet"> -->
-    <link href="{{ asset('css/style.css')}}" rel="stylesheet" >
-    <link href="{{ asset('css/dropzone.min.css')}}" rel="stylesheet" >
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dropzone.min.css')}}" rel="stylesheet" >
     <link href="{{ asset('css/jquery.fancybox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css')}}" rel="stylesheet" >
  @livewireStyles
 </head>
 <body>
@@ -119,6 +106,58 @@
         </footer>
 
     </div>
+    <!-- Scripts -->
+    <!-- <script src="{asset('js/app.js')}" defer></script> -->
+    <script type="text/javascript" src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/dropzone.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.fancybox.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/masonry.pkgd.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.cookie.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/infinite-scroll.pkgd.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js')}}"></script>
+    <script>
+        $('[data-fancybox="images"]').fancybox({
+          buttons : [
+            'slideShow',
+            'download',
+            'share',
+            'thumbs',
+            'close'
+          ]
+        });
+        </script>
+          <script>
+        $(document).ready(function(){
+            var $grid = $('.grid').masonry({
+                itemSelector: '.grid-item',
+                // use element for option
+                //columnWidth: 5,
+                FitWidth: true,
+                percentPosition: true,
+                transitionDuration: 0
+                });
+        var gridItemCount = $('.grid-item').length;
+        if(gridItemCount == 0){
+          $(".loadingGif").hide();
+          $(".grid").show();
+        }
+        $grid.imagesLoaded( function() {
+          $(".loadingGif").hide();
+          $(".grid").show();
+        $grid.masonry('layout');
+        });
+           var msnry = $grid.data('masonry');
+                var infScroll = new InfiniteScroll( '.grid', {
+                path: '?page=@{{#}}',
+                append: '.grid-item',
+                outlayer: msnry,
+                history: false,
+                status: '.page-load-status',
+                });
+        });
+        </script>
     @livewireScripts
 </body>
 </html>

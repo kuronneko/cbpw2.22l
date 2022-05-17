@@ -9,7 +9,7 @@
 .imgThumb{ /* album gestor thumbs*/
     border: 1px solid #0000009f;
     border-radius: 0%;
-    object-fit: cover !important;
+    object-fit: cover ;
     width: 50px;
     height: 50px;
 }
@@ -17,7 +17,7 @@
 .imgThumbPublicIndex{ /* public images preview*/
 
     border-radius: 0%;
-    object-fit: cover !important;
+    object-fit: cover ;
     width: 70px;
     height: 70px;
     opacity: 0.6;
@@ -27,7 +27,7 @@
 @media only screen and (max-width: 600px) {
     .imgThumbPublicIndex {
         border-radius: 0%;
-        object-fit: cover !important;
+        object-fit: cover ;
         width: 66px;
         height: 66px;
         opacity: 0.6;
@@ -38,7 +38,7 @@
 .imgThumbRandomSuggest{ /* suggest Album preview*/
 
     border-radius: 0%;
-    object-fit: cover !important;
+    object-fit: cover ;
     width: 100px;
     height: 100px;
     opacity: 0.6;
@@ -57,7 +57,7 @@
 
   .containerAlbumSuggest img {
     border-radius: 0%;
-    object-fit: cover !important;
+    object-fit: cover ;
     width: 65px;
     height: 65px;
     opacity: 0.6;
@@ -67,30 +67,30 @@
 
   @media only screen and (max-width: 600px) { /* responsive size*/
     .albumSuggestStatsCol{
-        padding-right: 0px!important;
-        margin-right: 0px!important;
-        padding-left: 60px!important;
+        padding-right: 0px;
+        margin-right: 0px;
+        padding-left: 60px;
     }
 }
 @media (min-width: 576px) {  /* desktop size */
     .albumSuggestStatsCol{
-        padding-right: 0px!important;
-        margin-right: 0px!important;
-        padding-left: 45px!important;
+        padding-right: 0px;
+        margin-right: 0px;
+        padding-left: 45px;
     }
 }
 
 @media only screen and (max-width: 600px) { /* responsive size*/
     .albumSuggestImageCol{
-        padding-left: 0px!important;
-        padding-right: 0px!important;
-        margin-left: 0px!important;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-left: 0px;
     }
 }
 @media (min-width: 576px) {  /* desktop size */
     .albumSuggestImageCol{
-        padding-left: 0px!important;
-        margin-left: -25px!important;
+        padding-left: 0px;
+        margin-left: -25px;
 
     }
 }
@@ -109,16 +109,16 @@
 /* Album Content IMAGE SIZE */
 @media only screen and (max-width: 600px) { /* responsive size*/
     .grid .grid-item{ /* public content images grid center*/
-        width: 20%!important; /* 25% original */
+        width: 20%; /* 25% original */
     }
     .grid-item>a img{ /* public images/div thumbs resize */
-        width: 100%!important;
+        width: 100%;
     }
 
 }
 @media (min-width: 576px) {  /* desktop size */
     .grid .grid-item{ /* public content images grid center*/
-        width: 10%!important; /* 20% original */
+        width: 10%; /* 20% original */
     }
     .grid-item>a img{ /* public images/div thumbs resize */
         width: 100%;
@@ -136,35 +136,35 @@
 
 
 .card{
-    background-color: #1A1A1A!important;
+    background-color: #1A1A1A;
 }
 .list-group-item{
-    background-color: #1A1A1A!important;
-    padding-top: 0px!important;
-    padding-bottom: 0px!important;
+    background-color: #1A1A1A;
+    padding-top: 0px;
+    padding-bottom: 0px;
 
 }
 .blackBtn{
-    background-color: #1A1A1A!important;
+    background-color: #1A1A1A;
 }
 .blackBtn:hover{
-   background-color: #1A1A1A!important;
+   background-color: #1A1A1A;
 }
 
 .modal-content{
-    background-color: #1A1A1A!important;
+    background-color: #1A1A1A;
 }
 .navbar{
-    background-color: #1A1A1A!important;
+    background-color: #1A1A1A;
 }
 .table{
-    background-color: #1A1A1A!important;
+    background-color: #1A1A1A;
 }
 .loadBtn{
-    background-color: #1A1A1A!important;
+    background-color: #1A1A1A;
 }
 .loadBtn:hover{
-    background-color: #1A1A1A!important;
+    background-color: #1A1A1A;
 }
 
 
@@ -185,38 +185,38 @@
 }
 
 .indexCard:hover{
-    border: 1px solid #2d3338!important;
+    border: 1px solid #2d3338;
 }
 
 .publicContainerWithNoPadding{
-padding-left: 0px!important;
-padding-right: 0px!important;
+padding-left: 0px;
+padding-right: 0px;
 }
 .indexCardBodyStyle{
 
-padding-left: 10px!important;
-padding-right: 10px!important;
-padding-bottom: 0px!important;
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 0px;
 }
 
 .contentCardBodyStyle{
-    padding-left: 0px!important;
-    padding-right: 0px!important;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 .contentCardBodyStyleSide{
-    padding-left: 10px!important;
-    padding-right: 10px!important;
-    padding-top: 10px!important;
-    padding-bottom: 10px!important;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .contentCardBodyStyleSideAlbumSuggest{
-    padding-left: 10px!important;
-    padding-right: 10px!important;
-    padding-top: 10px!important;
-    padding-bottom: 10px!important;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .contentCardBodyStyleSideAlbumSuggest:hover{
-    border-color: white!important;
+    border-color: white;
     border-width: 10px;
     opacity: 0.9;
     filter: alpha(opacity=100);
@@ -229,11 +229,11 @@ padding-bottom: 0px!important;
 }
 
 .privateAlbumIcon{
-    font-size: 100px!important;
+    font-size: 100px;
   }
 
 .uploadIcon{
-    font-size: 70px !important;
+    font-size: 70px ;
 }
 
 .page-link {
@@ -242,21 +242,21 @@ padding-bottom: 0px!important;
     padding: .5rem .75rem;
     margin-left: -1px;
     line-height: 1.25;
-    color: #d9d9d9 !important;
-    background-color: #4f4f4f !important;
-    border: 1px solid #262626 !important;
+    color: #d9d9d9 ;
+    background-color: #4f4f4f ;
+    border: 1px solid #262626 ;
 }
 .page-link:hover {
         z-index: 2;
-        color: #fff !important;
+        color: #fff ;
         text-decoration: none;
-        background-color: #a4a4a4 !important;
+        background-color: #a4a4a4 ;
         border-color: #dee2e6;
 }
 .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #808080 !important;
+    background-color: #808080 ;
     border-color: #353535;
 }
 
@@ -272,23 +272,23 @@ footer {
  }
 
 body{
-    background-color: #202020!important;
+    background-color: #202020;
 }
 
 html, body { /*BODY CENTER WITHOUT SPACES*/
     max-width: 100%;
     overflow-x: hidden;
-    font-family: "CyberpunkWaifus"!important;
+    font-family: "CyberpunkWaifus";
 }
 
 
 .bg-comments {            /* COMMENTS CONTAINER */
     /*display:none;*/
-margin-left: 0px!important;
-margin-right: 0px!important;
+margin-left: 0px;
+margin-right: 0px;
 padding: 5px;
-border-radius: .25rem!important;
-background-color: #181818!important;
+border-radius: .25rem;
+background-color: #181818;
 color: #ffffff;
 text-align: left;
 font-weight: normal;
@@ -306,8 +306,8 @@ word-break: break-all;
  }
 
 .commentBody{
-    padding-top: 10px!important;
-    padding-bottom: 10px!important;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .commentBody> p{
     margin-bottom: 5px;
@@ -322,13 +322,13 @@ word-break: break-all;
 
 @media only screen and (max-width: 600px) { /*responsive size*/
     .girl404{
-        width: 50%!important;
+        width: 50%;
     }
 
 }
 @media (min-width: 576px) { /*desktop size*/
     .girl404{
-        width: 20%!important;
+        width: 20%;
     }
 }
 
@@ -383,7 +383,7 @@ word-break: break-all;
 .carousel-item img{
 
     border-radius: 0%;
-    object-fit: cover !important;
+    object-fit: cover ;
     width: 75px;
     height: 75px;
     opacity: 0.6;
@@ -395,12 +395,12 @@ word-break: break-all;
 }
 
 .cardIndexBodyPadding{
-    padding-top: 10px!important;
+    padding-top: 10px;
 }
 
 .customGroupItem{
- padding-left: 0px!important;
- padding-right: 0px!important;
+ padding-left: 0px;
+ padding-right: 0px;
  font-size: 15px;
 }
 
@@ -422,11 +422,11 @@ word-break: break-all;
 }
 
 .absoluteItem{
-    position: absolute!important;
+    position: absolute;
     z-index:1;
 }
 .relativeContainer{
-    position: relative!important;
+    position: relative;
     z-index:2;
 }
 
@@ -454,7 +454,7 @@ word-break: break-all;
         border: 0px solid #ef3343;
         border-radius: 50%;
         object-fit: cover;
-        background-position: -100px -100px !important;
+        background-position: -100px -100px ;
         width: 25px;
         height: 25px;
         /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
@@ -466,7 +466,7 @@ word-break: break-all;
         border: 0px solid #ef3343;
         border-radius: 50%;
         object-fit: cover;
-        background-position: -100px -100px !important;
+        background-position: -100px -100px ;
         width: 50px;
         height: 50px;
         /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
@@ -478,7 +478,7 @@ word-break: break-all;
     border: 2px solid #ef3343;
     border-radius: 50%;
     object-fit: cover;
-    background-position: -100px -100px !important;
+    background-position: -100px -100px ;
     width: 150px;
     height: 150px;
     cursor: pointer;
@@ -489,7 +489,7 @@ word-break: break-all;
     border: 2px solid #ef3343;
     border-radius: 50%;
     object-fit: cover;
-    background-position: -100px -100px !important;
+    background-position: -100px -100px ;
     width: 150px;
     height: 150px;
     opacity: 0.8;
@@ -508,7 +508,7 @@ word-break: break-all;
         border: 0px solid #ef3343;
         border-radius: 50%;
         object-fit: cover;
-        background-position: -100px -100px !important;
+        background-position: -100px -100px ;
         width: 40px;
         height: 40px;
         /*importante lograr formatear las imagenes a un tamaño predeterminado para ser visualizado de forma correcta*/
@@ -520,7 +520,7 @@ word-break: break-all;
     position: absolute;
     top: 26%;
     left: 45%;
-    font-size: 55px!important;
+    font-size: 55px;
   }
 
 .avatar:hover + .avatarIcon {
@@ -583,24 +583,24 @@ word-break: break-all;
 
 
     .swal-modal {
-        background-color: #1A1A1A!important;
+        background-color: #1A1A1A;
     }
     .swal-text{
-        color: #ffff!important;
-        font-size: 1.5rem!important;
+        color: #ffff;
+        font-size: 1.5rem;
     }
     .swal-button{
-        background-color: #ef3343!important;
+        background-color: #ef3343;
         border: 2px solid #ef3343;
     }
 
 
     @media only screen and (max-width: 600px) { /* responsive size*/
         .userMenuBtn {
-            font-size: 0px!important;
+            font-size: 0px;
         }
         .userMenuBtn i {
-          font-size: 18px!important;
+          font-size: 18px;
         }
       }
 
@@ -611,15 +611,16 @@ word-break: break-all;
         }
 
         .mainLogo {                                                               /* INDEX IMAGE BACKGROUND */
-            background-image: url('../img/backgroundLogo.gif') !important;
-            background-size: 80% !important;
-            background-position: top -300px right !important;
-            padding-top: 130px!important;
-            padding-bottom: 130px!important;
-            background-color: #15161A !important; /* NAVBAR */
+            background-image: url('../img/backgroundLogo.gif') ;
+            background-size: 80% ;
+            background-position: top -300px right ;
+            padding-top: 130px;
+            padding-bottom: 130px;
+            background-color: #15161A ; /* NAVBAR */
 
 
         }
+
 
         .searchBarIndex{
             border-color: #2d3338!important;
@@ -651,18 +652,21 @@ word-break: break-all;
 
         @media only screen and (max-width: 600px) {
             .mainLogo {
-                background-position: top -260px right !important;
-                background-size: 100% !important;
-                padding-top: 50px!important;
-                padding-bottom: 50px!important;
+                background-position: top -260px right ;
+                background-size: 100% ;
+                padding-top: 50px;
+                padding-bottom: 50px;
             }
         }
 
-        .form-control:hover{
-            border-color: #ef3343!important;
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(239, 51, 67, 0.6);
-            outline: 0!important;
+        .commentForm{
+            background-color: #1A1A1A!important;
         }
+        .commentForm:hover{
+            border-color: #ef3343!important;
+            background-color: #1A1A1A!important;
+        }
+
 
 
         .responsive-iframe {

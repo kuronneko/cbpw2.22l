@@ -167,45 +167,4 @@
         @endif
     </div>
 </div>
-<script>
-$('[data-fancybox="images"]').fancybox({
-  buttons : [
-    'slideShow',
-    'download',
-    'share',
-    'thumbs',
-    'close'
-  ]
-});
-</script>
-  <script>
-$(document).ready(function(){
-    var $grid = $('.grid').masonry({
-        itemSelector: '.grid-item',
-        // use element for option
-        //columnWidth: 5,
-        FitWidth: true,
-        percentPosition: true,
-        transitionDuration: 0
-        });
-var gridItemCount = $('.grid-item').length;
-if(gridItemCount == 0){
-  $(".loadingGif").hide();
-  $(".grid").show();
-}
-$grid.imagesLoaded( function() {
-  $(".loadingGif").hide();
-  $(".grid").show();
-$grid.masonry('layout');
-});
-   var msnry = $grid.data('masonry');
-        var infScroll = new InfiniteScroll( '.grid', {
-        path: '?page=@{{#}}',
-        append: '.grid-item',
-        outlayer: msnry,
-        history: false,
-        status: '.page-load-status',
-        });
-});
-</script>
 @endsection

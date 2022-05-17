@@ -10,17 +10,17 @@
 <style>
 @media only screen and (max-width: 600px) {
 .inner-body {
-width: 100% !important;
+width: 100% ;
 }
 
 .footer {
-width: 100% !important;
+width: 100% ;
 }
 }
 
 @media only screen and (max-width: 500px) {
 .button {
-width: 100% !important;
+width: 100% ;
 }
 }
 </style>
