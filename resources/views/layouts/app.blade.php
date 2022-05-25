@@ -158,6 +158,46 @@
                 });
         });
         </script>
+        <script>
+            var errors = false;
+            Dropzone.options.mydropzone = {
+                headers:{
+                    'X-CSRF-TOKEN' : "{{csrf_token()}}"
+                },
+                //dictDefaultMessage: "Arrastre una imagen al recuadro para subirlo",
+                acceptedFiles: ".png, .jpeg, .jpg, .gif, .mp4, .webm",
+                //acceptedFiles: "image/*",
+                maxFilesize: 20000,
+                maxFiles: 100,
+                timeout: 0,
+                //addRemoveLinks: true,
+                init: function (){
+            this.on("error", function (file){
+                errors = true;
+            });
+            this.on("queuecomplete", function (file) {
+                if(errors) $('#dropzoneMessageProblem').show();
+                else $('#dropzoneMessageOK').show();
+            });
+                   /*
+            this.on("success", function (file){
+                $('#dropzoneMessageOK').show();
+            //file_up_names.push(file.name);
+            //alert("El archivo se cargó correctamente");
+            });
+        */
+            /*
+            this.on("removedfile", function (file){
+            $.post('php/controller/adminController.php',
+            {file_name:file.name},
+            function(data,status){
+            //alert(data);
+            });
+            });
+            */
+            }
+            };
+        </script>
     @livewireScripts
 </body>
 </html>
