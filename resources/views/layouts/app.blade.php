@@ -101,8 +101,10 @@
         </main>
 
         <footer class="py-4">
-            <p><a class="text-white" href="" target="_top">{{ config('myconfig.engine.name') }} {{config('myconfig.engine.version')}}</a> image gallery engine type-blog developed by <a class="text-white" href="https://kuronneko.github.io/">Kuronneko</a></p>
-            <p>2018-<?php echo date("Y"); ?>© All right reserved</p>
+            <div class="container">
+                <p><a class="text-white" href="" target="_top">{{ config('myconfig.engine.name') }} {{config('myconfig.engine.version')}}</a> image gallery engine type-blog developed by <a class="text-white" href="https://kuronneko.github.io/">Kuronneko</a></p>
+                <p>2018-<?php echo date("Y"); ?> © All right reserved</p>
+            </div>
         </footer>
 
     </div>
