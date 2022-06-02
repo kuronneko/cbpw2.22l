@@ -87,9 +87,10 @@ class PublicImageController extends Controller
     {
 
         $album = Album::findOrFail($id);
-
-        if(!Auth::check() || Auth::user()->id != $album->user_id && Auth::user()->type != config('myconfig.privileges.super')){
-                abort(404);
+        if(!Auth::check() && $album->visibility == 0){
+            abort(404);
+        }elseif(Auth::check() && Auth::user()->id != $album->user_id && $album->visibility == 0 && Auth::user()->type != config('myconfig.privileges.super')){
+            abort(404);
         }
 
         if($album->type == config('myconfig.albumType.embedvideo')){
