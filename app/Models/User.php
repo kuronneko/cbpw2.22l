@@ -16,6 +16,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Message::class)->withPivot('sender', 'receiver');
     }
 
+    public function album(){ //$image->album->id
+        return $this->hasMany(Album::class);
+    }
+
+    public function comment(){ //$image->album->id
+        return $this->hasMany(Comment::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *

@@ -22,4 +22,12 @@ class Album extends Model
     public function embedvideo(){ //$comment->album->id
         return $this->hasOne(Stat::class); //Pertenece a un album.
     }
+
+    public function image(){ //$image->album->id
+        return $this->hasMany(Image::class);
+    }
+
+    public function comment(){ //$image->album->id
+        return $this->hasMany(Comment::class);
+    }
 }

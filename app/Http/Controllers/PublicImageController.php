@@ -87,30 +87,22 @@ class PublicImageController extends Controller
     {
 
         $album = Album::findOrFail($id);
+
+        if(!Auth::check() || Auth::user()->id != $album->user_id && Auth::user()->type != config('myconfig.privileges.super')){
+                abort(404);
+        }
+
         if($album->type == config('myconfig.albumType.embedvideo')){
         $embedvideo = EmbedVideo::where('album_id', $album->id)->first();
         }
         $stat = Stat::where('album_id', $album->id)->first();
-
         if($stat){
             $stat->view = $stat->view + 1;
             $stat->save();
-        }else{
-            $stat = new Stat();
-            $stat->album_id = $album->id;
-            $stat->size = 0;
-            $stat->qimage = 0;
-            $stat->qvideo = 0;
-            $stat->qcomment = 0;
-            $stat->qlike = 0;
-            $stat->view = 1;
-            $stat->save();
         }
-
         //$album->view = $album->view + 1;
         //$album->timestamps = false;
         //$album->update();
-
         $images = Image::where('album_id', $album->id)->orderBy('id','desc')->paginate(100);
         //abort_if($images->isEmpty(), 204); // if images object is empty redirect to 204 error
         //$imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
