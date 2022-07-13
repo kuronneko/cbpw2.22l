@@ -50,7 +50,7 @@
                                 @endif
                                 @endforeach
                                 <td>{{ app('App\Http\Controllers\admin\ImageController')->formatSizeUnits($albumSize) }}</td>
-                                <td>{{ $album->view}}</td>
+                                <td>{{ $album->stat->view}}</td>
                                 <td>
                                     <livewire:admin.album-visibility :albumId="$album->id"/>
                                 </td>

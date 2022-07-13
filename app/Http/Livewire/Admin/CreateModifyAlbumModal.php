@@ -107,7 +107,7 @@ class CreateModifyAlbumModal extends Component
                     $album->description = $this->description;
                     $album->visibility = $this->visibility;
                     $album->type = $this->type;
-                    $album->view = 0;
+                    //$album->view = 0;
                     $album->save();
 
                     if($album->type == config('myconfig.albumType.embedvideo')){

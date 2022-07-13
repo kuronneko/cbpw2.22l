@@ -26,8 +26,8 @@ return array(
     'binaries' => [
         'enabled' => env('FFMPEG_BINARIES', true),
         'path'    => [
-            'ffmpeg'  => env('FFMPEG_PATH', '\FFmpeg\bin\ffmpeg.exe'),
-            'ffprobe' => env('FFPROBE_PATH', '\FFmpeg\bin\ffprobe.exe'),
+            'ffmpeg'  => env('FFMPEG_PATH', '/usr/bin/ffmpeg'),
+            'ffprobe' => env('FFPROBE_PATH', '/usr/bin/ffprobe'),
             'timeout' => env('FFMPEG_TIMEOUT', 3600), // The timeout for the underlying process
             'threads' => env('FFMPEG_THREADS', 12), // The number of threads that FFMpeg should use
         ],
