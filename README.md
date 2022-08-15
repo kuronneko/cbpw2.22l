@@ -25,7 +25,7 @@ technologies
 ### Preview:
 <p> <img src="https://github.com/kuronneko/kuronneko.github.io/blob/master/assets/img/portfoliocbpw.png" width="450"> </p>
 
-## How to install
+### How to install
 * cp .env.example .env
 * composer install
 * php artisan key:generate
