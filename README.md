@@ -20,7 +20,7 @@ Manage your images with an amazing full one page menu, developed from scratch wi
 * Image render with thumbnail generator using Intervention Image 2.0, and Laravel-FFMPEG/Lakshmaji-Thumbnail to generate thumbnails from Videos
 technologies
 ### Technologies:
-* Laravel 8, Livewire 2.0, PHP 7.4, Boostrap 4, CSS, Javascript, AlpineJS, Jquery
+* Laravel 8, Livewire 2.0, PHP 7.4, Bootstrap 4, CSS, Javascript, AlpineJS, Jquery
 
 ### Preview:
 <p> <img src="https://github.com/kuronneko/kuronneko.github.io/blob/master/assets/img/portfoliocbpw.png" width="450"> </p>
