@@ -33,5 +33,21 @@ technologies
 * php artisan migrate
 * create new account and set it with level 5 (admin) privileges
 
+### How to install [Docker]
+
+* cp .env.example .env
+* composer install
+* composer require laravel/sail --dev (NOT REQUIRED IF WAS PREVIOUSLY INSTALLED)
+* php artisan sail:install
+* 0,3,5,7
+* composer require yoelpc4/laravel-sail-preset --dev
+* php artisan sail:publish-preset
+* modify docker-compose.yml with 7.4 sail version
+* ./vendor/bin/sail up
+* ./vendor/bin/sail php artisan key:generate
+* ./vendor/bin/sail php artisan storage:link
+* ./vendor/bin/sail php artisan migrate:refresh --seed
+* create new account and set it with level 5 (admin) privileges
+
 ## License
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
