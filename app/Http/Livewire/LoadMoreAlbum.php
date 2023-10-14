@@ -84,7 +84,6 @@ class LoadMoreAlbum extends Component
                 }else{
                     $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get();
                 }
-               $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get();
                $stats = Stat::whereIn('album_id', $albums->pluck('id'))->get();
                $embedvideos = EmbedVideo::whereIn('album_id', $albums->pluck('id'))->get();
                $images = collect();
