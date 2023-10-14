@@ -11,6 +11,7 @@ use App\Models\Stat;
 use App\Models\DB;
 use App\Models\Comment;
 use App\Models\EmbedVideo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 
 class LoadMoreAlbum extends Component
@@ -29,7 +30,11 @@ class LoadMoreAlbum extends Component
           if($this->readyToLoad){
 
              if($this->sortBy == 'random'){
-               $albums = Album::take($this->amount)->where('visibility', 1)->inRandomOrder()->get();
+                if(Auth::check() && auth()->user()->type == config('myconfig.privileges.super')){
+                    $albums = Album::take($this->amount)->inRandomOrder()->get();
+                }else{
+                    $albums = Album::take($this->amount)->where('visibility', 1)->inRandomOrder()->get();
+                }
                $stats = Stat::whereIn('album_id', $albums->pluck('id'))->get();
                $embedvideos = EmbedVideo::whereIn('album_id', $albums->pluck('id'))->get();
                $images = collect();
@@ -45,14 +50,18 @@ class LoadMoreAlbum extends Component
                    'albums' => $albums,
                    'images' => $images,
                    'stats' => $stats,
-                   'albumMax' => $this->albumMax(),
+                   'albumMax' => $this->albumMax($albums),
                    'embedvideos' => $embedvideos,
                ]);
              }else if($this->sortBy == 'view'){
                 //dd($images);
                 //$albums = Album::whereIn('id', $statsPlucked->all())->get();
                 //dd($albums);
-                $stats = Stat::whereIn('album_id', Album::where('visibility', 1)->get()->pluck('id'))->orderBy('view', 'desc')->get();
+                if(Auth::check() && auth()->user()->type == config('myconfig.privileges.super')){
+                    $stats = Stat::orderBy('view', 'desc')->get();
+                }else{
+                    $stats = Stat::whereIn('album_id', Album::where('visibility', 1)->get()->pluck('id'))->orderBy('view', 'desc')->get();
+                }
                 $albums = Album::take($this->amount)->whereIn('id', $stats->pluck('album_id'))->orderByRaw('FIELD(id,'.implode(',', $stats->pluck('album_id')->toArray()).')')->get();
                 $embedvideos = EmbedVideo::whereIn('album_id', $albums->pluck('id'))->get();
                 $images = collect();
@@ -66,10 +75,15 @@ class LoadMoreAlbum extends Component
                     'albums' => $albums,
                     'images' => $images,
                     'stats' =>  $stats,
-                    'albumMax' => $this->albumMax(),
+                    'albumMax' => $this->albumMax($albums),
                     'embedvideos' => $embedvideos,
                 ]);
               }else{
+                if(Auth::check() && auth()->user()->type == config('myconfig.privileges.super')){
+                    $albums = Album::take($this->amount)->orderBy('updated_at','desc')->get();
+                }else{
+                    $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get();
+                }
                $albums = Album::take($this->amount)->where('visibility', 1)->orderBy('updated_at','desc')->get();
                $stats = Stat::whereIn('album_id', $albums->pluck('id'))->get();
                $embedvideos = EmbedVideo::whereIn('album_id', $albums->pluck('id'))->get();
@@ -85,7 +99,7 @@ class LoadMoreAlbum extends Component
                    'albums' => $albums,
                    'images' => $images,
                    'stats' => $stats,
-                   'albumMax' => $this->albumMax(),
+                   'albumMax' => $this->albumMax($albums),
                    'embedvideos' => $embedvideos,
                    //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
                ]);
@@ -109,8 +123,8 @@ class LoadMoreAlbum extends Component
         $this->readyToLoad = true;
     }
 
-    public function albumMax(){
-        $albumMax = count(Album::where('visibility', 1)->orderBy('updated_at','desc')->get());
+    public function albumMax($albums){
+        $albumMax = count($albums);
         if ($albumMax <= $this->amount){
             return 0;
         }else{
