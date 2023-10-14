@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Like;
+use App\Models\Stat;
+use App\Models\User;
 use App\Models\Album;
 use App\Models\Image;
-use App\Models\Stat;
 use App\Models\Comment;
-use App\Models\Like;
-use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PublicAlbumController extends Controller
 {
@@ -44,7 +45,12 @@ class PublicAlbumController extends Controller
 
     public function getCompleteStatistics2(){
 
-        $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
+        if(Auth::check() && auth()->user()->type == config('myconfig.privileges.super')){
+            $albums = Album::orderBy('updated_at','desc')->get();
+        }else{
+            $albums = Album::where('visibility', 1)->orderBy('updated_at','desc')->get();
+        }
+
         $albumPlucked = $albums->pluck('id');
         $stats =  Stat::whereIn('album_id', $albumPlucked->all())->get();
 
