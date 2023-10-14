@@ -118,28 +118,29 @@
                 @endforeach
 
         </div>
+
         <div class="row justify-content-center">
-        <div class="col-md-12">
-            @if ($albumMax == 0)
+            <div class="col-md-12">
+                @if ($albumMax == 0)
 
-        @else
-        <button wire:loading.remove wire:target='load' wire:click='load' class="btn loadBtn btn-sm btn-block text-white mb-2">
-            Load more
-            </button>
-        <button wire:loading wire:target='load' wire:loading class="btn loadBtn btn-sm btn-block mb-2">
-            <div class="page-load-status">
-                <div class="loader-ellips infinite-scroll-request">
-                  <span class="loader-ellips__dot"></span>
-                  <span class="loader-ellips__dot"></span>
-                  <span class="loader-ellips__dot"></span>
-                  <span class="loader-ellips__dot"></span>
-                </div>
-              </div>
-        </button>
+                @else
+                <button wire:loading.remove wire:target='load' wire:click='load' class="btn loadBtn btn-sm btn-block text-white mb-2">
+                    Load more
+                </button>
+                <button wire:loading wire:target='load' wire:loading class="btn loadBtn btn-sm btn-block mb-2">
+                    <div class="page-load-status">
+                        <div class="loader-ellips infinite-scroll-request">
+                        <span class="loader-ellips__dot"></span>
+                        <span class="loader-ellips__dot"></span>
+                        <span class="loader-ellips__dot"></span>
+                        <span class="loader-ellips__dot"></span>
+                        </div>
+                    </div>
+                </button>
+                @endif
+            </div>
+        </div>
 
-        @endif
-        </div>
-        </div>
       </div>
    </div>
 </div>

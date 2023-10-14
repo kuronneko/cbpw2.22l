@@ -123,11 +123,10 @@ class LoadMoreAlbum extends Component
     }
 
     public function albumMax($albums){
-        $albumMax = count($albums);
-        if ($albumMax <= $this->amount){
-            return 0;
-        }else{
+        if (count($albums) >= $this->amount){
             return 1;
+        }else{
+            return 0;
         }
     }
 
