@@ -43,6 +43,7 @@ technologies
 * composer require yoelpc4/laravel-sail-preset --dev
 * php artisan sail:publish-preset
 * modify docker-compose.yml with 7.4 sail version
+* ./vendor/bin/sail build --no-cache (REBUILD IMAGE)
 * ./vendor/bin/sail up
 * ./vendor/bin/sail php artisan key:generate
 * ./vendor/bin/sail php artisan storage:link
