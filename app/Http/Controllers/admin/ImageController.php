@@ -130,7 +130,7 @@ class ImageController extends Controller
     {
 
         $request->validate([
-            'file' => 'required|mimes:mp4,webm,gif,png,jpg,jpeg|max:10240' //10 mb max filesize
+            'file' => 'required|mimes:mp4,webm,gif,png,jpg,jpeg|max:1024000' //1000 mb max filesize
         ]);
 
         $document = $request->file('file');
