@@ -15,10 +15,6 @@ swal('{!! Session::get('message')!!}')
                  <img src="{{config('myconfig.img.url')}}{{$user->avatar}}" class="avatar mb-4" alt="">
                  <i class="fas fa-camera avatarIcon btn-file"> <input type="file" wire:model="photo"  accept="image/*"></i>
                   @endif
-                  <div>
-                      <button  wire:loading.remove type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-sm btn-save" >Save </button>
-                      <button  wire:loading type="submit" id="addBtn" name="addBtn" class="btn btn-danger btn-sm btn-save disabled"><span class="spinner-border spinner-border-sm"></span></button>
-                  </div>
             </form>
             <form wire:submit.prevent="destroy">
                 <div>
