@@ -6,7 +6,7 @@
             <div class="card text-white">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <small>Users Gestor</small>
-                    <a href="{{url('/admin/profile?option=albums')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
+                    <a href="{{url('/super/profile?option=albums')}}" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>
                 </div>
                     <livewire:super.user-gestor-table />
             </div>

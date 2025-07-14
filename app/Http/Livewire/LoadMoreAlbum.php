@@ -100,7 +100,7 @@ class LoadMoreAlbum extends Component
                    'stats' => $stats,
                    'albumMax' => $this->albumMax($albums),
                    'embedvideos' => $embedvideos,
-                   //'stats' => app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics()
+                   //'stats' => app('App\Services\UtilsService')->getCompleteStatistics()
                ]);
              }
           }else{

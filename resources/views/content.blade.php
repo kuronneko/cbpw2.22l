@@ -15,11 +15,11 @@
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <div class="btn-group">
                         <livewire:like-dislike :albumId="$album->id"/>
-                        <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
-                        <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
-                        <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
-                        <a class="btn btn-dark btn-sm" href="{{route("admin.album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
-                        <a href="{{route('admin.tag.showTag', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a>
+                        <a href="{{route('super.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
+                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
+                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
+                        <a class="btn btn-dark btn-sm" href="#"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a>
                     </div>
                     @else
                     <livewire:like-dislike :albumId="$album->id"/>
@@ -29,11 +29,11 @@
                     @if ($album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <div class="btn-group">
                         <livewire:like-dislike :albumId="$album->id"/>
-                        <a href="{{route('admin.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
-                        <a href="{{route('admin.image.showImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
-                        <a href="{{route('admin.comment.showComment', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
-                        <a class="btn btn-dark btn-sm" href="{{route("admin.album.edit", $album->id)}}"><i class="fas fa-edit"></i></a>
-                        <a href="{{route('admin.tag.showTag', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a>
+                        <a href="{{route('super.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
+                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
+                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
+                        <a class="btn btn-dark btn-sm" href="#"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a>
                     </div>
                     @else
                     <livewire:like-dislike :albumId="$album->id"/>
@@ -118,7 +118,7 @@
                           <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-film text-white customStatIcons text-center"></i> {{$stat->qvideo}}</li>
                           <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-comments text-white customStatIcons text-center"></i> {{$stat->qcomment}}</li>
                           <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-eye text-white customStatIcons text-center"></i> {{$stat->view}}</li>
-                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-hdd text-white customStatIcons text-center"></i> <?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($stat->size);?></li>
+                          <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-hdd text-white customStatIcons text-center"></i> <?php echo app('App\Services\UtilsService')->formatSizeUnits($stat->size);?></li>
                           <li class="list-group-item mx-4 text-white customGroupItem"><i class="fas fa-redo-alt text-white customStatIcons text-center"></i> {{$album->updated_at}}</li>
                         </ul>
                       </div>

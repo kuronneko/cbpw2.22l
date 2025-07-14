@@ -18,7 +18,7 @@
                 @php
                     $imgLimiteAlbum = 0;
                 @endphp
-                <a href="{{route('image.content', $album->id)}}" class="list-group-item list-group-item-action text-white bg-dark">
+                <a href="{{route('album.content', $album->id)}}" class="list-group-item list-group-item-action text-white bg-dark">
                    @foreach ( $images as $image)
 
                    @if ($image->album->id == $album->id)

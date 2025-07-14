@@ -57,6 +57,7 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+            'upload_folder' => env('AWS_UPLOAD_FOLDER'),
         ],
 
     ],

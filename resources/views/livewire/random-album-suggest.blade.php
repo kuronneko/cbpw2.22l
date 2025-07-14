@@ -25,7 +25,7 @@
     <p class="text-secondary">No album suggestion found</p>
 </div>
 @else
-<a href="{{route('image.content', $album->id)}}" class="personalizeA">
+<a href="{{route('album.content', $album->id)}}" class="personalizeA">
 
     <div wire:loading.remove class="container mt-3 text-center">
 
