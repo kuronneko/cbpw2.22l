@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\Album;
 use Illuminate\Support\Facades\Storage;
 
 class DeleteImagesService
@@ -29,6 +30,23 @@ class DeleteImagesService
         }
     }
 
+    // this deletes the album folder and all images inside it
+    public static function deleteAlbumFolder(Album $album)
+    {
+        if (config('filesystems.default') === 's3') {
+            $folderPath = config('filesystems.disks.s3.upload_folder') . '/profile_' . $album->user->id . '/' . $album->id;
+            if (Storage::disk('s3')->exists($folderPath)) {  //check if folder exist
+                Storage::disk('s3')->deleteDirectory($folderPath);
+            }
+        } else {
+            $folderPath = 'public/images/' . 'profile_' . $album->user->id . '/' . $album->id;
+            if (Storage::exists($folderPath)) {  //check if folder exist
+                Storage::deleteDirectory($folderPath);
+            }
+        }
+    }
+
+    // this deletes the user folder and all images inside it
     public static function deleteUserFolder(User $user)
     {
         if (config('filesystems.default') === 's3') {

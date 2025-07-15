@@ -21,17 +21,17 @@
                     @csrf
                 <div class="form-group">
                     <label>Name:</label>
-                    <input type="text" class="form-control" wire:model="name">
+                    <input type="text" class="form-control" wire:model.defer="name">
                     @error('name') <span class="text-danger"> {{$message}} </span> @enderror
                 </div>
                 <div class="form-group">
                     <label>Description:</label>
-                    <input type="text" class="form-control" wire:model="description">
+                    <input type="text" class="form-control" wire:model.defer="description">
                     @error('description') <span class="text-danger"> {{$message}} </span> @enderror
                 </div>
                 <div class="form-group">
                     <label for="visibility">Visibility:</label>
-                    <select class="form-control" id="visibility" name="visibility" wire:model="visibility">
+                    <select class="form-control" id="visibility" name="visibility" wire:model.defer="visibility">
                           @if ($album)
                           @if ($album->visibility == 1)
                           <option value="1">Visible</option>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="form-group">
                     <label for="type">Type:</label>
-                    <select class="form-control" id="type" name="type" wire:model="type">
+                    <select class="form-control" id="type" name="type" wire:model.defer="type">
                         @if ($album)
                                 @if ($album->type == config('myconfig.albumType.media') && Auth::check() && Auth::user()->type == 5)
                                 <option value="0">Media</option>
@@ -82,12 +82,12 @@
                     <div class="hr-sect text-white">EmbedVideo Options</div>
                     <div class="form-group">
                         <label>URL:</label>
-                        <input type="text" class="form-control" id="url" name="url" wire:model="url">
+                        <input type="text" class="form-control" id="url" name="url" wire:model.defer="url">
                         @error('url') <span class="text-danger"> {{$message}} </span> @enderror
                     </div>
                     <div class="form-group">
                         <label for="type">Host:</label>
-                        <select class="form-control" id="host" name="host" wire:model="host">
+                        <select class="form-control" id="host" name="host" wire:model.defer="host">
                             @if ($embedvideo)
                             @if ($embedvideo->host == "steamsb"))
                             <option value="steamsb">SteamSB</option>
@@ -104,7 +104,7 @@
                         @error('type') <span class="text-danger"> {{$message}} </span> @enderror
                     </div>
                     <div class="custom-file mb-2 mt-3">
-                        <input type="file" id="file" name="file" wire:model="file"  accept="image/*">
+                        <input type="file" id="file" name="file" wire:model.defer="file"  accept="image/*">
                         @error('file') <span class="text-danger"> {{$message}} </span> @enderror
                     </div>
                 </div>

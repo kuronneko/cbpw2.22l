@@ -22,24 +22,25 @@ class ImageGestor extends Component
         $userId = auth()->user()->id;
         $album = Album::findOrFail($this->albumId);
         if (($album->user->id == $userId && (auth()->user()->type == config('myconfig.privileges.admin++') || auth()->user()->type == config('myconfig.privileges.admin+++'))) || auth()->user()->type == config('myconfig.privileges.super')) {
-            if($this->createImage == "true"){
+            if ($this->createImage == "true") {
                 //$this->dispatchBrowserEvent('loadDropzone');
-                return view('super.image.livewire.create-image',[
+                return view('escort.image.livewire.create-image', [
                     'album' => $album,
 
                 ]);
-           }else{
-                return view('super.image.livewire.image-gestor',[
+            } else {
+                return view('super.image.livewire.image-gestor', [
                     'images' => Image::where('album_id', $album->id)->orderBy('id', 'desc')->paginate(100),
                     'album' => $album,
 
                 ]);
-           }
+            }
         }
     }
 
 
-    public function deleteImage($imageId){
+    public function deleteImage($imageId)
+    {
         $userId = auth()->user()->id;
         $albumFound = Album::findOrFail($this->albumId);
         $imageFound = Image::findOrFail($imageId);
@@ -49,27 +50,39 @@ class ImageGestor extends Component
 
             $productImage = str_replace('/storage', '', $imageFound->url);
 
-            if ($imageFound->ext == "mp4" || $imageFound->ext == "webm"){
-                if($statFound->qvideo == 0){
-
-                }else{
+            if ($imageFound->ext == "mp4" || $imageFound->ext == "webm") {
+                if ($statFound->qvideo == 0) {
+                } else {
                     $statFound->qvideo = $statFound->qvideo - 1;
                 }
-            }else{
-                if($statFound->qimage == 0){
-
-                }else{
+            } else {
+                if ($statFound->qimage == 0) {
+                } else {
                     $statFound->qimage = $statFound->qimage - 1;
                 }
             }
             $statFound->size = $statFound->size - $imageFound->size;
             $statFound->save();
 
-            Storage::delete('/public' . $productImage . '.' . $imageFound->ext);
-            if($imageFound->ext == "mp4" || $imageFound->ext == "webm"){  //fix video thumbnail delete
-                Storage::delete('/public' . $productImage . '_thumb.jpg');
-            }else{
-                Storage::delete('/public' . $productImage . '_thumb.' . $imageFound->ext);
+
+            if (config('filesystems.default') === 's3') {
+                $folder = config('filesystems.disks.s3.upload_folder');
+                $imagePath = $folder . '/' . preg_replace('/^' . preg_quote($folder, '/') . '\//', '', ltrim(parse_url($imageFound->url . '.' . $imageFound->ext, PHP_URL_PATH), '/'));
+                $thumbImagePath = $folder . '/' . preg_replace('/^' . preg_quote($folder, '/') . '\//', '', ltrim(parse_url($imageFound->url . '_thumb.' . $imageFound->ext, PHP_URL_PATH), '/'));
+
+                if (Storage::disk('s3')->exists($imagePath)) {
+                    Storage::disk('s3')->delete($imagePath);
+                }
+                if (Storage::disk('s3')->exists($thumbImagePath)) {
+                    Storage::disk('s3')->delete($thumbImagePath);
+                }
+            } else {
+                Storage::delete('/public' . $productImage . '.' . $imageFound->ext);
+                if ($imageFound->ext == "mp4" || $imageFound->ext == "webm") {  //fix video thumbnail delete
+                    Storage::delete('/public' . $productImage . '_thumb.jpg');
+                } else {
+                    Storage::delete('/public' . $productImage . '_thumb.' . $imageFound->ext);
+                }
             }
 
             $imageFound->delete();
@@ -79,6 +92,4 @@ class ImageGestor extends Component
             return back()->with('message', 'Image ' . $imageFound->id . ' not found or cannot be accessed');
         }
     }
-
-
 }

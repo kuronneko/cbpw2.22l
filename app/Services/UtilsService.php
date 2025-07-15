@@ -104,7 +104,7 @@ class UtilsService
             'totalPublicVideos' => $stats->sum('qvideo'),
             'totalPublicComments' => $stats->sum('qcomment'),
             'totalAlbumSize' => app('App\Services\UtilsService')->formatSizeUnits($stats->sum('size')),
-            'lastUpdateAlbum' => $albums->first()->updated_at,
+            'lastUpdateAlbum' => $albums->first()?->updated_at,
             'totalPublicViews' => $stats->sum('view'),
             'totalPublicLikes' => $stats->sum('qlike')
         );

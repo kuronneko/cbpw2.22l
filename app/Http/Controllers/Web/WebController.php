@@ -21,22 +21,6 @@ use Artesaos\SEOTools\Facades\TwitterCard;
 
 class WebController extends Controller
 {
-    /**
-     * Redirect to the appropriate profile based on user type.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function redirect()
-    {
-        return view('super.profile.index');
-        /*         if (auth()->user()->type == config('myconfig.privileges.super')) {
-            $album = Album::where('user_id', auth()->user()->id)->first();
-            return view('super.profile.index', ['album' => $album]);
-        } else {
-            $album = Album::where('user_id', auth()->user()->id)->first();
-            return view('escort.profile.index', ['album' => $album]);
-        } */
-    }
 
     public function showContent($id)
     {
@@ -56,16 +40,8 @@ class WebController extends Controller
             $stat->view = $stat->view + 1;
             $stat->save();
         }
-        //$album->view = $album->view + 1;
-        //$album->timestamps = false;
-        //$album->update();
+
         $images = Image::where('album_id', $album->id)->orderBy('id', 'desc')->paginate(100);
-        //abort_if($images->isEmpty(), 204); // if images object is empty redirect to 204 error
-        //$imagesFull = Image::where('album_id', $album->id)->orderBy('id','desc')->get();
-        //$commentFull = Comment::where('album_id', $album->id)->orderBy('id','desc')->get();
-        //$commentsType = app('App\Http\Controllers\PublicCommentController')->getCommentType($album->id); //return array with ['comment'] paginate and ['commentFull'] full coments;
-        //$tags = Tag::all()->sortByDesc('id');
-        //$stats = $this->getAlbumStats($imagesFull, $album, $commentFull);
 
         if (Auth::check()) {
             $userId = auth()->user()->id;
@@ -78,8 +54,5 @@ class WebController extends Controller
         } else {
             return view('content', compact('images', 'album', 'stat', 'userId'));
         }
-        //return view('content',['images'=> $images, 'album'=> $album, 'imagesFull'=>$imagesFull, 'stats'=>$stats]);
-
     }
-
 }
