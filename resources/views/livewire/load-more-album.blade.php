@@ -71,7 +71,7 @@
                             @if($image->album_id == $album->id)
                             @if($imageLimitperAlbum != 4)
                             <?php $imageLimitperAlbum++; ?>
-                            @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                            @if (($image->ext == "mp4" || $image->ext == "webm") && !$image->thumbnail_exist)
                             <img src="{{ config("myconfig.img.url") }}{{'/img/videothumb.png'}}" class="imgThumbPublicIndex " data-was-processed='true'>
                             @elseif ($image->ext == "mp4" || $image->ext == "webm")
                             <img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.jpg" class="imgThumbPublicIndex " data-was-processed='true'>

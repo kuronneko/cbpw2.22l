@@ -43,7 +43,7 @@ class ImageService
         }
     }
 
-    public static function insertImageData($albumFound, $document, $url)
+    public static function insertImageData($albumFound, $document, $url, $thumbnailExist = 1)
     {
         $image = new Image();
         $image->album_id = $albumFound->id;
@@ -53,6 +53,7 @@ class ImageService
         $image->basename = $document->getClientOriginalName();
         $image->ip = UtilsService::getClientIp();
         $image->tag = "";
+        $image->thumbnail_exist = $thumbnailExist;
         $image->save();
     }
 
@@ -139,7 +140,9 @@ class ImageService
 
         // Upload to S3 if configured, otherwise return local storage URL
         if (config('filesystems.default') === 's3') {
+            // Upload thumbnail to S3
             self::uploadImageToS3($thumbImagePath, $thumbFileName, $albumFound->id, $userId);
+            // Upload main image to S3
             return self::uploadImageToS3($mainImagePath, $mainFileName, $albumFound->id, $userId);
         } else {
             return Storage::url('public/images/profile_' . $userId . '/' . $albumFound->id . '/' . pathinfo($mainFileName, PATHINFO_FILENAME));
@@ -157,17 +160,36 @@ class ImageService
         );
 
         // Generate the CDN link
-        $cdnLink = str_replace(
-            config('filesystems.disks.s3.region') . '.digitaloceanspaces.com',
-            config('filesystems.disks.s3.region') . '.cdn.digitaloceanspaces.com',
-            Storage::disk('s3')->url($s3Path)
-        );
+        $cdnLink = 'https://' . config('filesystems.disks.s3.bucket') . '.' . config('filesystems.disks.s3.region') . '.cdn.digitaloceanspaces.com/' . $s3Path;
 
         $cdnLinkWithoutExtension = pathinfo($cdnLink, PATHINFO_DIRNAME) . '/' . pathinfo($cdnLink, PATHINFO_FILENAME);
 
         // Delete the local file
         if (file_exists($imagePath)) {
             unlink($imagePath);
+        }
+
+        return $cdnLinkWithoutExtension;
+    }
+
+    public static function uploadVideoToS3($videoPath, $fileName, $albumId, $userId)
+    {
+        // Upload the video to S3
+        $s3Path = Storage::putFileAs(
+            config('filesystems.disks.s3.upload_folder') . '/profile_' . $userId . '/' . $albumId,
+            new \Illuminate\Http\File($videoPath),
+            $fileName,
+            'public'
+        );
+
+        // Generate the CDN link
+        $cdnLink = 'https://' . config('filesystems.disks.s3.bucket') . '.' . config('filesystems.disks.s3.region') . '.cdn.digitaloceanspaces.com/' . $s3Path;
+
+        $cdnLinkWithoutExtension = pathinfo($cdnLink, PATHINFO_DIRNAME) . '/' . pathinfo($cdnLink, PATHINFO_FILENAME);
+
+        // Delete the local file
+        if (file_exists($videoPath)) {
+            unlink($videoPath);
         }
 
         return $cdnLinkWithoutExtension;
@@ -247,7 +269,14 @@ class ImageService
 
     public static function uploadMainFile($request, $userId, $albumFound, $websiteTag, $newFilename, $document)
     {
-        $request->file('file')->storeAs('public/images/' . 'profile_' . $userId . '/' . $albumFound->id, $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension());
+        if (config('filesystems.default') === 's3') {
+            // Create temp folder and store locally first for FFmpeg processing
+            self::createTempFolder();
+            $tempFileName = $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension();
+            $request->file('file')->storeAs('temp', $tempFileName, 'public');
+        } else {
+            $request->file('file')->storeAs('public/images/' . 'profile_' . $userId . '/' . $albumFound->id, $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension());
+        }
     }
 
     public static function isVideo($document)
@@ -257,52 +286,124 @@ class ImageService
 
     public static function processVideo($request, $userId, $albumFound, $websiteTag, $newFilename, $document)
     {
+        $finalVideoFileName = $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension();
+
         if (config('myconfig.patch-pre-ffmpeg.ffmpeg-watermark') == true) {
             self::uploadMainFile($request, $userId, $albumFound, $websiteTag, $newFilename, $document);
             self::addWatermarkToVideo($userId, $albumFound, $websiteTag, $newFilename, $document);
         } else {
-            $request->file('file')->storeAs('public/images/' . 'profile_' . $userId . '/' . $albumFound->id, $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
+            if (config('filesystems.default') === 's3') {
+                // Create temp folder for S3 processing
+                self::createTempFolder();
+                $tempVideoPath = public_path('/storage/temp/' . $finalVideoFileName);
+                $request->file('file')->storeAs('temp', $finalVideoFileName, 'public');
+
+                // Upload to S3 and get the URL
+                $videoUrl = self::uploadVideoToS3($tempVideoPath, $finalVideoFileName, $albumFound->id, $userId);
+            } else {
+                $request->file('file')->storeAs('public/images/' . 'profile_' . $userId . '/' . $albumFound->id, $finalVideoFileName);
+            }
+        }
+
+        // Upload watermarked video to S3 if configured
+        if (config('myconfig.patch-pre-ffmpeg.ffmpeg-watermark') == true && config('filesystems.default') === 's3') {
+            $videoPath = public_path('/storage/temp/' . $finalVideoFileName);
+            $videoUrl = self::uploadVideoToS3($videoPath, $finalVideoFileName, $albumFound->id, $userId);
         }
 
         if (config('myconfig.patch-pre-ffmpeg.ffmpeg-status') == true) {
             self::generateVideoThumbnail($userId, $albumFound, $websiteTag, $newFilename, $document);
+
+            // Return the video URL for S3, otherwise return local storage URL pattern
+            if (config('filesystems.default') === 's3') {
+                return isset($videoUrl) ? $videoUrl : null;
+            }
         }
+
+        // Return URL for non-S3 storage
+        if (config('filesystems.default') !== 's3') {
+            return Storage::url('public/images/profile_' . $userId . '/' . $albumFound->id . '/' . pathinfo($finalVideoFileName, PATHINFO_FILENAME));
+        }
+
+        return isset($videoUrl) ? $videoUrl : null;
     }
 
     public static function addWatermarkToVideo($userId, $albumFound, $websiteTag, $newFilename, $document)
     {
         $format = $document->getClientOriginalExtension() == "mp4" ? new \FFMpeg\Format\Video\X264 : new \FFMpeg\Format\Video\WebM;
-        FFMpeg::fromDisk('public')
-            ->open('/images/' . 'profile_' . $userId . '/' .  $albumFound->id . '/' . $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension())
-            ->addWatermark(function (WatermarkFactory $watermark) {
-                $watermark->fromDisk('assets')
-                    ->open(config('myconfig.patch-pre-ffmpeg.videoWaterMarkName'))
-                    ->horizontalAlignment(WatermarkFactory::CENTER, intval(array(-150, 0, 150)[array_rand(array(-150, 0, 150))]))
-                    ->verticalAlignment(WatermarkFactory::CENTER, intval(array(-350, -250, 0, 250, 350)[array_rand(array(-350, -250, 0, 250, 350))]));
-            })
-            ->export()
-            ->toDisk('public')
-            ->inFormat($format)
-            ->save('/images/' . 'profile_' . $userId . '/' .  $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
-        Storage::disk('public')->delete('/images/' . 'profile_' . $userId . '/' . $albumFound->id . '/' . $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension());
+
+        if (config('filesystems.default') === 's3') {
+            // Process with temp files for S3
+            $tempInputPath = '/temp/' . $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension();
+            $tempOutputPath = '/temp/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension();
+
+            FFMpeg::fromDisk('public')
+                ->open($tempInputPath)
+                ->addWatermark(function (WatermarkFactory $watermark) {
+                    $watermark->fromDisk('assets')
+                        ->open(config('myconfig.patch-pre-ffmpeg.videoWaterMarkName'))
+                        ->horizontalAlignment(WatermarkFactory::CENTER, intval(array(-150, 0, 150)[array_rand(array(-150, 0, 150))]))
+                        ->verticalAlignment(WatermarkFactory::CENTER, intval(array(-350, -250, 0, 250, 350)[array_rand(array(-350, -250, 0, 250, 350))]));
+                })
+                ->export()
+                ->toDisk('public')
+                ->inFormat($format)
+                ->save($tempOutputPath);
+
+            // Clean up temp input file
+            Storage::disk('public')->delete($tempInputPath);
+        } else {
+            // Original local processing
+            FFMpeg::fromDisk('public')
+                ->open('/images/' . 'profile_' . $userId . '/' .  $albumFound->id . '/' . $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension())
+                ->addWatermark(function (WatermarkFactory $watermark) {
+                    $watermark->fromDisk('assets')
+                        ->open(config('myconfig.patch-pre-ffmpeg.videoWaterMarkName'))
+                        ->horizontalAlignment(WatermarkFactory::CENTER, intval(array(-150, 0, 150)[array_rand(array(-150, 0, 150))]))
+                        ->verticalAlignment(WatermarkFactory::CENTER, intval(array(-350, -250, 0, 250, 350)[array_rand(array(-350, -250, 0, 250, 350))]));
+                })
+                ->export()
+                ->toDisk('public')
+                ->inFormat($format)
+                ->save('/images/' . 'profile_' . $userId . '/' .  $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
+            Storage::disk('public')->delete('/images/' . 'profile_' . $userId . '/' . $albumFound->id . '/' . $websiteTag . $newFilename . '_temp.' . $document->getClientOriginalExtension());
+        }
     }
 
     public static function generateVideoThumbnail($userId, $albumFound, $websiteTag, $newFilename, $document)
     {
-        $videoPath = public_path('/storage/images/' . 'profile_' . $userId . '/' .  $albumFound->id . '/' . $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension());
-        $thumbnailPath = public_path('/storage/images/' . 'profile_' . $userId . '/' . $albumFound->id . '/');
-        $thumbnailImageName  = $websiteTag . $newFilename . '_thumb.jpg';
+        $videoFileName = $websiteTag . $newFilename . '.' . $document->getClientOriginalExtension();
+        $thumbnailImageName = $websiteTag . $newFilename . '_thumb.jpg';
+
+        if (config('filesystems.default') === 's3') {
+            // For S3, work with temp files
+            $videoPath = public_path('/storage/temp/' . $videoFileName);
+            $thumbnailPath = public_path('/storage/temp/');
+            $thumbnailFullPath = public_path('/storage/temp/' . $thumbnailImageName);
+        } else {
+            // For local storage
+            $videoPath = public_path('/storage/images/' . 'profile_' . $userId . '/' .  $albumFound->id . '/' . $videoFileName);
+            $thumbnailPath = public_path('/storage/images/' . 'profile_' . $userId . '/' . $albumFound->id . '/');
+            $thumbnailFullPath = public_path('/storage/images/' . 'profile_' . $userId . '/' . $albumFound->id . '/' . $thumbnailImageName);
+        }
+
         $timeToImage = 2;
         Thumbnail::getThumbnail($videoPath, $thumbnailPath, $thumbnailImageName, $timeToImage);
 
-        $thumbnailPathResize = public_path('/storage/images/' . 'profile_' . $userId . '/' . $albumFound->id . '/' . $websiteTag . $newFilename . '_thumb.jpg');
         $videoWaterMarkPath = config('myconfig.patch-pre-ffmpeg.videoPlayWatermarkUrl');
         if (config('myconfig.img.thumbnailsAlbumsFit') == true) {
-            ImageManagerStatic::make($thumbnailPathResize)->fit(config('myconfig.img.thumbnailsAlbumSizeWidth'), config('myconfig.img.thumbnailsAlbumSizeHeight'))->insert($videoWaterMarkPath, 'center')->save($thumbnailPathResize, config('myconfig.img.thumbnailsAlbumQuality'));
+            ImageManagerStatic::make($thumbnailFullPath)->fit(config('myconfig.img.thumbnailsAlbumSizeWidth'), config('myconfig.img.thumbnailsAlbumSizeHeight'))->insert($videoWaterMarkPath, 'center')->save($thumbnailFullPath, config('myconfig.img.thumbnailsAlbumQuality'));
         } else {
-            ImageManagerStatic::make($thumbnailPathResize)->resize(config('myconfig.img.thumbnailsAlbumSize'), null, function ($constraint) {
+            ImageManagerStatic::make($thumbnailFullPath)->resize(config('myconfig.img.thumbnailsAlbumSize'), null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->resizeCanvas(config('myconfig.img.thumbnailsAlbumSize'), null)->insert($videoWaterMarkPath, 'center')->save($thumbnailPathResize, config('myconfig.img.thumbnailsAlbumQuality'));
+            })->resizeCanvas(config('myconfig.img.thumbnailsAlbumSize'), null)->insert($videoWaterMarkPath, 'center')->save($thumbnailFullPath, config('myconfig.img.thumbnailsAlbumQuality'));
         }
+
+        // Upload thumbnail to S3 if configured
+        if (config('filesystems.default') === 's3') {
+            return self::uploadImageToS3($thumbnailFullPath, $thumbnailImageName, $albumFound->id, $userId);
+        }
+
+        return null;
     }
 }

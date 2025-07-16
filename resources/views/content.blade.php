@@ -50,7 +50,7 @@
                     @if ($album->visibility == 1 || $album->user->id == $userId || (Auth::check() && auth()->user()->type == config('myconfig.privileges.super')))
                     <div class="grid">
                         @foreach ($images as $image)
-                        @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                        @if (($image->ext == "mp4" || $image->ext == "webm") && !$image->thumbnail_exist)
                         <div class="grid-item" >
                             <a data-fancybox="images" href="{{ config("myconfig.img.url") }}{{ $image->url }}.{{$image->ext}}">
                                 <img src="{{ config("myconfig.img.url") }}{{'/img/videothumb.png'}}"  data-was-processed='true'>

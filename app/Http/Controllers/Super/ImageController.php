@@ -72,7 +72,12 @@ class ImageController extends Controller
             if (!ImageService::fileExists($userId, $albumFound->id, $websiteTag, $newFilename, $document->getClientOriginalExtension(), $localUrl)) {
 
                 if (ImageService::isVideo($document)) {
-                    ImageService::processVideo($request, $userId, $albumFound, $websiteTag, $newFilename, $document);
+                    ImageService::insertImageData(
+                        $albumFound,
+                        $document,
+                        ImageService::processVideo($request, $userId, $albumFound, $websiteTag, $newFilename, $document),
+                        config('myconfig.patch-pre-ffmpeg.ffmpeg-status') ? 1 : 0
+                    );
                 } else {
                     ImageService::insertImageData(
                         $albumFound,
