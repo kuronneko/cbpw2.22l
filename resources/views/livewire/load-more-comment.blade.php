@@ -15,15 +15,14 @@ swal('{!! Session::get('message')!!}')
         <div class="col-11 col-md-11">
         <div id="comments">
             @foreach ($comments as $comment)
-            <div class="row bg-comments mb-1">
-
+            <div class="row bg-comments mb-1 p-2">
                 <div class="col-sm-12">
-                    <div class="postNdate">
-                        <p>{{$comment->name}} {{$comment->created_at}} No.<a style="color:#FF3333" href="javascript:quotePost('188')">{{$comment->id}}</a></p>
+                    <div class="postNdate mb-2">
+                        <span>{{$comment->name}} {{$comment->created_at}} No.<a style="color:#FF3333" href="javascript:quotePost('188')">{{$comment->id}}</a></span>
                     </div>
                 </div>
                 <div class="col-sm-12">
-                    <div class="float-left mr-4">
+                    <div class="float-left mr-3">
                         <img src="{{config('myconfig.img.url')}}{{$comment->user->avatar}}" class="avatarComment" alt="avatar">
                     </div>
                     <div>

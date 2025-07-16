@@ -16,10 +16,10 @@
                     <div class="btn-group">
                         <livewire:like-dislike :albumId="$album->id"/>
                         <a href="{{route('super.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
-                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
+{{--                         <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
                         <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
                         <a class="btn btn-dark btn-sm" href="#"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a>
+                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a> --}}
                     </div>
                     @else
                     <livewire:like-dislike :albumId="$album->id"/>
@@ -30,10 +30,10 @@
                     <div class="btn-group">
                         <livewire:like-dislike :albumId="$album->id"/>
                         <a href="{{route('super.image.createImage', $album->id)}}" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-plus"></i></a>
-                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
+{{--                         <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-eye"></i></a>
                         <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-comments"></i></a>
                         <a class="btn btn-dark btn-sm" href="#"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a>
+                        <a href="#" class="btn btn-dark btn-sm" role="button" type="button"><i class="fas fa-tags"></i></a> --}}
                     </div>
                     @else
                     <livewire:like-dislike :albumId="$album->id"/>
