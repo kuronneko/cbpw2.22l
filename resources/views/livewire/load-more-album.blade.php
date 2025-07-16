@@ -92,7 +92,7 @@
                             <span class="badge badge-Light"><i class="fas fa-comments"></i><span class="badge badge-Light">{{$stat->qcomment}}</span></span>
                             <span class="badge badge-Light"><i class="fas fa-eye"></i><span class="badge badge-Light">{{$stat->view}}</span></span>
                             <span class="badge badge-Light"><i class="fas fa-heart"></i><span class="badge badge-Light">{{$stat->qlike}}</span></span>
-                            <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($stat->size);?></span></span>
+                            <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Services\UtilsService')->formatSizeUnits($stat->size);?></span></span>
                             @endif
                             @endforeach
                         </div>
@@ -108,9 +108,9 @@
                         @endif
                         @endforeach
                         @if ($album->type == config('myconfig.albumType.embedvideo'))
-                        <a href="{{route('image.content-e', $album->id)}}" class="stretched-link"></a>
+                        <a href="{{route('album.content-e', $album->id)}}" class="stretched-link"></a>
                             @else
-                            <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
+                            <a href="{{route('album.content', $album->id)}}" class="stretched-link"></a>
                         @endif
                     </div>
                 </div>

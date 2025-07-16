@@ -15,7 +15,7 @@ class ModalStats extends Component
     }
 
     public function showModal (){
-        $this->stats = app('App\Http\Controllers\PublicAlbumController')->getCompleteStatistics2();
+        $this->stats = app('App\Services\UtilsService')->getCompleteStatistics2();
         $this->dispatchBrowserEvent('show-modal-stats');
     }
 

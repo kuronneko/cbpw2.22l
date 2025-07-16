@@ -31,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::AlbumesIndex;
+    protected $redirectTo = RouteServiceProvider::PROFILE_VIEW;
 
     /**
      * Create a new controller instance.

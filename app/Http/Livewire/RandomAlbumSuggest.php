@@ -6,12 +6,19 @@ use Livewire\Component;
 use App\Models\Album;
 use App\Models\Image;
 use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
 
 class RandomAlbumSuggest extends Component
 {
     public function render()
     {
-        $album = Album::where('visibility', 1)->inRandomOrder()->first();
+        // Check if user is super admin (type 5) to show all albums
+        if (Auth::check() && auth()->user()->type == 5) {
+            $album = Album::inRandomOrder()->first();
+        } else {
+            $album = Album::where('visibility', 1)->inRandomOrder()->first();
+        }
+
         if(empty($album)){
             $empty = 0;
             return view('livewire.random-album-suggest', ['empty' => $empty,]);
