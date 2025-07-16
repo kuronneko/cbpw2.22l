@@ -102,8 +102,9 @@
 
         <footer class="py-4">
             <div class="container">
-                <p><a class="text-white" href="" target="_top">{{ config('myconfig.engine.name') }} {{config('myconfig.engine.version')}}</a> image gallery engine type-blog</p>
-                <p>2018-<?php echo date("Y"); ?> © All right reserved</p>
+                <p>{{ config('myconfig.engine.name') }} {{config('myconfig.engine.version')}} image gallery engine type-blog.</p>
+                <p>This website is powered by <a class="text-white" target="_blank" href="https://cyberpunkwaifus.xyz">CBPW Technologies.</a></p>
+                <p>2018-<?php echo date("Y"); ?></p>
             </div>
         </footer>
 
