@@ -19,6 +19,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "livewire/livewire": "^2.3",
         "lukeraymonddowning/honey": "^0.3.4",
         "pbmedia/laravel-ffmpeg": "^7.5"
@@ -29,8 +30,7 @@
         "laravel/sail": "^1.16",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3",
-        "yoelpc4/laravel-sail-preset": "^0.1.0"
+        "phpunit/phpunit": "^9.3.3"
     },
     "config": {
         "optimize-autoloader": true,

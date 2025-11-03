@@ -71,7 +71,7 @@
                             @if($image->album_id == $album->id)
                             @if($imageLimitperAlbum != 4)
                             <?php $imageLimitperAlbum++; ?>
-                            @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                            @if (($image->ext == "mp4" || $image->ext == "webm") && !$image->thumbnail_exist)
                             <img src="{{ config("myconfig.img.url") }}{{'/img/videothumb.png'}}" class="imgThumbPublicIndex " data-was-processed='true'>
                             @elseif ($image->ext == "mp4" || $image->ext == "webm")
                             <img src="{{ config("myconfig.img.url") }}{{ $image->url }}_thumb.jpg" class="imgThumbPublicIndex " data-was-processed='true'>
@@ -92,7 +92,7 @@
                             <span class="badge badge-Light"><i class="fas fa-comments"></i><span class="badge badge-Light">{{$stat->qcomment}}</span></span>
                             <span class="badge badge-Light"><i class="fas fa-eye"></i><span class="badge badge-Light">{{$stat->view}}</span></span>
                             <span class="badge badge-Light"><i class="fas fa-heart"></i><span class="badge badge-Light">{{$stat->qlike}}</span></span>
-                            <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Http\Controllers\PublicImageController')->formatSizeUnits($stat->size);?></span></span>
+                            <span class="badge badge-Light"><i class="fas fa-hdd"></i><span class="badge badge-Light"><?php echo app('App\Services\UtilsService')->formatSizeUnits($stat->size);?></span></span>
                             @endif
                             @endforeach
                         </div>
@@ -108,9 +108,9 @@
                         @endif
                         @endforeach
                         @if ($album->type == config('myconfig.albumType.embedvideo'))
-                        <a href="{{route('image.content-e', $album->id)}}" class="stretched-link"></a>
+                        <a href="{{route('album.content-e', $album->id)}}" class="stretched-link"></a>
                             @else
-                            <a href="{{route('image.content', $album->id)}}" class="stretched-link"></a>
+                            <a href="{{route('album.content', $album->id)}}" class="stretched-link"></a>
                         @endif
                     </div>
                 </div>

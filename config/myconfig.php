@@ -3,12 +3,19 @@
 
 return [
     'patch-pre-ffmpeg' =>
-        [       // turn off ffmpeg set 9999999 and false
-                // enable is 0 and true
-            'image-id-less' => 0, //this works to fix the no existence of video thumbnail before ffmpeg implementation (0 set all video thumbnails on) and number less than "30" for example, put all 30 elements before with the default video thumbnail (not generate)
-            'ffmpeg-status' => true,
+        [
+             //this works to fix the no existence of video thumbnail before ffmpeg implementation (0 set all video thumbnails on) and number less than "30" for example, put all 30 elements before with the default video thumbnail (not generate)
+             //this is deprecated since 7/16/2025
+             //'image-id-less' => 9999999,
 
+            // this enable the generation of video thumbnails using ffmpeg, if false, the video thumbnail is not generated
+            // and it inserts a image object with the thumbnail_exist = 0
+            // showing the default video thumbnail
+            'ffmpeg-status' => false,
+            // this is the "play" icon inserted on the video thumbnail
             'videoPlayWatermarkUrl' => public_path('/img/videoplay4.png'),
+
+            // this insert a watermark on the video using ffmpeg, if false, the video is not watermarked
             'ffmpeg-watermark' => false, //insert watermark using laravel ffmpeg and render video again, false dont inser watermark in
             'videoWaterMarkName' => 'watermark_video.png', //watermark video must be located on public/img/watermark_video.png
         ],

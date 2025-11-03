@@ -12,8 +12,8 @@
            <div class="form-group">
             @error('text') <small><span class="text-danger"> {{$message}} </span></small> @enderror
             @error('name') <small><span class="text-danger"> {{$message}} </span></small> @enderror
-            <input type="hidden" wire:model="name" />
-            <textarea rows="2" placeholder="Maximum length: 1000 characters" maxlength="1000" type="text" class="form-control commentForm text-white border-dark" wire:model="text"></textarea>
+            <input type="hidden" wire:model.defer="name" />
+            <textarea rows="2" placeholder="Maximum length: 1000 characters" maxlength="1000" type="text" class="form-control commentForm text-white border-dark" wire:model.defer="text"></textarea>
             </div>
            @else
            <div class="form-group">
@@ -37,7 +37,6 @@
                 </div>
               </div>
         </button>
-        <x-honey-recaptcha/>
       @else
       <button class="btn loadBtn btn-sm text-white float-right disabled">
         Send Post  <i class="fas fa-paper-plane"></i>

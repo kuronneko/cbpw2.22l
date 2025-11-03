@@ -582,17 +582,148 @@ word-break: break-all;
 }
 
 
-    .swal-modal {
-        background-color: #1A1A1A;
-    }
-    .swal-text{
-        color: #ffff;
-        font-size: 1.5rem;
-    }
-    .swal-button{
-        background-color: #ef3343;
-        border: 2px solid #ef3343;
-    }
+/* SweetAlert Custom Styling - Enhanced specificity */
+.swal-modal {
+    background-color: #1A1A1A !important;
+    border: 1px solid #373940 !important;
+}
+
+.swal-title {
+    color: #ffffff !important;
+    font-family: "CyberpunkWaifus" !important;
+}
+
+.swal-text {
+    color: #ffffff !important;
+    font-size: 1.5rem !important;
+}
+
+.swal-button,
+.swal-button:not(:disabled):not(.disabled),
+.swal-button.btn {
+    background-color: #ef3343 !important;
+    border: 2px solid #ef3343 !important;
+    color: #ffffff !important;
+    font-family: "CyberpunkWaifus" !important;
+    font-weight: bold !important;
+    border-radius: 4px !important;
+    padding: 10px 20px !important;
+    transition: all 0.3s ease !important;
+}
+
+.swal-button:hover,
+.swal-button:not(:disabled):not(.disabled):hover,
+.swal-button.btn:hover {
+    background-color: #dc2626 !important;
+    border-color: #dc2626 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 8px rgba(239, 51, 67, 0.3) !important;
+}
+
+.swal-button:active,
+.swal-button:not(:disabled):not(.disabled):active,
+.swal-button.btn:active,
+.swal-button.active {
+    background-color: #b91c1c !important;
+    border-color: #b91c1c !important;
+    color: #ffffff !important;
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 4px rgba(239, 51, 67, 0.2) !important;
+}
+
+.swal-button:focus,
+.swal-button:not(:disabled):not(.disabled):focus,
+.swal-button.btn:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(239, 51, 67, 0.5) !important;
+    background-color: #ef3343 !important;
+    border-color: #ef3343 !important;
+    color: #ffffff !important;
+}
+
+.swal-button:disabled,
+.swal-button.disabled {
+    background-color: #6b7280 !important;
+    border-color: #6b7280 !important;
+    color: #9ca3af !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Override Bootstrap's btn-primary if it's being applied */
+.swal-button.btn-primary,
+.swal-button.btn-primary:hover,
+.swal-button.btn-primary:focus,
+.swal-button.btn-primary:active {
+    background-color: #ef3343 !important;
+    border-color: #ef3343 !important;
+    color: #ffffff !important;
+}
+
+.swal-button.btn-primary:hover {
+    background-color: #dc2626 !important;
+    border-color: #dc2626 !important;
+}
+
+/* Cancel button styling */
+.swal-button--cancel,
+.swal-button[data-has-cancel-function="true"] {
+    background-color: #374151 !important;
+    border-color: #374151 !important;
+    color: #ffffff !important;
+}
+
+.swal-button--cancel:hover,
+.swal-button[data-has-cancel-function="true"]:hover {
+    background-color: #4b5563 !important;
+    border-color: #4b5563 !important;
+    color: #ffffff !important;
+}
+
+/* Overlay and other elements */
+.swal-overlay {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.swal-footer {
+    background-color: #1A1A1A !important;
+    border-top: 1px solid #373940 !important;
+}
+
+.swal-content {
+    color: #ffffff !important;
+}
+
+.swal-content__input {
+    background-color: #374151 !important;
+    border: 1px solid #6b7280 !important;
+    color: #ffffff !important;
+}
+
+.swal-content__input:focus {
+    border-color: #ef3343 !important;
+    box-shadow: 0 0 0 3px rgba(239, 51, 67, 0.1) !important;
+}
+
+/* Icon styling */
+.swal-icon--success__ring {
+    border: 4px solid #ef3343 !important;
+}
+
+.swal-icon--success__hide-corners {
+    background-color: #1A1A1A !important;
+}
+
+.swal-icon--error {
+    border-color: #dc2626 !important;
+}
+
+.swal-icon--warning {
+    border-color: #f59e0b !important;
+    color: #f59e0b !important;
+}
 
 
     @media only screen and (max-width: 600px) { /* responsive size*/

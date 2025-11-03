@@ -25,7 +25,7 @@
     <p class="text-secondary">No album suggestion found</p>
 </div>
 @else
-<a href="{{route('image.content', $album->id)}}" class="personalizeA">
+<a href="{{route('album.content', $album->id)}}" class="personalizeA">
 
     <div wire:loading.remove class="container mt-3 text-center">
 
@@ -45,7 +45,7 @@
                 <div class="image">
                 @foreach ($images as $i => $image)
                     @if ($i < 3)
-                @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                @if (($image->ext == "mp4" || $image->ext == "webm") && !$image->thumbnail_exist)
                 <img src="{{config("myconfig.img.url")}}{{'/img/videothumb.png'}}" data-was-processed='true'>
                 @elseif ($image->ext == "mp4" || $image->ext == "webm")
                 <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
@@ -60,7 +60,7 @@
                 <div class="image">
                     @foreach ($images2 as $i => $image)
                         @if ($i < 3)
-                    @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                    @if (($image->ext == "mp4" || $image->ext == "webm") && !$image->thumbnail_exist)
                     <img src="{{config("myconfig.img.url")}}{{'/img/videothumb.png'}}" data-was-processed='true'>
                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
                     <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
@@ -75,7 +75,7 @@
                 <div class="image">
                     @foreach ($images3 as $i => $image)
                     @if ($i < 3)
-                    @if (($image->ext == "mp4" || $image->ext == "webm") && ($image->id <= config('myconfig.patch-pre-ffmpeg.image-id-less')))
+                    @if (($image->ext == "mp4" || $image->ext == "webm") && !$image->thumbnail_exist)
                     <img src="{{config("myconfig.img.url")}}{{'/img/videothumb.png'}}" data-was-processed='true'>
                     @elseif ($image->ext == "mp4" || $image->ext == "webm")
                     <img src="{{config("myconfig.img.url")}}{{ $image->url }}_thumb.jpg" data-was-processed='true'>
