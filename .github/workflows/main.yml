@@ -1,0 +1,67 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.DIGITALOCEAN_HOST }} >> ~/.ssh/known_hosts
+
+    - name: Sync files to DigitalOcean
+      env:
+        USER: ${{ secrets.DIGITALOCEAN_USER }}
+        HOST: ${{ secrets.DIGITALOCEAN_HOST }}
+        PORT: ${{ secrets.DIGITALOCEAN_PORT }}
+        REMOTE_DIR: ${{ secrets.DIGITALOCEAN_REMOTE_DIR }}
+      run: |
+        rsync -avz --exclude=node_modules --exclude=storage --exclude=.env --exclude=.git -e "ssh -p $PORT" ./ $USER@$HOST:$REMOTE_DIR
+
+    - name: Run deployment commands on server
+      env:
+        USER: ${{ secrets.DIGITALOCEAN_USER }}
+        HOST: ${{ secrets.DIGITALOCEAN_HOST }}
+        PORT: ${{ secrets.DIGITALOCEAN_PORT }}
+        REMOTE_DIR: ${{ secrets.DIGITALOCEAN_REMOTE_DIR }}
+      run: |
+        ssh -p $PORT $USER@$HOST << EOF
+          cd $REMOTE_DIR
+
+          # Ensure dependencies are up to date
+          composer install --no-dev --optimize-autoloader
+
+          # Run database migrations
+          php artisan migrate --force
+
+          # Clear and cache Laravel config, routes, and views
+          php artisan config:clear
+          php artisan route:clear
+          php artisan view:clear
+          php artisan cache:clear
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+
+          # Set correct permissions for storage and bootstrap cache
+          sudo chown -R $USER:www-data storage
+          sudo chown -R $USER:www-data bootstrap/cache
+          chmod -R 775 storage
+          chmod -R 775 bootstrap/cache
+
+          # Restart queue workers if needed
+          php artisan queue:restart
+        EOF
