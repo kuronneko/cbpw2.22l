@@ -22,7 +22,7 @@ This README expands on the original project notes: full description, features, r
 -   Albums with images & video support
 -   Automatic thumbnail generation for images (Intervention Image) and videos (FFMPEG + Lakshmaji-Thumbnail)
 -   Uploads via Dropzone + Livewire temporary uploads
--   User roles and permissions with admin panel (set user level to 5 for admin)
+-   User roles and permissions with admin panel (set user type to 5 for admin)
 -   Tagging, likes, comments and basic stats collection
 -   Responsive frontend with Masonry, FancyBox and Infinite Scroll
 -   Local filesystem and S3-compatible storage support
@@ -78,13 +78,28 @@ npm install
 npm run dev
 ```
 
-5. Create an admin account and set it to admin-level (level 5) via tinker or the database:
+5. Create an admin account and set it to admin-level (type 5) via tinker or the database.
+
+Example using tinker (creates a user with the fields from the schema and hashes the password):
 
 ```bash
 php artisan tinker
->>> $u = App\Models\User::create([...]);
->>> $u->level = 5; $u->save();
+>>> use App\Models\User; use Illuminate\Support\Facades\Hash;
+>>> $u = User::create([
+...     'name' => 'Admin User',
+...     'email' => 'admin@example.com',
+...     'password' => Hash::make('secret'),
+...     'type' => 5,                    // admin user (integer)
+...     'avatar' => 'avatars/default.png',
+...     'last_login_ip' => '127.0.0.1',
+...     'last_login_at' => now(),
+... ]);
+>>> $u
 ```
+
+Notes:
+- Replace the example values with real ones for your environment.
+- The `type` integer is used by this app to indicate user roles; by convention `5` is an admin.
 
 6. Run the app locally:
 
